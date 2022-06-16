@@ -152,9 +152,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                         return null;
                       },
                       onSaved: (value) {
-                        if (kDebugMode) {
-                          print("Value" + value.toString());
-                        }
+
                         _updateBrandsRequestModel.brdName = value;
                       }),
                 ),
@@ -246,6 +244,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
   }
 
   _removeTag(UserBrands tagModel) async {
+    Logger().e(tagModel.toJson());
     if (_brandsProvider.userBrandsList.contains(tagModel)) {
       setState(() {
         _brandsProvider.userBrandsList.remove(tagModel);
@@ -337,6 +336,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!);
               await db.userBrandsDao.insertAllUserBrands(value.data!.brands!);
+              // await db.brandsDao.insertAllBrands(value.data!.brands! as List<Brands>);
               await db.businessInfoDao
                   .insertBusinessInfo(value.data!.businessInfo!);
               _brandsProvider.getUserBrandsData();

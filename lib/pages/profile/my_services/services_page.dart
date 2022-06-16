@@ -91,8 +91,13 @@ class _MyServicesPageState extends State<MyServicesPage> {
                         padding: const EdgeInsets.only(left: 8.0,right: 8.0,top: 4.0,bottom: 4.0),
                         child: Card(
                         shape:RoundedRectangleBorder(
+                            side: BorderSide(
+                                color: Colors.grey.shade200,
+                                width: 1,
+                                style: BorderStyle.solid
+                            ),
                         borderRadius: BorderRadius.circular(10)),
-                          elevation: 3,
+                          elevation: 2,
                           color: Colors.white,
                           child: Padding(
                             padding: const EdgeInsets.only(top:10.0,bottom: 10.0,right: 10.0),
@@ -111,7 +116,9 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                            Colors.blue :  serviceList[index].status.toString()==types[3] ?
                                            Colors.orange : serviceList[index].status.toString()==types[4] ?
                                            Colors.lightBlue : Colors.red,
-                                           fontWeight: FontWeight.w500,fontFamily:'Metropolis',fontSize: 12.sp),
+                                           fontWeight: FontWeight.w500,
+                                           // fontFamily:'Metropolis',
+                                           fontSize: 12.sp),
                                     ),
                                   ),
                                 ),
@@ -124,13 +131,19 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text("Complaint #:",
-                                          style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,
-                                          color: Colors.black)
+                                          style:TextStyle(
+                                              fontSize:14.sp,
+                                              // fontFamily: 'Metropolis',
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black)
                                           ),
                                           const SizedBox(width:3,),
                                           Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceId.toString() ,
-                                                         style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w600,
-                                                         color: Colors.black)
+                                                         style:TextStyle(
+                                                             fontSize:12.sp,
+                                                             // fontFamily: 'Metropolis',
+                                                             fontWeight: FontWeight.w600,
+                                                             color: Colors.black)
                                           ),
                                           ),
                                         ],
@@ -142,13 +155,19 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                         children: [
 
                                           Text("Type:",
-                                          style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,
-                                          color: Colors.black)
+                                          style:TextStyle(
+                                              fontSize:14.sp,
+                                              // fontFamily: 'Metropolis',
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.black)
                                           ),
                                           const SizedBox(width:3,),
                                           Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceDetails.toString() ,
-                                                          style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,
-                                                          color: Colors.grey.shade600)
+                                                          style:TextStyle(
+                                                              fontSize:12.sp,
+                                                              // fontFamily: 'Metropolis',
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.grey.shade600)
                                           )
                                           ),
                                         ],
@@ -167,7 +186,10 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                                 const Icon(Icons.calendar_today_rounded,color: Colors.green,size: 22,),
                                                 const SizedBox(width: 3,),
                                                 Text(dateTime?[0].toString() ?? "" ,
-                                                style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,
+                                                style:TextStyle(
+                                                    fontSize:12.sp,
+                                                    // fontFamily: 'Metropolis',
+                                                    fontWeight: FontWeight.w500,
                                                 color: Colors.grey.shade600)
                                                 ),
                                               ],
@@ -182,7 +204,10 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                                 const Icon(Icons.timer_outlined,color: Colors.green,size: 22,),
                                                 const SizedBox(width: 3,),
                                                 Text(dateTime?[1].toString() ?? ""  ,
-                                                style:TextStyle(fontSize:14.sp,fontFamily: 'Metropolis',fontWeight: FontWeight.w500,
+                                                style:TextStyle(
+                                                    fontSize:12.sp,
+                                                    // fontFamily: 'Metropolis',
+                                                    fontWeight: FontWeight.w500,
                                                 color: Colors.grey.shade600)
                                                 ),
                                               ],
@@ -197,7 +222,10 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                               openServiceDetailScreen(context,_ygServiceProvider.myServices![index]);
                                             },
                                           child: Text("View Details",
-                                                 style: TextStyle(fontSize: 13.sp,fontFamily: 'Metropolis',fontWeight:FontWeight.w500,
+                                                 style: TextStyle(
+                                                     fontSize: 12.sp,
+                                                     // fontFamily: 'Metropolis',
+                                                     fontWeight:FontWeight.w500,
                                                  color: Colors.green),
                                           )
                                           )

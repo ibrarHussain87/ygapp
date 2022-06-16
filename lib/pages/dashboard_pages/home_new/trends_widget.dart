@@ -59,7 +59,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.09 * MediaQuery.of(context).size.height,
+              height: 0.10 * MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemCount: trendsList.length,
                 scrollDirection: Axis.horizontal,
@@ -69,7 +69,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                     child: Row(
                       children: [
                         ClipRRect(
-                          borderRadius: BorderRadius.circular(4.w),
+                          borderRadius: BorderRadius.circular(6.w),
                           child: Center(
                             child: Container(
                               width: MediaQuery.of(context).size.width / 2.4,
@@ -88,10 +88,12 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       children: [
                                         Text(
                                           trendsList[index].title.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                           style: TextStyle(
                                               color: cardTitleColor,
                                               fontSize: 12.sp,
-                                              fontFamily: 'Metropolis',
+                                              // fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.w400),
                                         ),
                                         Icon(
@@ -102,7 +104,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       ],
                                     ),
                                     const SizedBox(
-                                      height: 5,
+                                      height: 4,
                                     ),
                                     Row(
                                       mainAxisAlignment:
@@ -110,27 +112,29 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       children: [
                                         Text(
                                           trendsList[index].subTitle.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
                                           style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 12.sp,
-                                              fontFamily: 'Metropolis',
-                                              fontWeight: FontWeight.w700),
+                                              // fontFamily: 'Metropolis',
+                                              fontWeight: FontWeight.w800),
                                         ),
-                                        Text(
-                                          trendsList[index].percent.toString(),
-                                          style: TextStyle(
-                                              color:
-                                                  trendsList[index].isDrop == true
+                                        Text(trendsList[index].percent.toString(),
+                                          overflow: TextOverflow.ellipsis,
+                                          maxLines: 1,
+                                             style: TextStyle(
+                                              color: trendsList[index].isDrop == true
                                                       ? redDownColor
                                                       : greenUpColor,
                                               fontSize: 12.sp,
-                                              fontFamily: 'Metropolis',
-                                              fontWeight: FontWeight.w600),
+                                              // fontFamily: 'Metropolis',
+                                              fontWeight: FontWeight.w700),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(
-                                      height: 8,
+                                      height: 4,
                                     ),
                                     Row(
                                       mainAxisAlignment: MainAxisAlignment.start,
@@ -152,13 +156,14 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                                 ? "Drop Quickly"
                                                 : "Rose Quickly",
                                             textAlign: TextAlign.justify,
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
                                             style: TextStyle(
-                                                color:
-                                                    trendsList[index].isDrop == true
+                                                color: trendsList[index].isDrop == true
                                                         ? redDownColor
                                                         : greenUpColor,
-                                                fontSize: 9.sp,
-                                                fontFamily: 'Metropolis',
+                                                fontSize: 10.sp,
+                                                // fontFamily: 'Metropolis',
                                                 fontWeight: FontWeight.w400),
                                           ),
                                         ),
@@ -170,9 +175,9 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                             ),
                           ),
                         ),
-                        SizedBox(
-                          width: 4.w,
-                        )
+                        // SizedBox(
+                        //   width: 4.w,
+                        // )
                       ],
                     ),
                   );

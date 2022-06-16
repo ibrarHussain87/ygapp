@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
@@ -216,8 +217,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                   cursorColor: Colors.black,
                   onSaved: (input) =>  _csRequestModel?.csPhone=input!,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter your phone";
+                    if (input == null || input.isEmpty || !input.isValidNumber()) {
+                      return "Please enter valid phone number";
                                             }
                     return null;
                   },
@@ -240,8 +241,8 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                   initialValue: '',
                   onSaved: (input) => _csRequestModel?.csEmail = input!,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
-                      return "Please enter your email";
+                    if (input == null || input.isEmpty || !input.isValidEmail()) {
+                      return "Please enter valid email";
                                             }
                     return null;
                   },
@@ -724,5 +725,18 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
   }
 
 }
+extension EmailValidator on String {
+  bool isValidEmail() {
+    return RegExp(
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(this);
+  }
+}
 
+extension PhoneValidator on String {
+  bool isValidNumber() {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    return RegExp(pattern).hasMatch(this);
+  }
+}
 

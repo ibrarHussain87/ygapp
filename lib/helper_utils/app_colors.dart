@@ -45,6 +45,7 @@ var tileGreyClr = HexColor.fromHex('#DDF1FA');
 var textColorGreyLight = HexColor.fromHex('#A1A8B3');
 var strokeGrey = HexColor.fromHex('#E0E0E0');
 var btnGreen = HexColor.fromHex('#2AC54D');
+var greyBlack = HexColor.fromHex('#333333');
 var textFieldLabel = const Color(0xFF3BC458);
 var btnColorLogin = const Color(0xFF3BC458);
 var lightBlueTabs = const Color(0xFF3BC458);
