@@ -53,8 +53,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
       updateUI();
     });
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _profileInfoProvider.resetData();
-      _profileInfoProvider.getSyncedData();
+      // _profileInfoProvider.resetData();
+      // _profileInfoProvider.getSyncedData();
       _updateProfileRequestModel = _profileInfoProvider.updateProfileRequestModel;
 
 

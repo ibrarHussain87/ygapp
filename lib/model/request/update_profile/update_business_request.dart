@@ -14,8 +14,10 @@ class UpdateBusinessRequestModel {
   String? city;
   String? website;
   String? address;
+  String? otherCompany;
+  String? companyName;
 
-  UpdateBusinessRequestModel({this.companyId,this.website,this.postalCode,this.ntn_number,this.address,this.city,this.designation_idfk,this.name,this.countryId,this.cityStateId,this.employment_role,this.trade_mark,this.company
+  UpdateBusinessRequestModel({this.companyName,this.otherCompany,this.companyId,this.website,this.postalCode,this.ntn_number,this.address,this.city,this.designation_idfk,this.name,this.countryId,this.cityStateId,this.employment_role,this.trade_mark,this.company
   });
 
 
@@ -23,19 +25,21 @@ class UpdateBusinessRequestModel {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
 //      'id': id!.trim(),
-      'ubi_gst_ntn_number': ntn_number?.trim(),
+      'ubi_gst_ntn_number': ntn_number,
 //      'ntn_number': ntn_number!.trim(),
-      'ubi_name': name?.trim(),
-      'ubi_country_idfk': countryId?.trim(),
-      'company_id': companyId!,
-      'ubi_state_idfk': cityStateId?.trim(),
-      'ubi_website': website?.trim(),
-      'ubi_address': address?.trim(),
-      'ubi_city_idfk': city?.trim(),
-      'ubi_zipcode': postalCode?.trim(),
-      'ubi_trade_mark': trade_mark?.trim(),
-      'ubi_employment_role': employment_role?.trim(),
-      'ubi_designation_idfk': designation_idfk?.trim()
+      'ubi_name': name,
+      'ubi_country_idfk': countryId,
+      'company_id': companyId,
+      'company_name': companyName,
+      'other_company': companyId!=null ? "0":"1",
+      'ubi_state_idfk': cityStateId,
+      'ubi_website': website,
+      'ubi_address': address,
+      'ubi_city_idfk': city,
+      'ubi_zipcode': postalCode,
+      'ubi_trade_mark': trade_mark,
+      'ubi_employment_role': employment_role,
+      'ubi_designation_idfk': designation_idfk
     };
 
     return map;
