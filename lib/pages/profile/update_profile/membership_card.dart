@@ -155,7 +155,6 @@ Widget buildFreeMembershipWidget(
     ) {
   double width = MediaQuery.of(context).size.width;
   double height = MediaQuery.of(context).size.height;
-  print("Index"+index.toString());
   return Padding(
     padding: const EdgeInsets.all(0.0),
     child: Material(
@@ -173,7 +172,7 @@ Widget buildFreeMembershipWidget(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  SizedBox(height: 20,),
+                  const SizedBox(height: 20,),
                   Text(subscriptionPlan.spName ?? '',
                       style: TextStyle(
                           fontSize: 20.0.w,

@@ -50,9 +50,10 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
     });
 
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
-      _profileInfoProvider.getSyncedData();
+      // _profileInfoProvider.getSyncedData();
       _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
       _companyTypeAheadController.text=_profileInfoProvider.businessInfo?.name!=null ? _profileInfoProvider.businessInfo!.name.toString() : '';
+
     });
   }
 
@@ -163,9 +164,10 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   onSuggestionSelected: (Companies suggestion) {
                     _companyTypeAheadController.text = suggestion.name.toString();
                     _updateBusinessRequestModel.company=suggestion.name.toString();
+                    _updateBusinessRequestModel.companyName=suggestion.name.toString();
                     _updateBusinessRequestModel.name=suggestion.name.toString();
                     _updateBusinessRequestModel.companyId=suggestion.id.toString();
-//                    _signupRequestModel!.otherCompany = "0";
+
                   },
                   errorBuilder:(BuildContext context, Object? error) =>
                       Text(
@@ -182,8 +184,10 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   },
                   onSaved: (value) {
                     _updateBusinessRequestModel.company = value;
-                    _updateBusinessRequestModel.companyId = _profileInfoProvider.selectedCompany!.id.toString();
+                    _updateBusinessRequestModel.companyName = value;
+                    // _updateBusinessRequestModel.companyId = _profileInfoProvider.selectedCompany!.id.toString();
                     _updateBusinessRequestModel.name = value;
+                    // _updateBusinessRequestModel.otherCompany = "1";
                   }
 
               ),
@@ -213,7 +217,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                 }).toList(),
 
                 onChanged: (newValue) {
-//                  _signupRequestModel?.cityStateId=newValue?.catId.toString();
                 },
                 // validator: (input) {
                 //   if (input == null) {
@@ -301,7 +304,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
                   );
                 }).toList(),
-                // value: _profileInfoProvider.selectedDesignation,
+                value: _profileInfoProvider.selectedDesignation,
                 onChanged: (Designations? value) {
                   _profileInfoProvider.selectedDesignation=value;
                   _updateBusinessRequestModel.designation_idfk=value?.designationId.toString();
@@ -327,7 +330,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _updateBusinessRequestModel.address = input!,
-//                  initialValue:snapshot.data?.businessInfo?.address,
 //              controller: addressController,
                   initialValue:snapshot?.address ?? '',
                   // validator: (input) {
@@ -440,7 +442,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     ))
                     .toList(),
                 isExpanded: true,
-                // value: _profileInfoProvider.selectedCompanyState,
+                value: _profileInfoProvider.selectedCompanyState,
                 onChanged: (States? value) {
                   FocusScope.of(context)
                       .requestFocus(
@@ -484,7 +486,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     ))
                     .toList(),
                 isExpanded: true,
-                // value: _profileInfoProvider.selectedCompanyCity,
+                value: _profileInfoProvider.selectedCompanyCity,
                 onChanged: (Cities? value) {
                   FocusScope.of(context)
                       .requestFocus(
@@ -582,6 +584,11 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                     onPressed: () {
                       if (validateAndSaveBusinessInfo()) {
                         FocusScope.of(context).requestFocus(FocusNode());
+                        var contain = _profileInfoProvider.companiesList.where((element) => element.name == _updateBusinessRequestModel.company);
+                        if(contain.isEmpty)
+                          {
+                            _updateBusinessRequestModel.companyId=null;
+                          }
                         _updateBusinessCall(context1);
                       }
                     });
@@ -617,12 +624,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ApiService().updateBusinessInfo(_updateBusinessRequestModel).then((value) {
           Logger().e(value.toJson());
           ProgressDialogUtil.hideDialog();
-//            if (value.errors != null) {
-//              value.errors!.forEach((key, error) {
-//                ScaffoldMessenger.of(context)
-//                    .showSnackBar(SnackBar(content: Text(error.toString())));
-//              });
-//            } else
           if (value.status!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.businessInfoDao.insertBusinessInfo(value.data!.businessInfo!);
@@ -632,11 +633,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   gravity: ToastGravity.BOTTOM,
                   timeInSecForIosWeb: 1);
             });
-            /*Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const MainPage()),
-                      (Route<dynamic> route) => false);*/
-//              var userNotifier = context1.read<UserNotifier>();
-//              userNotifier.updateUser(value.data!);
           } else {
 
             ProgressDialogUtil.hideDialog();
