@@ -1,4 +1,3 @@
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -119,6 +118,9 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                                 .contains(pattern))
                             .toList();
                       },
+                      noItemsFoundBuilder: (BuildContext context){
+                        return const Text('');
+                      },
                       itemBuilder: (context, suggestion) {
                         return ListTile(
                           title: Text(
@@ -152,7 +154,15 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                         return null;
                       },
                       onSaved: (value) {
-
+                        List<Brands> _listBrands = brandsList
+                            .where((element) =>
+                                element.brdName.toString().toLowerCase() ==
+                                value.toString().toLowerCase())
+                            .toList();
+                        if (_listBrands.isEmpty) {
+                          _updateBrandsRequestModel.brdId = null;
+                          _updateBrandsRequestModel.brdOther = null;
+                        }
                         _updateBrandsRequestModel.brdName = value;
                       }),
                 ),
@@ -220,7 +230,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                       Wrap(
                         alignment: WrapAlignment.start,
                         children: _brandsProvider.userBrandsList
-                            .map((UserBrands brands) => tagChip(
+                            .map((Brands brands) => tagChip(
                                   tagModel: brands,
                                   onTap: () {
                                     _removeTag(brands);
@@ -243,18 +253,22 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
     _updateBrandsCall(context);
   }
 
-  _removeTag(UserBrands tagModel) async {
+  _removeTag(Brands tagModel) async {
     Logger().e(tagModel.toJson());
     if (_brandsProvider.userBrandsList.contains(tagModel)) {
       setState(() {
         _brandsProvider.userBrandsList.remove(tagModel);
-        Brands brands = _brandsProvider.backUpBrandsList.where((element) => element.brdId == tagModel.brdId).toList().first;
+        Brands brands = _brandsProvider.backUpBrandsList
+            .where((element) => element.brdId == tagModel.brdId)
+            .toList()
+            .first;
         _brandsProvider.allBrandsList.add(brands);
       });
       var dbInstance = await AppDbInstance().getDbInstance();
-      dbInstance.userBrandsDao.deleteUserBrand(tagModel.brdId!);
+      dbInstance.brandsDao.updateBrands(tagModel.brdId, false);
+
       /// Remove User Brand Api
-      _deleteBrandsCall(context,tagModel.brdId!);
+      _deleteBrandsCall(context, tagModel.brdId);
     }
   }
 
@@ -335,8 +349,12 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
             Logger().e(value.data!.brands!);
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!);
-              await db.userBrandsDao.insertAllUserBrands(value.data!.brands!);
-              // await db.brandsDao.insertAllBrands(value.data!.brands! as List<Brands>);
+              await db.brandsDao.insertAllBrands(value.data!.brands!);
+              if (value.data!.brands != null) {
+                for (Brands element in value.data!.brands!) {
+                  await db.brandsDao.updateBrands(element.brdId, true);
+                }
+              }
               await db.businessInfoDao
                   .insertBusinessInfo(value.data!.businessInfo!);
               _brandsProvider.getUserBrandsData();
@@ -365,7 +383,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
     });
   }
 
-  void _deleteBrandsCall(BuildContext context1,int brdId) {
+  void _deleteBrandsCall(BuildContext context1, int brdId) {
     check().then((value) {
       if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
@@ -377,7 +395,11 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
             Logger().e(value.data!.brands!);
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!);
-              await db.userBrandsDao.insertAllUserBrands(value.data!.brands!);
+              if (value.data!.brands != null) {
+                for (Brands element in value.data!.brands!) {
+                  await db.brandsDao.updateBrands(element.brdId, true);
+                }
+              }
               await db.businessInfoDao
                   .insertBusinessInfo(value.data!.businessInfo!);
               _brandsProvider.getUserBrandsData();

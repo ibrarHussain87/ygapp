@@ -178,7 +178,7 @@ class User{
   BusinessInfo? businessInfo;
 //  String? businessInfo;
   @ignore
-  List<UserBrands>? brands;
+  List<Brands>? brands;
   // @ignore
   // late final List<dynamic> certifications;
 
@@ -214,7 +214,7 @@ class User{
     updatedAt = json['updated_at'];
     businessInfo = BusinessInfo.fromJson(json['business_info']);
 //    businessInfo = '${BusinessInfo.fromJson(json['business_info'])}';
-    brands = json['brands'].map<UserBrands>((json) {return UserBrands.fromJson(json);}).toList();
+    brands = json['brands'].map<Brands>((json) {return Brands.fromJson(json);}).toList();
 //    brands = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
 

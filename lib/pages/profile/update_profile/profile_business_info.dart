@@ -43,8 +43,6 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
   final _companyTypeAheadController=TextEditingController();
   @override
   void initState() {
-
-
     super.initState();
 
     _profileInfoProvider.addListener(() {

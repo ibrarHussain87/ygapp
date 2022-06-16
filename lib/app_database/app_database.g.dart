@@ -65,8 +65,6 @@ class _$AppDatabase extends AppDatabase {
 
   BusinessInfoDao? _businessInfoDaoInstance;
 
-  UserBrandsDao? _userBrandsDaoInstance;
-
   FiberSettingDao? _fiberSettingDaoInstance;
 
   FiberFamilyDao? _fiberFamilyDaoInstance;
@@ -210,7 +208,7 @@ class _$AppDatabase extends AppDatabase {
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `fiber_blends` (`blnId` INTEGER, `blnCategoryIdfk` TEXT, `familyIdfk` TEXT, `blnNature` TEXT, `blnName` TEXT, `blnAbrv2` TEXT, `blnAbrv` TEXT, `minMax` TEXT, `blnRatioJson` TEXT, `iconSelected` TEXT, `iconUnselected` TEXT, `blnIsActive` TEXT, `blnSortid` TEXT, PRIMARY KEY (`blnId`))');
         await database.execute(
-            'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, PRIMARY KEY (`brdId`))');
+            'CREATE TABLE IF NOT EXISTS `brands` (`brdId` INTEGER NOT NULL, `brdName` TEXT, `brdIsVerified` TEXT, `brdFeatured` TEXT, `brdIcon` TEXT, `brdIsActive` TEXT, `isUserBrand` INTEGER, PRIMARY KEY (`brdId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `countries` (`conId` INTEGER, `conName` TEXT, `countryIso` TEXT, `countryIso3` TEXT, `countryCurrencyName` TEXT, `countryCurrencyCode` TEXT, `countryCurrencySymbol` TEXT, `countryPhoneCode` TEXT, `countryContinent` TEXT, `countryStatus` TEXT, `mainFlagImage` TEXT, `extralarge` TEXT, `large` TEXT, `medium` TEXT, PRIMARY KEY (`conId`))');
         await database.execute(
@@ -319,8 +317,6 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `stocklots_family` (`stocklotFamilyId` INTEGER, `stocklotFamilyParentId` TEXT, `stocklotFamilyName` TEXT, `stocklotFamilyActive` TEXT, `stocklotFamilySortid` TEXT, PRIMARY KEY (`stocklotFamilyId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `business_info_table` (`employmentRole` TEXT, `ntn_number` TEXT, `trade_mark` TEXT, `name` TEXT, `id` INTEGER, `designation_idfk` TEXT, `postalCode` TEXT, `countryId` TEXT, `userId` TEXT, `cityStateId` TEXT, `city` TEXT, `website` TEXT, `address` TEXT, PRIMARY KEY (`id`))');
-        await database.execute(
-            'CREATE TABLE IF NOT EXISTS `user_brands` (`brdId` INTEGER, `brdName` TEXT, PRIMARY KEY (`brdId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -337,11 +333,6 @@ class _$AppDatabase extends AppDatabase {
   BusinessInfoDao get businessInfoDao {
     return _businessInfoDaoInstance ??=
         _$BusinessInfoDao(database, changeListener);
-  }
-
-  @override
-  UserBrandsDao get userBrandsDao {
-    return _userBrandsDaoInstance ??= _$UserBrandsDao(database, changeListener);
   }
 
   @override
@@ -805,65 +796,6 @@ class _$BusinessInfoDao extends BusinessInfoDao {
   Future<void> insertBusinessInfo(BusinessInfo businessInfo) async {
     await _businessInfoInsertionAdapter.insert(
         businessInfo, OnConflictStrategy.replace);
-  }
-}
-
-class _$UserBrandsDao extends UserBrandsDao {
-  _$UserBrandsDao(this.database, this.changeListener)
-      : _queryAdapter = QueryAdapter(database),
-        _userBrandsInsertionAdapter = InsertionAdapter(
-            database,
-            'user_brands',
-            (UserBrands item) => <String, Object?>{
-                  'brdId': item.brdId,
-                  'brdName': item.brdName
-                });
-
-  final sqflite.DatabaseExecutor database;
-
-  final StreamController<String> changeListener;
-
-  final QueryAdapter _queryAdapter;
-
-  final InsertionAdapter<UserBrands> _userBrandsInsertionAdapter;
-
-  @override
-  Future<List<UserBrands>> findAllUserBrands() async {
-    return _queryAdapter.queryList('SELECT * FROM user_brands',
-        mapper: (Map<String, Object?> row) => UserBrands(
-            brdId: row['brdId'] as int?, brdName: row['brdName'] as String?));
-  }
-
-  @override
-  Future<UserBrands?> findUserBrandWithId(int id) async {
-    return _queryAdapter.query('SELECT * FROM user_brands where brdId = ?1',
-        mapper: (Map<String, Object?> row) => UserBrands(
-            brdId: row['brdId'] as int?, brdName: row['brdName'] as String?),
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteUserBrand(int id) async {
-    await _queryAdapter.queryNoReturn(
-        'delete from user_brands where brdId = ?1',
-        arguments: [id]);
-  }
-
-  @override
-  Future<void> deleteAll() async {
-    await _queryAdapter.queryNoReturn('delete from user_brands');
-  }
-
-  @override
-  Future<void> insertUserBrands(UserBrands brands) async {
-    await _userBrandsInsertionAdapter.insert(
-        brands, OnConflictStrategy.replace);
-  }
-
-  @override
-  Future<List<int>> insertAllUserBrands(List<UserBrands> brands) {
-    return _userBrandsInsertionAdapter.insertListAndReturnIds(
-        brands, OnConflictStrategy.replace);
   }
 }
 
@@ -1802,7 +1734,10 @@ class _$BrandsDao extends BrandsDao {
                   'brdIsVerified': item.brdIsVerified,
                   'brdFeatured': item.brdFeatured,
                   'brdIcon': item.brdIcon,
-                  'brdIsActive': item.brdIsActive
+                  'brdIsActive': item.brdIsActive,
+                  'isUserBrand': item.isUserBrand == null
+                      ? null
+                      : (item.isUserBrand! ? 1 : 0)
                 });
 
   final sqflite.DatabaseExecutor database;
@@ -1819,7 +1754,10 @@ class _$BrandsDao extends BrandsDao {
         mapper: (Map<String, Object?> row) => Brands(
             brdId: row['brdId'] as int,
             brdName: row['brdName'] as String?,
-            brdIsActive: row['brdIsActive'] as String?));
+            brdIsActive: row['brdIsActive'] as String?,
+            isUserBrand: row['isUserBrand'] == null
+                ? null
+                : (row['isUserBrand'] as int) != 0));
   }
 
   @override
@@ -1828,8 +1766,38 @@ class _$BrandsDao extends BrandsDao {
         mapper: (Map<String, Object?> row) => Brands(
             brdId: row['brdId'] as int,
             brdName: row['brdName'] as String?,
-            brdIsActive: row['brdIsActive'] as String?),
+            brdIsActive: row['brdIsActive'] as String?,
+            isUserBrand: row['isUserBrand'] == null
+                ? null
+                : (row['isUserBrand'] as int) != 0),
         arguments: [id]);
+  }
+
+  @override
+  Future<List<Brands>> findUserBrands(bool value) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM brands where isUserBrand = ?1',
+        mapper: (Map<String, Object?> row) => Brands(
+            brdId: row['brdId'] as int,
+            brdName: row['brdName'] as String?,
+            brdIsActive: row['brdIsActive'] as String?,
+            isUserBrand: row['isUserBrand'] == null
+                ? null
+                : (row['isUserBrand'] as int) != 0),
+        arguments: [value ? 1 : 0]);
+  }
+
+  @override
+  Future<void> updateBrands(int id, bool value) async {
+    await _queryAdapter.queryNoReturn(
+        'UPDATE brands SET isUserBrand = ?2 where brdId = ?1',
+        arguments: [id, value ? 1 : 0]);
+  }
+
+  @override
+  Future<void> updateAllBrands(bool value) async {
+    await _queryAdapter.queryNoReturn('UPDATE brands SET isUserBrand = ?1',
+        arguments: [value ? 1 : 0]);
   }
 
   @override

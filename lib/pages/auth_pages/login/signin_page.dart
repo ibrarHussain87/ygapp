@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -36,10 +35,10 @@ class _SignInPageState extends State<SignInPage> {
   bool _showPassword = false;
   late LoginRequestModel _loginRequestModel;
   bool? isOnline;
-  bool isEmail=true;
+  bool isEmail = true;
   String? code;
-  var phoneController=TextEditingController();
-  var emailController=TextEditingController();
+  var phoneController = TextEditingController();
+  var emailController = TextEditingController();
   final _syncProvider = locator<PreLoginSyncProvider>();
 
   void _togglevisibility() {
@@ -52,13 +51,13 @@ class _SignInPageState extends State<SignInPage> {
   void initState() {
     _loginRequestModel = LoginRequestModel();
     AppDbInstance().getDbInstance().then((value) => {
-      value.countriesDao.findAllCountries().then((value) {
-        setState(() {
-          _loginRequestModel.country=value.first;
-          code=value.first.countryPhoneCode;
+          value.countriesDao.findAllCountries().then((value) {
+            setState(() {
+              _loginRequestModel.country = value.first;
+              code = value.first.countryPhoneCode;
+            });
+          })
         });
-      })
-    });
 
     super.initState();
     /*_syncProvider.addListener(() {
@@ -118,7 +117,7 @@ class _SignInPageState extends State<SignInPage> {
                       style: TextStyle(
                           color: signInColor,
                           fontSize: 28.sp,
-                          // 
+                          //
                           fontWeight: FontWeight.w700),
                     ),
                     Padding(
@@ -136,70 +135,73 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     Padding(
-                      padding:  EdgeInsets.only(left: 18.w,top: 10.w),
+                      padding: EdgeInsets.only(left: 18.w, top: 10.w),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-
                           GestureDetector(
-                            onTap: ()
-                            {
+                            onTap: () {
                               setState(() {
-                                isEmail=true;
+                                isEmail = true;
                                 _resetData();
                               });
                             },
                             child: Container(
                                 height: 40.w,
                                 width: 100.w,
-                                decoration:  BoxDecoration(
-                                    color: isEmail ? Colors.green : Colors.white,
+                                decoration: BoxDecoration(
+                                    color:
+                                        isEmail ? Colors.green : Colors.white,
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(2.0),
-                                    )
-                                ),
-                                child: Center(child:
-                                Text("Email",
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color:isEmail ? Colors.white : Colors.black54
-                                      /**/
-                                    )),)
-                            ),
+                                    )),
+                                child: Center(
+                                  child: Text("Email",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: isEmail
+                                              ? Colors.white
+                                              : Colors.black54
+                                          /**/
+                                          )),
+                                )),
                           ),
-                          SizedBox(width: 20.w,),
+                          SizedBox(
+                            width: 20.w,
+                          ),
                           GestureDetector(
-                            onTap: ()
-                            {
+                            onTap: () {
                               setState(() {
-                                isEmail=false;
+                                isEmail = false;
                                 _resetData();
                               });
                             },
                             child: Container(
-                                decoration:BoxDecoration(
-                                    color: isEmail ? Colors.white : Colors.green,
+                                decoration: BoxDecoration(
+                                    color:
+                                        isEmail ? Colors.white : Colors.green,
                                     borderRadius: const BorderRadius.all(
                                       Radius.circular(2.0),
-                                    )
-                                ),
+                                    )),
                                 height: 40.w,
                                 width: 100.w,
-                                child: Center(child:
-                                Text("Phone Number",
-                                    style: TextStyle(
-                                        fontSize: 12.sp,
-                                        color: isEmail ? Colors.black54 : Colors.white
-                                      /**/
-                                    )),)
-                            ),
+                                child: Center(
+                                  child: Text("Phone Number",
+                                      style: TextStyle(
+                                          fontSize: 12.sp,
+                                          color: isEmail
+                                              ? Colors.black54
+                                              : Colors.white
+                                          /**/
+                                          )),
+                                )),
                           ),
-
                         ],
                       ),
                     ),
                     Padding(
-                      padding: EdgeInsets.only(left:16.w,right: 16.w,bottom: 16.w),
+                      padding: EdgeInsets.only(
+                          left: 16.w, right: 16.w, bottom: 16.w),
                       child: Center(
                         child: Form(
                           key: globalFormKey,
@@ -207,27 +209,33 @@ class _SignInPageState extends State<SignInPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Visibility(
-                                visible:isEmail ? true:false,
+                                visible: isEmail ? true : false,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                      top: 14.w,
+                                      bottom: 6.w,
+                                      left: 8.w,
+                                      right: 8.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding:EdgeInsets.only(
-                                          bottom: 6.w,),
+                                        padding: EdgeInsets.only(
+                                          bottom: 6.w,
+                                        ),
                                         child: const Text(
                                           "Email",
                                           textAlign: TextAlign.left,
-
                                         ),
                                       ),
                                       TextFormField(
-                                          keyboardType: TextInputType.emailAddress,
+                                          keyboardType:
+                                              TextInputType.emailAddress,
                                           textInputAction: TextInputAction.next,
                                           cursorColor: Colors.black,
-                                          onSaved: (input) => _loginRequestModel.email = input!,
+                                          onSaved: (input) =>
+                                              _loginRequestModel.email = input!,
                                           validator: (input) {
                                             if (input == null ||
                                                 input.isEmpty ||
@@ -237,16 +245,21 @@ class _SignInPageState extends State<SignInPage> {
                                             return null;
                                           },
                                           decoration: InputDecoration(
-                                              contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                              hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                              contentPadding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 8.0,
+                                                      horizontal: 8.0),
+                                              hintStyle: TextStyle(
+                                                  fontSize: 10.sp,
+                                                  fontWeight: FontWeight.w500,
+                                                  color: hintColorGrey),
                                               border: OutlineInputBorder(
-                                                  borderRadius:const BorderRadius.all(
+                                                  borderRadius:
+                                                      const BorderRadius.all(
                                                     Radius.circular(5.0),
                                                   ),
-                                                  borderSide: BorderSide(color: newColorGrey)
-                                              )
-                                          )
-                                      ),
+                                                  borderSide: BorderSide(
+                                                      color: newColorGrey)))),
                                     ],
                                   ),
                                 ),
@@ -255,31 +268,35 @@ class _SignInPageState extends State<SignInPage> {
                               //Phone NUmber
 
                               Visibility(
-                                visible:isEmail ? false:true,
+                                visible: isEmail ? false : true,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                      top: 14.w,
+                                      bottom: 6.w,
+                                      left: 8.w,
+                                      right: 8.w),
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Padding(
-                                        padding:EdgeInsets.only(
-                                          bottom: 6.w,),
-                                        child:  Text(
+                                        padding: EdgeInsets.only(
+                                          bottom: 6.w,
+                                        ),
+                                        child: Text(
                                           mobileNumber,
                                           textAlign: TextAlign.left,
-
                                         ),
                                       ),
                                       TextFormField(
                                         keyboardType: TextInputType.phone,
                                         cursorColor: Colors.black,
                                         textInputAction: TextInputAction.next,
-                                        onSaved: (input) => _loginRequestModel.phone = "+$code"+input!,
+                                        onSaved: (input) => _loginRequestModel
+                                            .phone = "+$code" + input!,
                                         inputFormatters: <TextInputFormatter>[
                                           /*FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9@.])')),*/
-                                          LengthLimitingTextInputFormatter(
-                                              15),
+                                          LengthLimitingTextInputFormatter(15),
                                         ],
                                         validator: (input) {
                                           if (input == null ||
@@ -289,59 +306,100 @@ class _SignInPageState extends State<SignInPage> {
                                           }
                                           return null;
                                         },
-                                        decoration:InputDecoration(
-                                          contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                                          hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                        decoration: InputDecoration(
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                  vertical: 8.0,
+                                                  horizontal: 8.0),
+                                          hintStyle: TextStyle(
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w500,
+                                              color: hintColorGrey),
                                           border: OutlineInputBorder(
-                                              borderRadius:const BorderRadius.all(
+                                              borderRadius:
+                                                  const BorderRadius.all(
                                                 Radius.circular(5.0),
                                               ),
-                                              borderSide: BorderSide(color: newColorGrey)
-                                          ),
-                                          prefixIcon:  GestureDetector(
-                                            onTap:()=>{
+                                              borderSide: BorderSide(
+                                                  color: newColorGrey)),
+                                          prefixIcon: GestureDetector(
+                                            onTap: () => {
                                               Navigator.push(
                                                 context,
                                                 MaterialPageRoute(
-                                                  builder: (context) =>  SelectCountryPage(title:"Country Code",isCodeVisible: true,callback:(Countries country)=>{
-                                                    setState(() {
-                                                      _loginRequestModel.country=country;
-                                                      code=_loginRequestModel.country?.countryPhoneCode;
-                                                    })
-                                                  },
+                                                  builder: (context) =>
+                                                      SelectCountryPage(
+                                                    title: "Country Code",
+                                                    isCodeVisible: true,
+                                                    callback:
+                                                        (Countries country) => {
+                                                      setState(() {
+                                                        _loginRequestModel
+                                                            .country = country;
+                                                        code = _loginRequestModel
+                                                            .country
+                                                            ?.countryPhoneCode;
+                                                      })
+                                                    },
                                                   ),
                                                 ),
                                               )
                                             },
-                                            child:  Container(
-                                              padding: const EdgeInsets.all(4.0),
+                                            child: Container(
+                                              padding:
+                                                  const EdgeInsets.all(4.0),
                                               child: Row(
                                                 mainAxisSize: MainAxisSize.min,
-                                                mainAxisAlignment: MainAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
                                                 children: [
-                                                  const SizedBox(width: 2.0,),
+                                                  const SizedBox(
+                                                    width: 2.0,
+                                                  ),
                                                   CircleImageIconWidget(
                                                       imageUrl:
-                                                      _loginRequestModel.country?.medium.toString() ?? ""),
-                                                  const SizedBox(width: 8.0,),
+                                                          _loginRequestModel
+                                                                  .country
+                                                                  ?.medium
+                                                                  .toString() ??
+                                                              ""),
+                                                  const SizedBox(
+                                                    width: 8.0,
+                                                  ),
                                                   Text(
-                                                    _loginRequestModel.country?.countryPhoneCode.toString() ?? "",textAlign: TextAlign.start,),
-                                                  const SizedBox(width: 2.0,),
-                                                  const Icon(Icons.arrow_drop_down,color: Colors.grey,),
-                                                  const Text("|",textAlign: TextAlign.start,style:TextStyle(color:Colors.grey, ),),
-                                                  const SizedBox(width: 2.0,),
+                                                    _loginRequestModel.country
+                                                            ?.countryPhoneCode
+                                                            .toString() ??
+                                                        "",
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 2.0,
+                                                  ),
+                                                  const Icon(
+                                                    Icons.arrow_drop_down,
+                                                    color: Colors.grey,
+                                                  ),
+                                                  const Text(
+                                                    "|",
+                                                    textAlign: TextAlign.start,
+                                                    style: TextStyle(
+                                                      color: Colors.grey,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    width: 2.0,
+                                                  ),
                                                 ],
                                               ),
                                             ),
                                           ),
-
                                         ),
                                       )
                                     ],
                                   ),
                                 ),
                               ),
-
 
 //                              Visibility(
 //                                visible:isEmail ? false:true,
@@ -480,11 +538,13 @@ class _SignInPageState extends State<SignInPage> {
 //                              ),
                               Padding(
                                 padding: EdgeInsets.only(
-                                    top: 14.w, bottom: 6.w, left: 8.w, right: 8.w),
+                                    top: 14.w,
+                                    bottom: 6.w,
+                                    left: 8.w,
+                                    right: 8.w),
                                 child: Text(
                                   password,
                                   textAlign: TextAlign.left,
-
                                 ),
                               ),
                               Padding(
@@ -496,7 +556,7 @@ class _SignInPageState extends State<SignInPage> {
                                   cursorColor: Colors.black,
                                   textInputAction: TextInputAction.done,
                                   onSaved: (input) =>
-                                  _loginRequestModel.password = input!,
+                                      _loginRequestModel.password = input!,
                                   validator: (input) {
                                     if (input == null ||
                                         input.isEmpty ||
@@ -506,7 +566,8 @@ class _SignInPageState extends State<SignInPage> {
                                     return null;
                                   },
                                   decoration: InputDecoration(
-                                    contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 8.0, horizontal: 8.0),
 //                                    label: Row(
 //                                      mainAxisSize: MainAxisSize.min,
 //                                      mainAxisAlignment: MainAxisAlignment.start,
@@ -516,13 +577,16 @@ class _SignInPageState extends State<SignInPage> {
 //                                      ],
 //                                    ),
 //                                    floatingLabelBehavior:FloatingLabelBehavior.always ,
-                                    hintStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
+                                    hintStyle: TextStyle(
+                                        fontSize: 10.sp,
+                                        fontWeight: FontWeight.w500,
+                                        color: hintColorGrey),
                                     border: OutlineInputBorder(
-                                        borderRadius:const BorderRadius.all(
+                                        borderRadius: const BorderRadius.all(
                                           Radius.circular(5.0),
                                         ),
-                                        borderSide: BorderSide(color: signInBorderColor)
-                                    ),
+                                        borderSide: BorderSide(
+                                            color: signInBorderColor)),
 //                                    hintText: "Enter Here",
 //                  prefixIcon: IconButton(
 //                    onPressed: () {},
@@ -535,16 +599,14 @@ class _SignInPageState extends State<SignInPage> {
 //                    ),
 //                  ),
                                     suffixIcon: GestureDetector(
-                                      behavior:
-                                      HitTestBehavior.opaque,
+                                      behavior: HitTestBehavior.opaque,
                                       onTap: () {
                                         _togglevisibility();
                                       },
                                       child: Icon(
                                         _showPassword
                                             ? Icons.visibility
-                                            : Icons
-                                            .visibility_off,
+                                            : Icons.visibility_off,
                                         color: textColorGrey,
                                         size: 18,
                                       ),
@@ -559,12 +621,14 @@ class _SignInPageState extends State<SignInPage> {
                                 alignment: Alignment.centerRight,
                                 child: Padding(
                                   padding: EdgeInsets.only(
-                                      top: 0, bottom: 8.w, left: 8.w, right: 8.w),
+                                      top: 0,
+                                      bottom: 8.w,
+                                      left: 8.w,
+                                      right: 8.w),
                                   child: GestureDetector(
                                     behavior: HitTestBehavior.opaque,
-                                    onTap: ()=>{
-                                      openForgotPasswordScreen(context)
-                                    },
+                                    onTap: () =>
+                                        {openForgotPasswordScreen(context)},
                                     child: Text(
                                       forgetPassword,
                                       textAlign: TextAlign.center,
@@ -586,31 +650,33 @@ class _SignInPageState extends State<SignInPage> {
                                   height: 50.w,
                                   width: double.infinity,
                                   child: TextButton(
-                                      child:Row(
+                                      child: Row(
                                         children: [
-                                          Expanded(child: Center(child:
-                                          Text("Sign in",
-                                              style: TextStyle(
-                                                fontSize: 14.sp,
-                                                /**/
-                                              )),),flex: 9,),
+                                          Expanded(
+                                            child: Center(
+                                              child: Text("Sign in",
+                                                  style: TextStyle(
+                                                    fontSize: 14.sp,
+                                                    /**/
+                                                  )),
+                                            ),
+                                            flex: 9,
+                                          ),
                                           const Icon(
                                             Icons.arrow_forward_sharp,
                                             color: Colors.white,
                                           ),
                                         ],
                                       ),
-
                                       style: ButtonStyle(
-
                                           foregroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              Colors.white),
+                                              MaterialStateProperty.all<Color>(
+                                                  Colors.white),
                                           backgroundColor:
-                                          MaterialStateProperty.all<Color>(
-                                              btnColorLogin),
+                                              MaterialStateProperty.all<Color>(
+                                                  btnColorLogin),
                                           shape: MaterialStateProperty.all<
-                                              RoundedRectangleBorder>(
+                                                  RoundedRectangleBorder>(
                                               const RoundedRectangleBorder(
                                                   borderRadius: BorderRadius.all(
                                                       Radius.circular(10)),
@@ -621,25 +687,28 @@ class _SignInPageState extends State<SignInPage> {
                                         if (validateAndSave()) {
                                           _loginCall();
                                         }
-                                      })
-                              ),
+                                      })),
                             ],
                           ),
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height/28,),
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 28,
+              ),
               Align(
                 alignment: Alignment.bottomCenter,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,),
+                      padding: const EdgeInsets.only(
+                        top: 8.0,
+                        bottom: 8.0,
+                      ),
                       child: Text(
                         signUp,
                         textAlign: TextAlign.center,
@@ -653,7 +722,8 @@ class _SignInPageState extends State<SignInPage> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(top: 8.0,bottom: 8.0,left: 2.0),
+                      padding: const EdgeInsets.only(
+                          top: 8.0, bottom: 8.0, left: 2.0),
                       child: GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
@@ -681,7 +751,6 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
             ],
-
           ),
         ),
       ),
@@ -698,10 +767,8 @@ class _SignInPageState extends State<SignInPage> {
   }
 
   void _loginCall() {
-
-
     check().then((value) {
-      if(value){
+      if (value) {
         ProgressDialogUtil.showDialog(context, 'Please wait...');
         Logger().e(_loginRequestModel.toJson());
         ApiService().login(_loginRequestModel).then((value) {
@@ -709,15 +776,22 @@ class _SignInPageState extends State<SignInPage> {
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
-              await db.businessInfoDao.insertBusinessInfo(value.data!.user!.businessInfo!);
-              await db.userBrandsDao.insertAllUserBrands(value.data!.user!.brands!);
+              await db.businessInfoDao
+                  .insertBusinessInfo(value.data!.user!.businessInfo!);
+              // await db.userBrandsDao.insertAllUserBrands(value.data!.user!.brands!);
+              if (value.data!.user!.brands != null) {
+                for (var element in value.data!.user!.brands!) {
+                  await db.brandsDao.updateBrands(element.brdId, true);
+                }
+              }
             });
 
             Logger().e(value.data!.user!.toJson());
             Logger().e(value.data!.user!.businessInfo!.toJson());
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());
-            SharedPreferenceUtil.addStringToSF(USER_TOKEN_KEY, value.data!.token!);
+            SharedPreferenceUtil.addStringToSF(
+                USER_TOKEN_KEY, value.data!.token!);
             SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
 
             Fluttertoast.showToast(
@@ -727,7 +801,7 @@ class _SignInPageState extends State<SignInPage> {
                 timeInSecForIosWeb: 1);
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => MainPage()),
-                    (Route<dynamic> route) => false);
+                (Route<dynamic> route) => false);
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(value.message!)));
@@ -737,16 +811,15 @@ class _SignInPageState extends State<SignInPage> {
           ScaffoldMessenger.of(context)
               .showSnackBar(SnackBar(content: Text(error.toString())));
         });
-      }
-      else{
-        ScaffoldMessenger.of(context)
-            .showSnackBar(SnackBar(content: Text("No internet available.".toString())));
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
       }
     });
   }
 
   _resetData() {
-    _loginRequestModel.phone = null ;
+    _loginRequestModel.phone = null;
     _loginRequestModel.email = null;
     emailController.clear();
     phoneController.clear();
@@ -756,7 +829,7 @@ class _SignInPageState extends State<SignInPage> {
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }

@@ -8,7 +8,7 @@ import '../../../app_database/app_database_instance.dart';
 
 class UserBrandsProvider extends ChangeNotifier{
 
-  List<UserBrands> userBrandsList = [];
+  List<Brands> userBrandsList = [];
   List<Brands> allBrandsList = [];
   List<Brands> backUpBrandsList = [];
   bool loading = false;
@@ -19,7 +19,7 @@ class UserBrandsProvider extends ChangeNotifier{
     userBrandsList.clear();
     allBrandsList.clear();
     var dbInstance = await AppDbInstance().getDbInstance();
-    userBrandsList = await dbInstance.userBrandsDao.findAllUserBrands();
+    userBrandsList = await dbInstance.brandsDao.findUserBrands(true);
     allBrandsList = await dbInstance.brandsDao.findAllBrands();
     backUpBrandsList = await dbInstance.brandsDao.findAllBrands();
     _removeSelectedBrands(userBrandsList);
@@ -27,7 +27,7 @@ class UserBrandsProvider extends ChangeNotifier{
     notifyListeners();
   }
 
-  _removeSelectedBrands(List<UserBrands> tagModel)  {
+  _removeSelectedBrands(List<Brands> tagModel)  {
     if (tagModel.isNotEmpty) {
       for(int i=0;i<tagModel.length;i++) {
         allBrandsList.removeWhere((item) => item.brdName.toString() == tagModel[i].brdName.toString());
