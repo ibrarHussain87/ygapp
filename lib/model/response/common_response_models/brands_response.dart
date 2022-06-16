@@ -8,6 +8,7 @@ class Brands {
     required this.brdName,
     required this.brdIsActive,
     this.brdSortid,
+    this.isUserBrand
   });
   @PrimaryKey(autoGenerate: false)
   late final int brdId;
@@ -18,7 +19,7 @@ class Brands {
   String? brdFeatured;
   String? brdIcon;
   String? brdIsActive;
-  bool? userBrand = false;
+  bool? isUserBrand = false;
   @ignore
   late final Null brdSortid;
 
