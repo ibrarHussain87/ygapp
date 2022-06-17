@@ -73,37 +73,44 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
           }
           return Container(
             child: snapshot.data!.data != null
-                ? ListView.builder(
-                    itemCount: widget.locality == international
-                        ? stocklotProvider.internationSpecList.length
-                        : stocklotProvider.localSpecList.length,
-                    physics: const BouncingScrollPhysics(),
-                    itemBuilder: (context, index) => GestureDetector(
-                      behavior: HitTestBehavior.opaque,
-                      onTap: () {
-                        openDetailsScreen(context,
-                            specObj: widget.locality == international
-                                ? stocklotProvider.internationSpecList[index]
-                                : stocklotProvider.localSpecList[index]);
-                      },
-                      child: StockLotListItem(
-                        specification: widget.locality == international
-                            ? stocklotProvider.internationSpecList[index]
-                            : stocklotProvider.localSpecList[index],
-                      ),
-                    ),
+                ? Container(
+                    child: snapshot.data!.data!.specification!.isNotEmpty
+                        ? ListView.builder(
+                            itemCount: widget.locality == international
+                                ? stocklotProvider.internationSpecList.length
+                                : stocklotProvider.localSpecList.length,
+                            physics: const BouncingScrollPhysics(),
+                            itemBuilder: (context, index) => GestureDetector(
+                              behavior: HitTestBehavior.opaque,
+                              onTap: () {
+                                openDetailsScreen(context,
+                                    specObj: widget.locality == international
+                                        ? stocklotProvider
+                                            .internationSpecList[index]
+                                        : stocklotProvider
+                                            .localSpecList[index]);
+                              },
+                              child: StockLotListItem(
+                                specification: widget.locality == international
+                                    ? stocklotProvider
+                                        .internationSpecList[index]
+                                    : stocklotProvider.localSpecList[index],
+                              ),
+                            ),
 //                    separatorBuilder: (context, index) {
 //                      return Divider(
 //                        height: 1,
 //                        color: Colors.grey.shade400,
 //                      );
 //                    },
+                          )
+                        : const Center(
+                            child: NoDataFoundWidget(),
+                          ),
                   )
-                : snapshot.data!.data == null && snapshot.data!.message != null
-                    ? Center(
-                        child: TitleSmallTextWidget(
-                            title: snapshot.data!.message.toString()))
-                    : const NoDataFoundWidget(),
+                : Center(
+                    child: TitleSmallTextWidget(
+                        title: snapshot.data!.message.toString())),
           );
         } else if (snapshot.hasError) {
           return Center(

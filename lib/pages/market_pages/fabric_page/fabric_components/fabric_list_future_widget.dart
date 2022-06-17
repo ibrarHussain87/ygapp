@@ -51,15 +51,19 @@ class FabricSpecificationListFutureState
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return snapshot.data!.data != null
-              ? FabricListBody(
-                  key: fabricListBodyState,
-                  specification: fabricSpecificationsProvider
-                      .fabricSpecificationResponse!.data!.specification!)
-              : snapshot.data!.data == null && snapshot.data!.message != null
-                  ? Center(
-                      child: TitleSmallTextWidget(
-                          title: snapshot.data!.message.toString()))
-                  : const NoDataFoundWidget();
+              ? Container(
+                  child: snapshot.data!.data!.specification!.isNotEmpty
+                      ? FabricListBody(
+                          key: fabricListBodyState,
+                          specification: fabricSpecificationsProvider
+                              .fabricSpecificationResponse!
+                              .data!
+                              .specification!)
+                      : const NoDataFoundWidget(),
+                )
+              : Center(
+                  child: TitleSmallTextWidget(
+                      title: snapshot.data!.message.toString()));
         } else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));

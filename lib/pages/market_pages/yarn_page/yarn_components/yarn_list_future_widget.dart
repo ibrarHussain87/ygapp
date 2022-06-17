@@ -49,15 +49,17 @@ class YarnSpecificationListFutureState
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
           return snapshot.data!.data != null
-              ? YarnListBody(
-                  key: yarnListBodyState,
-                  specification: yarnSpecificationsProvider
-                      .yarnSpecificationResponse!.data!.specification!)
-              : snapshot.data!.data == null && snapshot.data!.message != null
-                  ? Center(
-                      child: TitleSmallTextWidget(
-                          title: snapshot.data!.message.toString()))
-                  : const NoDataFoundWidget();
+              ? Container(
+                  child: snapshot.data!.data!.specification!.isNotEmpty
+                      ? YarnListBody(
+                          key: yarnListBodyState,
+                          specification: yarnSpecificationsProvider
+                              .yarnSpecificationResponse!.data!.specification!)
+                      : const NoDataFoundWidget(),
+                )
+              : Center(
+                  child: TitleSmallTextWidget(
+                      title: snapshot.data!.message.toString()));
         } else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
