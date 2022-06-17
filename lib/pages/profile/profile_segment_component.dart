@@ -1,11 +1,11 @@
 import 'package:custom_sliding_segmented_control/custom_sliding_segmented_control.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/pages/profile/update_profile/profile_brands_info.dart';
 import 'package:yg_app/pages/profile/update_profile/profile_business_info.dart';
 import 'package:yg_app/pages/profile/update_profile/profile_personal_info.dart';
+import '../../elements/decoration_widgets.dart';
 
 class ProfileSegmentComponent extends StatefulWidget {
   final Function? stepsCallback;
@@ -96,73 +96,20 @@ class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
             Expanded(
               child: Container(
                 width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5),
-                    color: tabBackground),
-                padding: const EdgeInsets.all(0),
+                // height: 50,
+                decoration:myBoxDecoration(radius: 8,color:Colors.grey.shade400,width: 0.5),
+                // decoration: BoxDecoration(
+                //     borderRadius: BorderRadius.circular(5),
+                //     color: tabBackground),
+                margin: EdgeInsets.symmetric(horizontal: 0.w,vertical: 6.w),
                 child: Padding(
-                  padding: const EdgeInsets.all(7),
+                  padding: const EdgeInsets.all(0),
                   child: CustomSlidingSegmentedControl<int>(
                     initialValue: selectedValue,
-                    children: {
-                      1: Container(
-                        height: 45,
-                        /*width: width*0.23,*/
-                        padding: EdgeInsets.all(5.w),
-                        child: Center(
-                          child: Text(
-                            "Personal Info",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              fontWeight: FontWeight.w500,
-                              color: selectedValue == 1
-                                  ? Colors.white
-                                  : textColorGrey,
-                            ),
-                          ),
-                        ),
-                      ),
-                      2: Container(
-                        height: 45,
-                        /*width: width*0.23,*/
-                        padding: EdgeInsets.all(5.w),
-                        child: Center(
-                          child: Text(
-                            "Business Info",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: selectedValue == 2
-                                  ? Colors.white
-                                  : textColorGrey,
-                            ),
-                          ),
-                        ),
-                      ),
-                      3: Container(
-                        /*width*0.23*/
-                        height: 45,
-                        padding: EdgeInsets.all(5.w),
-                        child: Center(
-                          child: Text(
-                            "Brands",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 12.sp,
-                              color: selectedValue == 3
-                                  ? Colors.white
-                                  : textColorGrey,
-                            ),
-                          ),
-                        ),
-                      ),
-                    },
                     isStretch: true,
                     decoration: BoxDecoration(
                       color: tabBackground,
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     thumbDecoration: BoxDecoration(
                       /*color: lightBlueTabs,*/
@@ -170,7 +117,7 @@ class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
                           begin: Alignment.centerLeft,
                           end: Alignment.bottomRight,
                           colors: <Color>[appBarColor2,appBarColor1]),
-                      borderRadius: BorderRadius.circular(5),
+                      borderRadius: BorderRadius.circular(8),
                       boxShadow: [
                         BoxShadow(
                           color: Colors.black.withOpacity(.3),
@@ -185,6 +132,61 @@ class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
                     ),
                     duration: const Duration(milliseconds: 300),
                     curve: Curves.easeInToLinear,
+                    children: {
+                      1: Container(
+                        // height: 45,
+                        /*width: width*0.23,*/
+                        // padding: EdgeInsets.all(5.w),
+                        child: Center(
+                          child: Text(
+                            "Personal Info",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              fontWeight: FontWeight.w500,
+                              color: selectedValue == 1
+                                  ? Colors.white
+                                  : textColorGrey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      2: Container(
+                        // height: 45,
+                        /*width: width*0.23,*/
+                        // padding: EdgeInsets.all(5.w),
+                        child: Center(
+                          child: Text(
+                            "Business Info",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              color: selectedValue == 2
+                                  ? Colors.white
+                                  : textColorGrey,
+                            ),
+                          ),
+                        ),
+                      ),
+                      3: Container(
+                        /*width*0.23*/
+                        // height: 45,
+                        // padding: EdgeInsets.all(5.w),
+                        child: Center(
+                          child: Text(
+                            "Brands",
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 11.sp,
+                              color: selectedValue == 3
+                                  ? Colors.white
+                                  : textColorGrey,
+                            ),
+                          ),
+                        ),
+                      ),
+                    },
+
                     onValueChanged: (value) {
                       switch (value) {
                         case 1:

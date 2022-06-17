@@ -41,7 +41,6 @@ import 'package:yg_app/app_database/dao/yarn_dao/yarn_blend_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_family_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_settings_dao.dart';
 import 'package:yg_app/app_database/dao/yarn_dao/yarn_types_dao.dart';
-import 'package:yg_app/app_database/dao/user_brands_dao.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
@@ -88,24 +87,25 @@ import 'dao/yarn_grades_dao.dart';
 part 'app_database.g.dart'; // the generated code will be there
 
 
-/// Run the generator with flutter packages pub run build_runner build.
 ///To automatically run it, whenever a file changes, use flutter packages pub run build_runner watch.
 ///flutter clean
 ///flutter pub get
 ///flutter packages pub run build_runner build --delete-conflicting-outputs
+/// Run the generator with flutter packages pub run build_runner build.
 ///
+
 @Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,
   GenericCategories,States,Cities,Designations,SubscriptionPlans,ServiceTypes,CustomerSupportTypes,
-  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily,BusinessInfo,UserBrands,])
+  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily,BusinessInfo/*UserBrands*/,])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
   BusinessInfoDao get businessInfoDao;
 
-  UserBrandsDao get userBrandsDao;
+  // UserBrandsDao get userBrandsDao;
 
   FiberSettingDao get fiberSettingDao;
 

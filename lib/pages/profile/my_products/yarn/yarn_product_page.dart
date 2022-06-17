@@ -5,6 +5,7 @@ import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.d
 import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_items/yarn_list_items_renewed_again.dart';
 import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yarn_widgets/famiy_tile_listview.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -225,11 +226,12 @@ class YarnProductPageState extends State<YarnProductPage>
                                   _filteredSpecification![index]!, context,
                                   showCount: true)),
                         )
-                      : const Center(
-                          child: TitleSmallTextWidget(
-                            title: 'No Data Found',
-                          ),
-                        ),
+                      : const NoDataFoundWidget()
+                  // Center(
+                  //         child: TitleSmallTextWidget(
+                  //           title: 'No Data Found',
+                  //         ),
+                  //       ),
                 ))
               ],
             ),

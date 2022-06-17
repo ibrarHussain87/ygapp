@@ -61,8 +61,6 @@ class ProfileInfoProvider extends ChangeNotifier {
 
   getPersonalInfoData() async {
     if (user != null) {
-
-      var dbInstance = await AppDbInstance().getDbInstance();
       if (user!.countryId != null && countriesList.isNotEmpty &&
           countriesList != null) {
         updateProfileRequestModel.countryId=
@@ -111,25 +109,35 @@ class ProfileInfoProvider extends ChangeNotifier {
 
       }
 
-      if (businessInfo!.cityStateId != null) {
-        updateBusinessRequestModel.cityStateId=
-          businessInfo!.cityStateId.toString();
-        selectedCompanyState =await dbInstance.statesDao
-            .findStatesWithId(int.parse(businessInfo!.cityStateId.toString()));
-      }
 
-      if (businessInfo!.city != null ) {
+      if (businessInfo!.city != null && citiesList.isNotEmpty &&
+          citiesList != null) {
         updateBusinessRequestModel.city=
             businessInfo!.city.toString();
-        selectedCompanyCity = await dbInstance.citiesDao
-            .findCitiesWithId(int.parse(businessInfo!.city.toString()));
+        selectedCompanyCity =
+            citiesList.firstWhere((element) =>
+            element.cityId.toString() ==
+                businessInfo!.city.toString());
       }
 
-      if (businessInfo!.designation_idfk != null ) {
+      if (businessInfo!.cityStateId != null && statesList.isNotEmpty &&
+          statesList != null) {
+        updateBusinessRequestModel.cityStateId=
+            businessInfo!.cityStateId.toString();
+        selectedCompanyState =
+            statesList.firstWhere((element) =>
+            element.stateId.toString() ==
+                businessInfo!.cityStateId.toString());
+      }
+
+      if (businessInfo!.designation_idfk != null && designationsList.isNotEmpty &&
+          designationsList != null) {
         updateBusinessRequestModel.designation_idfk=
             businessInfo!.designation_idfk.toString();
-        selectedDesignation =await dbInstance.designationsDao
-            .findDesignationsWithId(int.parse(businessInfo!.designation_idfk.toString()));
+        selectedDesignation =
+            designationsList.firstWhere((element) =>
+            element.designationId.toString() ==
+                businessInfo!.designation_idfk.toString());
       }
 
       if (businessInfo!.name != null) {

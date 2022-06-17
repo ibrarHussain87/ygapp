@@ -16,6 +16,7 @@ import 'package:yg_app/helper_utils/shared_pref_util.dart';
 import 'package:yg_app/locators.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/main_page.dart';
+import 'package:yg_app/pages/onboarding_pages/onboarding_page.dart';
 import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -67,6 +68,8 @@ class YgApp extends StatelessWidget {
             create: (_) => YarnSpecificationsProvider()),
         ChangeNotifierProvider<FabricSpecificationsProvider>(
             create: (_) => FabricSpecificationsProvider()),
+        ChangeNotifierProvider(
+            create: (_) => locator<FabricSpecificationsProvider>()),
         ChangeNotifierProvider<PostFabricProvider>(
             create: (_) => PostFabricProvider()),
         ChangeNotifierProvider<FilterFabricProvider>(
@@ -86,27 +89,20 @@ class YgApp extends StatelessWidget {
             create: (_) => locator<YarnSpecificationsProvider>()),
         ChangeNotifierProvider(create: (_) => locator<UserBrandsProvider>()),
         ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<ProfileInfoProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<YgServicesProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<YarnFilterProvider>()),
-
+        ChangeNotifierProvider(create: (_) => locator<ProfileInfoProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<YgServicesProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<YarnFilterProvider>()),
       ],
       child: MaterialApp(
         title: 'Splash Screen',
         theme: ThemeData(
-          primaryColor: lightBlueTabs,
-          primarySwatch: Colors.green,
-          /*/**/*/
-          textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
+            primaryColor: lightBlueTabs,
+            primarySwatch: Colors.green,
+            /*/**/*/
+            textTheme:
+                GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme),
             appBarTheme: AppBarTheme(
-                iconTheme: IconThemeData(
-                    color: Colors.grey.shade500
-                )
-            )
-        ),
+                iconTheme: IconThemeData(color: Colors.grey.shade500))),
         home: YgAppPage(),
         debugShowCheckedModeBanner: false,
       ),
@@ -134,7 +130,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _animation;
   final _syncProvider = locator<PreLoginSyncProvider>();
-
 
   _YgAppPageState() {
     _timer = Timer(const Duration(milliseconds: 500), () {
@@ -196,20 +191,30 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   Future<void> initTimer() async {
     Timer(const Duration(seconds: 5), () async {
       bool userLogin = await SharedPreferenceUtil.getBoolValuesSF(IS_LOGIN);
+      bool appRunFirstTime =
+          await SharedPreferenceUtil.getBoolValuesSF(IS_FIRST_TIME);
       check().then((internet) {
         if (internet) {
           // Internet Present Case
-          if (userLogin) {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const MainPage()));
+          if (!appRunFirstTime) {
+            SharedPreferenceUtil.addBoolToSF(IS_FIRST_TIME, true);
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => const OnBoardingPage()));
           } else {
-            Navigator.pushReplacement(context,
-                MaterialPageRoute(builder: (context) => const SignInPage()));
-    //                MaterialPageRoute(builder: (context) => const LoginPage()));
+            if (userLogin) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const MainPage()));
+            } else {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) => const SignInPage()));
+              //                MaterialPageRoute(builder: (context) => const LoginPage()));
+            }
           }
         } else {
-          showInternetDialog(
-              noInternetAvailableMsg, checkInternetMsg, context, () {
+          showInternetDialog(noInternetAvailableMsg, checkInternetMsg, context,
+              () {
             Navigator.pop(context);
           });
         }
@@ -322,27 +327,28 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     );
   }
 
-   _preLoginSynData() async {
-    bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
-    if(!dataSynced){
-      check().then((intenet)async {
+  _preLoginSynData() async {
+    bool dataSynced =
+        await SharedPreferenceUtil.getBoolValuesSF(PRE_LOGIN_SYNCED_KEY);
+    if (!dataSynced) {
+      check().then((intenet) async {
         if (intenet) {
           // Internet Present Case
-         await _syncProvider.syncAppData(context);
-         await initTimer();
+          await _syncProvider.syncAppData(context);
+          await initTimer();
         } else {
-          showInternetDialog(
-              noInternetAvailableMsg, checkInternetMsg, context, () {
+          showInternetDialog(noInternetAvailableMsg, checkInternetMsg, context,
+              () {
             Navigator.pop(context);
           });
         }
       });
-    }else{
+    } else {
       await initTimer();
     }
   }
 
-  /*Future<bool> _preLoginSynData() async {
+/*Future<bool> _preLoginSynData() async {
     bool dataSynced = await SharedPreferenceUtil.getBoolValuesSF(PRE_SYNCED_KEY);
     if (!dataSynced) {
       await Future.wait([

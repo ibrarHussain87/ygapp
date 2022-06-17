@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/home_model.dart';
 class HomeCardWidget extends StatefulWidget {
   final Function? callback;
@@ -40,7 +41,7 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
     return  StaggeredGrid.count(
       crossAxisCount: 4,
       mainAxisSpacing: 4,
-      crossAxisSpacing: 10,
+      crossAxisSpacing: 6,
 
       children: List.generate(widget.listOfItems.length, (index){
       return StaggeredGridTile.count(
@@ -96,8 +97,12 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
       child: Card(
         elevation: 2,
         shape:RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10)
-
+            side: BorderSide(
+                color: Colors.grey.shade300,
+                width: 0.5,
+                style: BorderStyle.solid
+            ),
+            borderRadius: BorderRadius.circular(12)
         ),
 
         child: Center(
@@ -109,18 +114,14 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
                 widget.listOfItems[index].image.toString(),
             scale: 2,
               ),
-              const SizedBox(height: 18,),
+              const SizedBox(height: 12,),
               Text(
                 widget.listOfItems[index].title.toString(),
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 softWrap: false,
                 textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontSize: 12.sp,
-                    
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black),
+                style:Theme.of(context).textTheme.headline6?.merge(TextStyle(fontSize: 13.0,color: greyBlack)),
               )
             ],
           ),

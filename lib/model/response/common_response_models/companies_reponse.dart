@@ -60,7 +60,7 @@ class Companies {
   @ignore
   late final Null logo;
   @ignore
-  Null tradeMark;
+  String? tradeMark;
   String? address;
   String? countryId;
   String? cityStateId;

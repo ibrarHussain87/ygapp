@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -60,9 +61,11 @@ class ApiService {
   String baseUrlApi = "http://stagingv2.yarnguru.net/api";
   String loginEndPoint = "/login";
   String signUpEndPoint = "/register";
+  String uploadProfilePicEndPoint = "/upload-user-profile-pic";
   String profileUpdateEndPoint = "/update-personal-info";
   String businessUpdateEndPoint = "/update-business-info";
   String brandsUpdateEndPoint = "/update-brands";
+  String brandsDeleteEndPoint = "/delete-brands";
   String specUserEndPoint = "/spec_user";
   String syncEndPoint = "/sync";
   String getSpecEndPoint = "/getSpecifications";
@@ -156,8 +159,10 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
-        throw (e.toString());
+        throw Exception(e.toString());
       }
     }
   }
@@ -271,6 +276,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -278,6 +285,65 @@ class ApiService {
       throw (err.toString());
     }
   }
+
+  // Future<UpdateProfileResponse?> uploadProfilePicture(String imagePath) async {
+  //   // //for multipart Request
+  //   try {
+  //     var userToken =
+  //     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+  //     var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+  //     try {
+  //       ///[1] CREATING INSTANCE
+  //       var dioRequest = dio.Dio();
+  //       dioRequest.options.baseUrl = baseUrlApi;
+  //       var userDeviceToken =
+  //       await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+  //       //[2] ADDING TOKEN
+  //       dioRequest.options.headers = {
+  //         "Accept": "application/json",
+  //         "Authorization": "Bearer $userToken",
+  //         'device_token': '$userDeviceToken'
+  //       };
+  //       // Logger().e(stocklotRequestModel.toJson().toString());
+  //       //[3] ADDING EXTRA INFO
+  //       // var formData = dio.FormData.fromMap(stocklotRequestModel.toJson());
+  //
+  //
+  //       //[4] ADD IMAGE TO UPLOAD
+  //       if (imagePath != "") {
+  //         //[4] ADD IMAGE TO UPLOAD
+  //         var file = await dio.MultipartFile.fromFile(
+  //           imagePath,
+  //           filename: imagePath.split("/").last,
+  //         );
+  //         // formData.files.add(MapEntry('profile_pic', file));
+  //         // formData.files.add(MapEntry('profile_pic[]', file));
+  //       }
+  //
+  //       //[5] SEND TO SERVER
+  //       var response = await dioRequest.post(
+  //         uploadProfilePicEndPoint,
+  //         data: formData,
+  //       );
+  //       final result = json.decode(response.toString());
+  //       return UpdateProfileResponse.fromJson(result);
+  //     } catch (err) {
+  //       throw (err.toString());
+  //     }
+  //   } on Exception catch (e) {
+  //     if (e is SocketException) {
+  //       throw (noInternetAvailableMsg);
+  //     } else if (e is TimeoutException) {
+  //       throw (e.toString());
+  //     } else if (e is dio.DioError) {
+  //       throw (e.message.toString());
+  //     } else {
+  //       throw (e.toString());
+  //     }
+  //   } catch (err) {
+  //     throw (err.toString());
+  //   }
+  // }
 
   Future<UpdateProfileResponse> updateProfile(
       UpdateProfileRequestModel requestModel) async {
@@ -317,16 +383,21 @@ class ApiService {
       headerMap['device_token'] = '$userDeviceToken';
       headerMap['Authorization'] = 'Bearer $userToken';
       String url = baseUrlApi + businessUpdateEndPoint;
-      final response = await http.post(Uri.parse(url),
-          headers: headerMap, body: requestModel.toJson());
-      return UpdateProfileResponse.fromJson(
-        json.decode(response.body),
-      );
+
+      final response = await Dio().post(url,
+          options: Options(headers: headerMap),
+          data: json.encode(requestModel.toJson()));
+
+      // final response = await http.post(Uri.parse(url),
+      //     headers: headerMap, body: requestModel.toJson());
+      return UpdateProfileResponse.fromJson(response.data);
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -347,6 +418,38 @@ class ApiService {
       String url = baseUrlApi + brandsUpdateEndPoint;
       final response = await http.post(Uri.parse(url),
           headers: headerMap, body: requestModel.toJson());
+      return UpdateProfileResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (noInternetAvailableMsg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  Future<UpdateProfileResponse> deleteBrands(int brdID) async {
+    try {
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      var userDeviceToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+      Map<String, dynamic> data = {
+        "user_id": userID.toString(),
+        "brand_id": brdID.toString(),
+      };
+      headerMap['device_token'] = '$userDeviceToken';
+      headerMap['Authorization'] = 'Bearer $userToken';
+      String url = baseUrlApi + brandsDeleteEndPoint;
+      final response =
+          await http.post(Uri.parse(url), headers: headerMap, body: data);
       return UpdateProfileResponse.fromJson(
         json.decode(response.body),
       );
@@ -443,6 +546,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -601,6 +706,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -663,6 +770,8 @@ class ApiService {
           throw (noInternetAvailableMsg);
         } else if (e is TimeoutException) {
           throw (e.toString());
+        } else if (e is dio.DioError) {
+          throw (e.message.toString());
         } else {
           throw (e.toString());
         }
@@ -725,6 +834,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -854,6 +965,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }
@@ -886,6 +999,8 @@ class ApiService {
         throw (noInternetAvailableMsg);
       } else if (e is TimeoutException) {
         throw (e.toString());
+      } else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else {
         throw (e.toString());
       }

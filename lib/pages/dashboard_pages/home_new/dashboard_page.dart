@@ -98,9 +98,8 @@ class DashboardPageState extends State<DashboardPage> {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         fontSize: 18.0.w,
-                        
                         color: Colors.black,
-                        fontWeight: FontWeight.w700)),
+                        fontWeight: FontWeight.w800)),
               ),
               Align(
                 alignment: Alignment.centerRight,
@@ -128,7 +127,7 @@ class DashboardPageState extends State<DashboardPage> {
                 //   height: 5,
                 // ),
                 const BannerBody(),
-                Container(margin:EdgeInsets.only(bottom: 4.h,top: 4.h),child: const SlidingAlertWidget()),
+                Container(margin:EdgeInsets.only(bottom: 4.h,top: 4.h,left: 5.w,right:5.w),child: const SlidingAlertWidget()),
                 Expanded(
                   child: Container(
                     width: MediaQuery.of(context).size.width,

@@ -229,6 +229,9 @@ class BusinessInfoComponentState
                             (Companies x) => x.name.toString().toLowerCase().contains(pattern)
                     ).toList();
                    },
+                  noItemsFoundBuilder: (BuildContext context){
+                    return const Text('');
+                  },
                 itemBuilder: (context,suggestion) {
                   return ListTile(
                     title: Text(suggestion.toString()),

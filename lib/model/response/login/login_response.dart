@@ -141,6 +141,7 @@ class User{
     this.deletedAt,
     required this.createdAt,
     required this.updatedAt,
+    required this.profilePicture,
     this.businessInfo,
     this.brands,
     // required this.certifications,
@@ -174,11 +175,12 @@ class User{
   String? deletedAt;
   String? createdAt;
   String? updatedAt;
+  String? profilePicture;
   @ignore
   BusinessInfo? businessInfo;
 //  String? businessInfo;
   @ignore
-  List<UserBrands>? brands;
+  List<Brands>? brands;
   // @ignore
   // late final List<dynamic> certifications;
 
@@ -212,9 +214,10 @@ class User{
     deletedAt = null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    profilePicture = json['profile_picture'];
     businessInfo = BusinessInfo.fromJson(json['business_info']);
 //    businessInfo = '${BusinessInfo.fromJson(json['business_info'])}';
-    brands = json['brands'].map<UserBrands>((json) {return UserBrands.fromJson(json);}).toList();
+    brands = json['brands'].map<Brands>((json) {return Brands.fromJson(json);}).toList();
 //    brands = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
 
@@ -248,6 +251,7 @@ class User{
     _data['deleted_at'] = deletedAt;
     _data['created_at'] = createdAt;
     _data['updated_at'] = updatedAt;
+    _data['profile_picture'] = profilePicture;
     _data['business_info'] = businessInfo;
     _data['brands'] = brands;
     // _data['certifications'] = certifications;

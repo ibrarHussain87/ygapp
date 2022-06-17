@@ -8,6 +8,7 @@ class Brands {
     required this.brdName,
     required this.brdIsActive,
     this.brdSortid,
+    this.isUserBrand
   });
   @PrimaryKey(autoGenerate: false)
   late final int brdId;
@@ -18,6 +19,7 @@ class Brands {
   String? brdFeatured;
   String? brdIcon;
   String? brdIsActive;
+  bool? isUserBrand = false;
   @ignore
   late final Null brdSortid;
 
@@ -52,23 +54,23 @@ class Brands {
   }
 }
 
-@Entity(tableName: 'user_brands')
-class UserBrands {
-  @PrimaryKey(autoGenerate: false)
-  int? brdId;
-  String? brdName;
-
-  UserBrands({this.brdId, this.brdName});
-
-  UserBrands.fromJson(Map<String, dynamic> json) {
-    brdId = json['brd_id'];
-    brdName = json['brd_name'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = <String, dynamic>{};
-    data['brand_id'] = brdId;
-    data['brand_name'] = brdName;
-    return data;
-  }
-}
+// @Entity(tableName: 'user_brands')
+// class UserBrands {
+//   @PrimaryKey(autoGenerate: false)
+//   int? brdId;
+//   String? brdName;
+//
+//   UserBrands({this.brdId, this.brdName});
+//
+//   UserBrands.fromJson(Map<String, dynamic> json) {
+//     brdId = json['brd_id'];
+//     brdName = json['brd_name'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = <String, dynamic>{};
+//     data['brand_id'] = brdId;
+//     data['brand_name'] = brdName;
+//     return data;
+//   }
+// }

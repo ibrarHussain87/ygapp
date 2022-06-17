@@ -258,19 +258,22 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                   context,
                                   _detailPageProvider.yarnSpecification,
                                   null,
-                                  null,
-                                  (updateSpecification) {
-                                    _detailPageProvider.updateYarnSpecification(YarnSpecification.fromJson(updateSpecification));
-                                  })
+                                  null, (updateSpecification) {
+                                  _detailPageProvider.updateYarnSpecification(
+                                      YarnSpecification.fromJson(
+                                          updateSpecification));
+                                })
                               : _detailPageProvider.isFiber
                                   ? Utils.updateDialog(
                                       context,
                                       null,
                                       _detailPageProvider.fiberSpecification,
-                                      null,
-                                      (updateSpecification) {
-                                        _detailPageProvider.updateFiberSpecification(Specification.fromJson(updateSpecification));
-                                      })
+                                      null, (updateSpecification) {
+                                      _detailPageProvider
+                                          .updateFiberSpecification(
+                                              Specification.fromJson(
+                                                  updateSpecification));
+                                    })
                                   : _detailPageProvider.isStockLot
                                       ? Fluttertoast.showToast(
                                           msg: 'Delete coming soon')
@@ -281,9 +284,11 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           _detailPageProvider
                                               .fabricSpecification,
                                           (updateSpecification) {
-                                            _detailPageProvider.updateFabricSpecification(FabricSpecification.fromJson(updateSpecification));
-
-                                          });
+                                          _detailPageProvider
+                                              .updateFabricSpecification(
+                                                  FabricSpecification.fromJson(
+                                                      updateSpecification));
+                                        });
                         },
                         color: _detailPageProvider.isStockLot
                             ? Colors.red.shade400
@@ -324,10 +329,14 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                           _detailPageProvider
                                               .yarnSpecification!.ysId
                                               .toString(),
-                                          _detailPageProvider
-                                              .yarnSpecification!.category_id == null ? "2" : _detailPageProvider
-                                              .yarnSpecification!.category_id.toString()
-                                              )
+                                          _detailPageProvider.yarnSpecification!
+                                                      .category_id ==
+                                                  null
+                                              ? "2"
+                                              : _detailPageProvider
+                                                  .yarnSpecification!
+                                                  .category_id
+                                                  .toString())
                                       : _detailPageProvider.isStockLot
                                           ? openSpecificationUserScreen(
                                               context,
@@ -479,7 +488,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                     child:
                                                         FittedTextFieldContainer(
                                                       child: TextField(
-                                                        showCursor: false,
+                                                        showCursor: true,
                                                         keyboardType:
                                                             TextInputType
                                                                 .number,
@@ -503,7 +512,12 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                               ? _detailPageProvider
                                                                   .bidPrice
                                                                   .toString()
-                                                              : '0',
+                                                              : '0'
+                                                          ..selection = TextSelection.collapsed(
+                                                              offset: _detailPageProvider
+                                                                  .bidPrice
+                                                                  .toString()
+                                                                  .length),
                                                         onChanged: (value) {
                                                           if (value != '') {
                                                             _detailPageProvider
@@ -694,7 +708,7 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                                 FittedTextFieldContainer(
                                                               child: TextField(
                                                                 showCursor:
-                                                                    false,
+                                                                    true,
                                                                 keyboardType:
                                                                     TextInputType
                                                                         .number,
@@ -710,10 +724,16 @@ class _DetailTabPageState extends State<DetailTabPage> {
                                                                       .allow(RegExp(
                                                                           r'[0-9]')),
                                                                 ],
-                                                                controller: quantityController
-                                                                  ..text = _detailPageProvider
-                                                                      .bidQuantity
-                                                                      .toString(),
+                                                                controller:
+                                                                    quantityController
+                                                                      ..text = _detailPageProvider
+                                                                          .bidQuantity
+                                                                          .toString()
+                                                                      ..selection = TextSelection.collapsed(
+                                                                          offset: _detailPageProvider
+                                                                              .bidQuantity
+                                                                              .toString()
+                                                                              .length),
                                                                 onChanged:
                                                                     (value) {
                                                                   if (value !=
@@ -933,7 +953,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
 
   void placeBid(BuildContext context) {
     ProgressDialogUtil.showDialog(context, "Please wait....");
-    ApiService().createBid(
+    ApiService()
+        .createBid(
             _detailPageProvider.isYarn
                 ? 2.toString()
                 : _detailPageProvider.isFiber
@@ -1070,9 +1091,8 @@ class _DetailTabPageState extends State<DetailTabPage> {
     }
     _detailPageProvider.notifyUI();
     if (widget.sendProposal ?? false) {
-        showProposalBottomSheet(context);
+      showProposalBottomSheet(context);
     }
-
   }
 
   void setBidPrice() {

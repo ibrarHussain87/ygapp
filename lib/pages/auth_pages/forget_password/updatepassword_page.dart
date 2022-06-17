@@ -6,15 +6,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:logger/logger.dart';
+import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:provider/provider.dart';
+import 'package:yg_app/elements/elevated_button_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 
 import '../../../api_services/api_service_class.dart';
 import '../../../app_database/app_database_instance.dart';
+import '../../../elements/decoration_widgets.dart';
 import '../../../helper_utils/app_constants.dart';
+import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/connection_status_singleton.dart';
 import '../../../helper_utils/progress_dialog_util.dart';
 import '../../../helper_utils/shared_pref_util.dart';
+import '../../../helper_utils/ui_utils.dart';
+import '../../../helper_utils/util.dart';
 import '../../../model/request/signup_request/signup_request.dart';
 import '../../main_page.dart';
 
@@ -100,7 +108,7 @@ class UpdatePasswordPageState
                       style: TextStyle(
                           color: Colors.black87,
                           fontSize: 28.sp,
-                          // 
+                          fontFamily: 'Metropolis',
                           fontWeight: FontWeight.w700),
                     ),
                   ),
@@ -113,7 +121,7 @@ class UpdatePasswordPageState
                       style: TextStyle(
                         color: textColorGrey,
                         fontSize: 12.sp,
-                        /**/
+                        /*fontFamily: 'Metropolis',*/
                         fontWeight: FontWeight.w400,
                         height: 1.5.h,
                       ),
@@ -140,7 +148,7 @@ class UpdatePasswordPageState
                                   child:  Text("Reset Password",
                                       style: TextStyle(
                                         fontSize: 14.sp,
-                                        /**/
+                                        /*fontFamily: 'Metropolis',*/
                                       )),
 
                                   style: ButtonStyle(
@@ -371,57 +379,6 @@ class UpdatePasswordPageState
 
 
 
-  void _signUpCall() {
-    check().then((value) {
-      if (value) {
-        ProgressDialogUtil.showDialog(context, 'Please wait...');
-        /*remove operator and added static data for parameter*/
-        _signupRequestModel?.operator = '1';
-        _signupRequestModel?.countryId = '1';
-        _signupRequestModel?.email = 'anonymous@gmail.com';
-        _signupRequestModel?.name = 'Anonymous';
-        Logger().e(_signupRequestModel?.toJson());
-        ApiService().signup(_signupRequestModel!).then((value) {
-          Logger().e(value.toJson());
-          ProgressDialogUtil.hideDialog();
-          if (value.errors != null) {
-            value.errors!.forEach((key, error) {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(error.toString())));
-            });
-          } else if (value.success!) {
-            AppDbInstance().getDbInstance().then((db) async {
-              await db.userDao.insertUser(value.data!.user!);
-            });
-            SharedPreferenceUtil.addStringToSF(
-                USER_ID_KEY, value.data!.user!.id.toString());
-            SharedPreferenceUtil.addStringToSF(
-                USER_TOKEN_KEY, value.data!.token!);
-            SharedPreferenceUtil.addBoolToSF(IS_LOGIN, true);
-
-            Fluttertoast.showToast(
-                msg: value.message ?? "",
-                toastLength: Toast.LENGTH_SHORT,
-                gravity: ToastGravity.BOTTOM,
-                timeInSecForIosWeb: 1);
-            Navigator.of(context).pushAndRemoveUntil(
-                MaterialPageRoute(builder: (context) => const MainPage()),
-                    (Route<dynamic> route) => false);
-          } else {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
-          }
-        }).onError((error, stackTrace) {
-          ProgressDialogUtil.hideDialog();
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(error.toString())));
-        });
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("No internet available.".toString())));
-      }
-    });
-  }
 
 }
 

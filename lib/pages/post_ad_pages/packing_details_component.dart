@@ -1354,7 +1354,7 @@ class PackagingDetailsState extends State<PackagingDetails>
                                       },
                                       decoration: ygTextFieldDecoration(
                                           "Available Quantity",
-                                          "Available Qunatity",
+                                          "Available Quantity",
                                           true)),
                                 ],
                               ),

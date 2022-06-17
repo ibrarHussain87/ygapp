@@ -459,10 +459,11 @@ class YarnBidsItem extends StatelessWidget {
                                 ),
                                 const Center(
                                   child: TitleSmallNormalTextWidget(
-                                    title: "Ex- Factory",
-                                    size: 7,
+                                    title:
+                                    "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                                    size: 8,
                                   ),
-                                )
+                                ),
                               ],
                             ),
                             SizedBox(

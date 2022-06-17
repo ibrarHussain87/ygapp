@@ -7,6 +7,7 @@ import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.d
 import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -277,9 +278,7 @@ class FiberPageState extends State<FiberPage> {
                                           .specification,
                                     )
                                   : const Center(
-                                      child: TitleSmallTextWidget(
-                                        title: 'No Data Found',
-                                      ),
+                                      child: NoDataFoundWidget(),
                                     ),
                             ): Center(
                               child: TitleSmallTextWidget(

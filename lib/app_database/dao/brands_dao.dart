@@ -9,6 +9,15 @@ abstract class BrandsDao{
   @Query('SELECT * FROM brands where brdId = :id')
   Future<Brands?> findBrandWithId(int id);
 
+  @Query('SELECT * FROM brands where isUserBrand = :value')
+  Future<List<Brands>> findUserBrands(bool value);
+
+  @Query('UPDATE brands SET isUserBrand = :value where brdId = :id')
+  Future<void> updateBrands(int id,bool value);
+
+  @Query('UPDATE brands SET isUserBrand = :value')
+  Future<void> updateAllBrands(bool value);
+
   @Insert(onConflict: OnConflictStrategy.replace)
   Future<void> insertBrands(Brands brands);
 

@@ -23,32 +23,7 @@ class _BidsListPageState extends State<BidsListPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: /*AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          leading: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: (){
-              Navigator.pop(context);
-            },
-            child: Padding(
-                padding: EdgeInsets.all(12.w),
-                child: Card(
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 4.w),
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: Colors.black,
-                        size: 12.w,
-                      )),
-                )),
-          ),
-          title: Text('My Bids',
-              style: TextStyle(
-                  fontSize: 16.0.w,
-                  color: appBarTextColor,
-                  fontWeight: FontWeight.w400)),
-        )*/appBar(context,"My Bids"),
+        appBar: appBar(context,"My Bids"),
         backgroundColor: Colors.white,
         body: FutureBuilder<ListBidResponse>(
           future: ApiService().getListBids(),

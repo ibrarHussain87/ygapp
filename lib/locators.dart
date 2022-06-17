@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
+import 'package:yg_app/providers/fabric_providers/fabric_specifications_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -63,6 +64,12 @@ void setupLocators() {
   if(!locator.isRegistered<PostYarnProvider>()) {
     locator.registerLazySingleton<PostYarnProvider>(
           () => PostYarnProvider(),
+    );
+  }
+
+  if(!locator.isRegistered<FabricSpecificationsProvider>()) {
+    locator.registerLazySingleton<FabricSpecificationsProvider>(
+          () => FabricSpecificationsProvider(),
     );
   }
 
