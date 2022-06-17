@@ -355,8 +355,8 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                   await db.brandsDao.updateBrands(element.brdId, true);
                 }
               }
-              await db.businessInfoDao
-                  .insertBusinessInfo(value.data!.businessInfo!);
+              // await db.businessInfoDao
+              //     .insertBusinessInfo(value.data!.businessInfo!);
               _brandsProvider.getUserBrandsData();
             });
             setState(() {
@@ -400,8 +400,8 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                   await db.brandsDao.updateBrands(element.brdId, true);
                 }
               }
-              await db.businessInfoDao
-                  .insertBusinessInfo(value.data!.businessInfo!);
+              // await db.businessInfoDao
+              //     .insertBusinessInfo(value.data!.businessInfo!);
               _brandsProvider.getUserBrandsData();
             });
             setState(() {

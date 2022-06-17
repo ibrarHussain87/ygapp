@@ -184,8 +184,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                                         FocusScope.of(context)
                                                             .requestFocus(
                                                                 usernameFocus),
-                                                    inputFormatters: <
-                                                        TextInputFormatter>[
+                                                    inputFormatters: <TextInputFormatter>[
                                                       FilteringTextInputFormatter
                                                           .allow(RegExp(
                                                               r'([+0-9])')),

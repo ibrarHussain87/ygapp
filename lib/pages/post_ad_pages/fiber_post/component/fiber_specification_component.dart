@@ -610,7 +610,7 @@ class FiberSpecificationComponentState
                                                 validator: (input) {
                                                   if (input == null ||
                                                       input.isEmpty) {
-                                                    return "Please enter production year";
+                                                    return "Production year";
                                                   }
                                                   return null;
                                                 },

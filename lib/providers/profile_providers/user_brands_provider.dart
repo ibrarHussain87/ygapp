@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 

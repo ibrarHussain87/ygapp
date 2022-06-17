@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/elements/custom_header.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_colors.dart';
 import '../../../helper_utils/navigation_utils.dart';
@@ -75,7 +76,7 @@ class _MyServicesPageState extends State<MyServicesPage> {
             Expanded(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width,
-                child: (!_ygServiceProvider.loading) ? ListView.builder(
+                child: (!_ygServiceProvider.loading) && _ygServiceProvider.myServices!.isNotEmpty ? ListView.builder(
                   physics: const BouncingScrollPhysics(),
                   itemCount: _ygServiceProvider.myServices?.length,
                   shrinkWrap: true,
@@ -162,7 +163,7 @@ class _MyServicesPageState extends State<MyServicesPage> {
                                               color: Colors.black)
                                           ),
                                           const SizedBox(width:3,),
-                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceDetails.toString() ,
+                                          Expanded(child: Text(_ygServiceProvider.myServices![index].ygserviceDetails ?? "N/A" ,
                                                           style:TextStyle(
                                                               fontSize:12.sp,
                                                               // fontFamily: 'Metropolis',
@@ -241,9 +242,7 @@ class _MyServicesPageState extends State<MyServicesPage> {
                       ),
                     );
                   },
-                ) :  Center(
-                  child: CircularProgressIndicator(color: lightBlueTabs,),
-                ),
+                ) : const NoDataFoundWidget(),
               ),
             ),
           ],
