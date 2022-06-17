@@ -5,6 +5,7 @@ import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_items/stocklot_list_items.dart';
 import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
@@ -191,11 +192,12 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                           //   );
                           // },
                         )
-                      : const Center(
-                          child: TitleSmallTextWidget(
-                            title: 'No Data Found',
-                          ),
-                        ),
+                      : const NoDataFoundWidget()
+                      // Center(
+                      //     child: TitleSmallTextWidget(
+                      //       title: 'No Data Found',
+                      //     ),
+                      //   ),
                 ))
               ],
             ),

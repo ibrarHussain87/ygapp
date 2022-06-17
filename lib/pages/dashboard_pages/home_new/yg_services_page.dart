@@ -3,6 +3,7 @@
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
@@ -318,7 +319,7 @@ class YgServicePageState extends State<YgServicePage>
                   onSaved: (input) =>
                   _ygServiceRequestModel.telephoneNumber = input!,
                   validator: (input) {
-                    if (input == null || input.isEmpty) {
+                    if (input == null || input.isEmpty || !input.isValidNumber()) {
                       return "Please enter contact number";
                     }
                     return null;
@@ -425,6 +426,13 @@ class YgServicePageState extends State<YgServicePage>
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.secName = input!,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter
+                        .allow(RegExp(
+                        r'([a-zA-Z0-9])')),
+                    LengthLimitingTextInputFormatter(
+                        13),
+                  ],
                   // validator: (input) {
                   //   if (input == null || input.isEmpty) {
                   //     return "Please enter secondary contact name";
@@ -448,10 +456,17 @@ class YgServicePageState extends State<YgServicePage>
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter
+                        .allow(RegExp(
+                        r'([+0-9])')),
+                    LengthLimitingTextInputFormatter(
+                        13),
+                  ],
                   onSaved: (input) => _ygServiceRequestModel.secNumber = input!,
                   // validator: (input) {
-                  //   if (input == null || input.isEmpty) {
-                  //     return "Please enter secondary number";
+                  //   if (!input!.isValidNumber()) {
+                  //     return "Please enter valid secondary number";
                   //   }
                   //   return null;
                   // },
@@ -799,7 +814,12 @@ class YgServicePageState extends State<YgServicePage>
   }
 
 }
-
+extension PhoneValidator on String {
+  bool isValidNumber() {
+    String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
+    return RegExp(pattern).hasMatch(this);
+  }
+}
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(

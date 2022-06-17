@@ -61,6 +61,7 @@ class ApiService {
   String baseUrlApi = "http://stagingv2.yarnguru.net/api";
   String loginEndPoint = "/login";
   String signUpEndPoint = "/register";
+  String uploadProfilePicEndPoint = "/upload-user-profile-pic";
   String profileUpdateEndPoint = "/update-personal-info";
   String businessUpdateEndPoint = "/update-business-info";
   String brandsUpdateEndPoint = "/update-brands";
@@ -284,6 +285,65 @@ class ApiService {
       throw (err.toString());
     }
   }
+
+  // Future<UpdateProfileResponse?> uploadProfilePicture(String imagePath) async {
+  //   // //for multipart Request
+  //   try {
+  //     var userToken =
+  //     await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+  //     var userId = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
+  //     try {
+  //       ///[1] CREATING INSTANCE
+  //       var dioRequest = dio.Dio();
+  //       dioRequest.options.baseUrl = baseUrlApi;
+  //       var userDeviceToken =
+  //       await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+  //       //[2] ADDING TOKEN
+  //       dioRequest.options.headers = {
+  //         "Accept": "application/json",
+  //         "Authorization": "Bearer $userToken",
+  //         'device_token': '$userDeviceToken'
+  //       };
+  //       // Logger().e(stocklotRequestModel.toJson().toString());
+  //       //[3] ADDING EXTRA INFO
+  //       // var formData = dio.FormData.fromMap(stocklotRequestModel.toJson());
+  //
+  //
+  //       //[4] ADD IMAGE TO UPLOAD
+  //       if (imagePath != "") {
+  //         //[4] ADD IMAGE TO UPLOAD
+  //         var file = await dio.MultipartFile.fromFile(
+  //           imagePath,
+  //           filename: imagePath.split("/").last,
+  //         );
+  //         // formData.files.add(MapEntry('profile_pic', file));
+  //         // formData.files.add(MapEntry('profile_pic[]', file));
+  //       }
+  //
+  //       //[5] SEND TO SERVER
+  //       var response = await dioRequest.post(
+  //         uploadProfilePicEndPoint,
+  //         data: formData,
+  //       );
+  //       final result = json.decode(response.toString());
+  //       return UpdateProfileResponse.fromJson(result);
+  //     } catch (err) {
+  //       throw (err.toString());
+  //     }
+  //   } on Exception catch (e) {
+  //     if (e is SocketException) {
+  //       throw (noInternetAvailableMsg);
+  //     } else if (e is TimeoutException) {
+  //       throw (e.toString());
+  //     } else if (e is dio.DioError) {
+  //       throw (e.message.toString());
+  //     } else {
+  //       throw (e.toString());
+  //     }
+  //   } catch (err) {
+  //     throw (err.toString());
+  //   }
+  // }
 
   Future<UpdateProfileResponse> updateProfile(
       UpdateProfileRequestModel requestModel) async {
