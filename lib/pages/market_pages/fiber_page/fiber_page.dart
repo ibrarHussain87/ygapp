@@ -264,16 +264,16 @@ class FiberPageState extends State<FiberPage> {
                         future: _fiberSpecificationProvider
                             .getFibers(widget.locality),
                         builder: (BuildContext context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
+                          if (snapshot.connectionState == ConnectionState.done &&
                               snapshot.data != null) {
-                            return Container(
+                            return snapshot.data!.data != null
+                            ? Container(
                               child: snapshot
-                                      .data!.data.specification.isNotEmpty
+                                      .data!.data!.specification.isNotEmpty
                                   ? FiberListingBody(
                                       specification: _fiberSpecificationProvider
                                           .fiberSpecificationResponse!
-                                          .data
+                                          .data!
                                           .specification,
                                     )
                                   : const Center(
@@ -281,8 +281,12 @@ class FiberPageState extends State<FiberPage> {
                                         title: 'No Data Found',
                                       ),
                                     ),
+                            ): Center(
+                              child: TitleSmallTextWidget(
+                                title: snapshot.data!.message,
+                              ),
                             );
-                          } else if (snapshot.hasError) {
+                          }else if (snapshot.hasError) {
                             return Center(
                                 child: TitleSmallTextWidget(
                                     title: snapshot.error.toString()));

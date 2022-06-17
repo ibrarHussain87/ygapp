@@ -20,9 +20,9 @@ class ListBidResponse {
       : status = json['status'] as bool?,
         responseCode = json['response_code'] as int?,
 
-        data = (json['data'] as List?)!.isNotEmpty ? (json['data'] as List?)
+        data = json['data'] != null ? (json['data'] as List?)!.isNotEmpty ? (json['data'] as List?)
             ?.map((dynamic e) => BidData.fromJson(e as Map<String, dynamic>))
-            .toList() : List.empty(),
+            .toList() : List.empty() : null,
         message = json['message'] as String?;
 
   Map<String, dynamic> toJson() => {
