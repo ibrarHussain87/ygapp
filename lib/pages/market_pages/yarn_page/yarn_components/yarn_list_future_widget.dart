@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/request/filter_request/filter_request.dart';
@@ -21,7 +21,7 @@ class YarnSpecificationListFuture extends StatefulWidget {
 }
 
 class YarnSpecificationListFutureState
-    extends State<YarnSpecificationListFuture>{
+    extends State<YarnSpecificationListFuture> {
   GetSpecificationRequestModel getRequestModel = GetSpecificationRequestModel();
   GlobalKey<YarnListBodyState> yarnListBodyState =
       GlobalKey<YarnListBodyState>();
@@ -29,38 +29,44 @@ class YarnSpecificationListFutureState
 
   @override
   void initState() {
-
-    yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context, listen: false);
+    yarnSpecificationsProvider =
+        Provider.of<YarnSpecificationsProvider>(context, listen: false);
     getRequestModel.locality = widget.locality;
     getRequestModel.categoryId = 2.toString();
     getRequestModel.isOffering = "1";
-    yarnSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
+    yarnSpecificationsProvider.setRequestParams(
+        getRequestModel, widget.locality);
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    final yarnSpecificationsProvider = Provider.of<YarnSpecificationsProvider>(context);
+    final yarnSpecificationsProvider =
+        Provider.of<YarnSpecificationsProvider>(context);
     return FutureBuilder<GetYarnSpecificationResponse>(
-      future:yarnSpecificationsProvider.getYarns(),
+      future: yarnSpecificationsProvider.getYarns(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done &&
             snapshot.data != null) {
-          return snapshot.data!.data!=null
+          return snapshot.data!.data != null
               ? YarnListBody(
                   key: yarnListBodyState,
-                  specification: yarnSpecificationsProvider.yarnSpecificationResponse!.data!.specification!)
-              : const Center(
-                  child: TitleSmallTextWidget(title: "No Data Found"));
+                  specification: yarnSpecificationsProvider
+                      .yarnSpecificationResponse!.data!.specification!)
+              : snapshot.data!.data == null && snapshot.data!.message != null
+                  ? Center(
+                      child: TitleSmallTextWidget(
+                          title: snapshot.data!.message.toString()))
+                  : const NoDataFoundWidget();
         } else if (snapshot.hasError) {
           return Center(
               child: TitleSmallTextWidget(title: snapshot.error.toString()));
         } else {
           return const Center(
             child: SpinKitWave(
-                    color: Colors.green,
-                    size: 24.0,
-                  ),
+              color: Colors.green,
+              size: 24.0,
+            ),
           );
         }
       },
@@ -71,7 +77,8 @@ class YarnSpecificationListFutureState
     setState(() {
       data.categoryId = yarnCategoryId.toString();
       getRequestModel = data;
-      yarnSpecificationsProvider.setRequestParams(getRequestModel, widget.locality);
+      yarnSpecificationsProvider.setRequestParams(
+          getRequestModel, widget.locality);
     });
   }
 }

@@ -15,14 +15,18 @@ class FabricSpecificationResponse {
     status = json['status'];
     message = json['message'];
    // data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    var dataList = json['data'];
-    if (dataList is List<dynamic>) {
-      if (dataList.isEmpty) {
-        data = Data(specification: []);
+
+
+    if (json['data'] != null) {
+      if(json['data'] is List<dynamic>){
+        data = null;
+      }else {
+        data = Data.fromJson(json['data']);
       }
     } else {
-      data = Data.fromJson(json['data']);
+      data = null;
     }
+
     responseCode = json['response_code'];
     code = json['code'];
   }
