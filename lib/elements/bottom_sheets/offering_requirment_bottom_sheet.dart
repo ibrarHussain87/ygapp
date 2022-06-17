@@ -18,7 +18,7 @@ showBottomSheetOR(BuildContext context,Function callback) {
       isDismissible: false,
       builder: (context) {
         return Container(
-            height: 0.26 * MediaQuery.of(context).size.height,
+            height: 0.27 * MediaQuery.of(context).size.height,
             decoration: getRoundedTopCorners(),
             child: Column(
               mainAxisSize: MainAxisSize.max,

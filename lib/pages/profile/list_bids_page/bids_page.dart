@@ -55,15 +55,18 @@ class _BidsListPageState extends State<BidsListPage> {
           builder: (BuildContext context, snapshot) {
             if (snapshot.connectionState == ConnectionState.done &&
                 snapshot.data != null && snapshot.data!.data!= null && snapshot.data!.data!.isNotEmpty) {
-              return ListView.builder(
-                  itemCount: snapshot.data!.data!.length,
-                  itemBuilder: (context, index) {
-                   var bidItem = snapshot.data!.data![index];
-                    return bidItem.specification != null ? BidsListItem(bidData: bidItem) : /*const Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Text('Bid Specification does not exist'),
-                    )*/Container();
-                  });
+              return Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: ListView.builder(
+                    itemCount: snapshot.data!.data!.length,
+                    itemBuilder: (context, index) {
+                     var bidItem = snapshot.data!.data![index];
+                      return bidItem.specification != null ? BidsListItem(bidData: bidItem) : /*const Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: Text('Bid Specification does not exist'),
+                      )*/Container();
+                    }),
+              );
             } else if(snapshot.data != null && snapshot.data!.data!.isEmpty){
               return const Center(
                   child: TitleSmallTextWidget(title: 'No data found!!'));

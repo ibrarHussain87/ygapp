@@ -59,7 +59,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.09 * MediaQuery.of(context).size.height,
+              height: 0.095 * MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemCount: trendsList.length,
                 scrollDirection: Axis.horizontal,

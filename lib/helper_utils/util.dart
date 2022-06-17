@@ -458,13 +458,16 @@ class Utils {
     var color = Colors.grey.shade50;
     switch (status) {
       case '0':
-        color = Colors.grey.shade200;
+       // color = Colors.grey.shade200;
+        color = pending_background_color;
         break;
       case '1':
-        color = lightBlueBidderColor;
+       // color = lightBlueBidderColor;
+        color = accepted_background_color;
         break;
       case '2':
-        color = lightOrangeBidderColor;
+       // color = lightOrangeBidderColor;
+        color = rejected_background_color;
         break;
     }
     return color;
@@ -476,7 +479,7 @@ class Utils {
       child: Container(
         decoration: BoxDecoration(
             color: Utils.getBackgroundColorCustom(bidData.status!),
-            borderRadius: const BorderRadius.all(Radius.circular(0))),
+            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))),
         child: Column(
           children: [
             Padding(
@@ -575,10 +578,10 @@ class Utils {
                                 horizontal: 10.w, vertical: 5.w),
                             decoration: BoxDecoration(
                                 color: bidData.status == "0"
-                                    ? Colors.brown.shade100.withOpacity(0.4)
+                                    ? pending_button_color
                                     : bidData.status == "1"
-                                        ? Colors.green.shade100
-                                        : Colors.red.shade100,
+                                        ? accepted_button_color
+                                        : rejected_button_color,
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(2))),
                             child: Text(
@@ -586,10 +589,10 @@ class Utils {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 color: bidData.status == "0"
-                                    ? Colors.brown
+                                    ? pending_button_text_color
                                     : bidData.status == "1"
-                                        ? Colors.green
-                                        : Colors.red,
+                                        ? accepted_button_text_color
+                                        : rejected_button_text_color,
                                 fontSize: 8.sp,
                                 /**/
                                 fontWeight: FontWeight.bold,
