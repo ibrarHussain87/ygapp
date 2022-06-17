@@ -25,33 +25,12 @@ class AppDbInstance {
     return databaseInstance!;
   }
 
-  Future<List<FiberBlends>> getFiberMaterialData() {
-    return getDbInstance()
-        .then((value) => value.fiberBlendsDao.findAllFiberBlends());
-  }
 
   Future<List<FabricBlends>> getFabricBlendsData() {
     return getDbInstance()
         .then((value) => value.fabricBlendsDao.findAllFabricBlends());
   }
 
-  Future<List<FiberFamily>> getFiberNatureData() {
-    return getDbInstance()
-        .then((value) => value.fiberFamilyDao.findAllFiberNatures());
-  }
-
-  Future<List<Grades>> getFiberGradesData() {
-    return getDbInstance().then((value) => value.gradesDao.findAllGrades());
-  }
-
-  Future<List<FiberAppearance>> getFiberAppearanceData() {
-    return getDbInstance()
-        .then((value) => value.fiberAppearanceDoa.findAllFiberAppearance());
-  }
-
-  Future<List<Brands>> getFiberBrandsData() {
-    return getDbInstance().then((value) => value.brandsDao.findAllBrands());
-  }
 
   Future<List<Countries>> getOriginsData() {
     return getDbInstance()

@@ -143,8 +143,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
    // _selectedNature = /*"1"*/_fabricFamilyList.first.fabricFamilyId.toString();
-    AppDbInstance().getFiberBrandsData()
-        .then((value) => setState(() => _brands = value));
+    _brands = await dbInstance.brandsDao.findAllBrands();
     AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     AppDbInstance().getCityState()

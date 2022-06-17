@@ -203,9 +203,7 @@ class FabricSpecificationComponentState
     _denimTypesList =
     await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
     Logger().e("message");
-    AppDbInstance()
-        .getFiberBrandsData()
-        .then((value) => setState(() => _brands = value));
+    _brands = await dbInstance.brandsDao.findAllBrands();
     AppDbInstance()
         .getOriginsData()
         .then((value) => setState(() => _countries = value));
