@@ -7,6 +7,7 @@ import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.d
 import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -264,25 +265,27 @@ class FiberPageState extends State<FiberPage> {
                         future: _fiberSpecificationProvider
                             .getFibers(widget.locality),
                         builder: (BuildContext context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
+                          if (snapshot.connectionState == ConnectionState.done &&
                               snapshot.data != null) {
-                            return Container(
+                            return snapshot.data!.data != null
+                            ? Container(
                               child: snapshot
-                                      .data!.data.specification.isNotEmpty
+                                      .data!.data!.specification.isNotEmpty
                                   ? FiberListingBody(
                                       specification: _fiberSpecificationProvider
                                           .fiberSpecificationResponse!
-                                          .data
+                                          .data!
                                           .specification,
                                     )
                                   : const Center(
-                                      child: TitleSmallTextWidget(
-                                        title: 'No Data Found',
-                                      ),
+                                      child: NoDataFoundWidget(),
                                     ),
+                            ): Center(
+                              child: TitleSmallTextWidget(
+                                title: snapshot.data!.message,
+                              ),
                             );
-                          } else if (snapshot.hasError) {
+                          }else if (snapshot.hasError) {
                             return Center(
                                 child: TitleSmallTextWidget(
                                     title: snapshot.error.toString()));

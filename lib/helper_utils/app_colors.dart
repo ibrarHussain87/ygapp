@@ -36,6 +36,15 @@ var icon_color_share = HexColor.fromHex('#56656c');
 var divider_color_share = HexColor.fromHex('#eeeeee');
 var font_light_grey = HexColor.fromHex('#80838b');
 var font_dark_grey = HexColor.fromHex('#414246');
+var pending_background_color = HexColor.fromHex('#FFF3E6');
+var pending_button_color = HexColor.fromHex('#FFE2C1');
+var pending_button_text_color = HexColor.fromHex('#C07216');
+var accepted_background_color = HexColor.fromHex('#F1FFFF');
+var accepted_button_color = HexColor.fromHex('#B7F5DE');
+var accepted_button_text_color = HexColor.fromHex('#00A267');
+var rejected_background_color = HexColor.fromHex('#FFF0F1');
+var rejected_button_color = HexColor.fromHex('#F9C7C6');
+var rejected_button_text_color = HexColor.fromHex('#A30E05');
 
 
 //

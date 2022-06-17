@@ -10,20 +10,24 @@ class FiberSpecificationResponse {
 
   late final bool status;
   late final int responseCode;
-  late final FiberSpecificationData data;
+  late final FiberSpecificationData? data;
   late final String message;
 
   FiberSpecificationResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     responseCode = json['response_code'];
     var dataList = json['data'];
-    if (dataList is List<dynamic>) {
-      if (dataList.isEmpty) {
-        data = FiberSpecificationData(specification: []);
+      if(dataList != null){
+        if (dataList is List<dynamic>) {
+          if (dataList.isEmpty) {
+            data = FiberSpecificationData(specification: []);
+          }
+        } else {
+          data = FiberSpecificationData.fromJson(json['data']);
+        }
+      }else{
+        data = dataList;
       }
-    } else {
-      data = FiberSpecificationData.fromJson(json['data']);
-    }
     message = json['message'];
   }
 
@@ -31,7 +35,7 @@ class FiberSpecificationResponse {
     final _data = <String, dynamic>{};
     _data['status'] = status;
     _data['response_code'] = responseCode;
-    _data['data'] = data.toJson();
+    _data['data'] = data!.toJson();
     _data['message'] = message;
     return _data;
   }

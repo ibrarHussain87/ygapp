@@ -99,7 +99,7 @@ class StockLotListingFutureState extends State<StockLotListingFuture> {
 //                      );
 //                    },
                   )
-                : snapshot.data!.message != null
+                : snapshot.data!.data == null && snapshot.data!.message != null
                     ? Center(
                         child: TitleSmallTextWidget(
                             title: snapshot.data!.message.toString()))

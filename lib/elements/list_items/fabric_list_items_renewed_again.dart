@@ -14,10 +14,11 @@ import 'package:yg_app/model/response/fabric_response/fabric_specification_respo
 
 import '../../helper_utils/app_constants.dart';
 import '../../helper_utils/navigation_utils.dart';
+import '../../model/response/list_bid_response.dart';
 
 Widget buildFabricRenewedAgainWidget(
     FabricSpecification specification, BuildContext context,
-    {bool? showCounts}) {
+    {bool? showCounts,bool? showDetailsButton=false,BidData? bidData}) {
   var size = MediaQuery.of(context).size;
   double paddingStart = 14;
   double paddingStartFeatured = 20;
@@ -33,499 +34,534 @@ Widget buildFabricRenewedAgainWidget(
         shape: RoundedRectangleBorder(
           side: BorderSide(
               color: newColorGrey, width: 1, style: BorderStyle.solid),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: showDetailsButton == false ? BorderRadius.circular(10) :
+          const BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10)),
         ),
         child: Stack(
           children: [
             SizedBox(
               width: size.width,
-              child: Padding(
-                padding: EdgeInsets.only(
-                    left: specification.isFeatured == '0'
-                        ? paddingStart
-                        : paddingStartFeatured,
-                    right: paddingEnd,
-                    top: paddingTop,
-                    bottom: paddingBottom),
-                child: Row(
-                  children: [
-                    SizedBox(
-                      width: size.width * 0.63,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: specification.isFeatured == '0'
+                            ? paddingStart
+                            : paddingStartFeatured,
+                        right: paddingEnd,
+                        top: paddingTop,
+                        bottom: paddingBottom),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: size.width * 0.63,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(
-                                child: Text(
-                                  specification.company != null
-                                      ? specification
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  SizedBox(
+                                    child: Text(
+                                      specification.company != null
+                                          ? specification
                                           .company! /*'koh-e-Noor Textile Mills LTD.'*/
                                           .capitalize()
-                                      : Utils.checkNullString(false),
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                  style: const TextStyle(
-                                    color: Colors.black,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w600,
-                                    /**/
-                                  ),
-                                ),
-                                width: size.width * 0.40,
-                              ),
-                              SizedBox(
-                                width: 4.w,
-                              ),
-                              Visibility(
-                                visible: false,
-                                child: Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    const Text(
-                                      "4.5",
-                                      style: TextStyle(
+                                          : Utils.checkNullString(false),
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                      style: const TextStyle(
                                         color: Colors.black,
                                         fontSize: 10,
                                         fontWeight: FontWeight.w600,
                                         /**/
                                       ),
                                     ),
-                                    SizedBox(
-                                      width: 2.w,
+                                    width: size.width * 0.40,
+                                  ),
+                                  SizedBox(
+                                    width: 4.w,
+                                  ),
+                                  Visibility(
+                                    visible: false,
+                                    child: Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        const Text(
+                                          "4.5",
+                                          style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 10,
+                                            fontWeight: FontWeight.w600,
+                                            /**/
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 2.w,
+                                        ),
+                                        Image.asset(
+                                          ratingIcon,
+                                          width: 8.w,
+                                          height: 8.w,
+                                        )
+                                      ],
                                     ),
-                                    Image.asset(
-                                      ratingIcon,
-                                      width: 8.w,
-                                      height: 8.w,
-                                    )
-                                  ],
-                                ),
+                                  ),
+                                  SizedBox(
+                                    width: 8.w,
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.only(bottom: 2.w),
+                                    child: Visibility(
+                                        visible: Ui.showHide(
+                                            specification.isVerified) /*true*/,
+                                        maintainSize: true,
+                                        maintainState: true,
+                                        maintainAnimation: true,
+                                        child: Image.asset(
+                                          'images/ic_verified_supplier.png',
+                                          width: 8.w,
+                                          height: 8.w,
+                                          fit: BoxFit.fill,
+                                        )),
+                                  )
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                      color: blueContainerLight,
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 5, vertical: 1),
+                                        child: Center(
+                                          child: TitleMediumBoldSmallTextWidget(
+                                            title: Utils.setFabricFamilyData(
+                                                specification),
+                                            color: Colors.white,
+                                            textSize: 12,
+                                          ),
+                                        ),
+                                      )),
+                                  const SizedBox(
+                                    width: 2,
+                                  ),
+                                  Expanded(
+                                    child: TitleMediumTextWidget(
+                                      title: Utils.setFabricTitle(specification),
+                                      color: Colors.black87,
+                                      weight: FontWeight.w600,
+                                      size: 13,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              TitleSmallBoldTextWidget(
+                                title: Utils.setFabricDetails(specification),
+                                color: Colors.black87,
+                                size: 12,
+                                weight: FontWeight.w500,
+                              ),
+                              const SizedBox(
+                                height: 8,
                               ),
                               SizedBox(
-                                width: 8.w,
+                                width: size.width * 0.55,
+                                child: Utils.setFabricBlueTags(specification),
                               ),
+                              SizedBox(height: 8.w),
+                              Visibility(
+                                visible: specification.isOffering == offeringType,
+                                child: Utils.setPropertiesWithIcons(specification),
+                              ),
+                              SizedBox(
+                                height: 8.h,
+                              ),
+                              Visibility(
+                                visible: showCounts ?? false,
+                                child: Padding(
+                                  padding: EdgeInsets.only(
+                                      left: 0.w,
+                                      right: 18.w,
+                                      top: 0.w,
+                                      bottom: 10.w),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                    color: greenButton,
+                                                    width:
+                                                    1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(4.w))),
+                                              child: Stack(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 6.w),
+                                                    child: Center(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                        children: [
+                                                          Text(
+                                                            'Proposals',
+                                                            style: TextStyle(
+                                                                fontSize: 9.sp,
+                                                                color:
+                                                                Colors.black87,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                          ),
+                                                          Text(
+                                                            specification
+                                                                .proposalCount
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 9.sp,
+                                                                color: greenButton,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                          ),
+                                                          // SizedBox(
+                                                          //   width: 3.w,
+                                                          // )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // Align(
+                                                  //     alignment: AlignmentDirectional.topEnd,
+                                                  //     child: Padding(
+                                                  //       padding: const EdgeInsets.all(2),
+                                                  //       child: Container(
+                                                  //         width: 10,
+                                                  //         height: 10,
+                                                  //         decoration: BoxDecoration(
+                                                  //             color: redColor,
+                                                  //             borderRadius: BorderRadius.all(
+                                                  //                 Radius.circular(10.w))),
+                                                  //         child: Center(
+                                                  //           child: Text(
+                                                  //             specification.proposalCount.toString(),
+                                                  //             textAlign: TextAlign.center,
+                                                  //             style: TextStyle(
+                                                  //                 fontSize: 8.sp,
+                                                  //                 color: Colors.white,
+                                                  //                 fontWeight: FontWeight.w400),
+                                                  //           ),
+                                                  //         ),
+                                                  //       ),
+                                                  //     ))
+                                                ],
+                                              ))),
+                                      SizedBox(
+                                        width: 10.w,
+                                      ),
+                                      Expanded(
+                                          child: Container(
+                                              decoration: BoxDecoration(
+                                                /*color: lightYellowContainer,*/
+                                                  border: Border.all(
+                                                    color: greenButton,
+                                                    width:
+                                                    1, //                   <--- border width here
+                                                  ),
+                                                  borderRadius: BorderRadius.all(
+                                                      Radius.circular(4.w))),
+                                              child: Stack(
+                                                children: [
+                                                  Padding(
+                                                    padding: EdgeInsets.symmetric(
+                                                        vertical: 6.w),
+                                                    child: Center(
+                                                      child: Row(
+                                                        mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                        children: [
+                                                          Text(
+                                                            'Matches',
+                                                            style: TextStyle(
+                                                                fontSize: 9.sp,
+                                                                color:
+                                                                Colors.black87,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w400),
+                                                          ),
+                                                          Text(
+                                                            specification
+                                                                .matchedCount
+                                                                .toString(),
+                                                            style: TextStyle(
+                                                                fontSize: 9.sp,
+                                                                color: greenButton,
+                                                                fontWeight:
+                                                                FontWeight
+                                                                    .w700),
+                                                          ),
+                                                          // SizedBox(
+                                                          //   width: 3.w,
+                                                          // )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  // Align(
+                                                  //     alignment: AlignmentDirectional.topEnd,
+                                                  //     child: Padding(
+                                                  //       padding: const EdgeInsets.all(2),
+                                                  //       child: Container(
+                                                  //         width: 10,
+                                                  //         height: 10,
+                                                  //         decoration: BoxDecoration(
+                                                  //             color: redColor,
+                                                  //             borderRadius: BorderRadius.all(
+                                                  //                 Radius.circular(10.w))),
+                                                  //         child: Center(
+                                                  //           child: Text(
+                                                  //             '3',
+                                                  //             textAlign: TextAlign.center,
+                                                  //             style: TextStyle(
+                                                  //                 fontSize: 8.sp,
+                                                  //                 color: Colors.white,
+                                                  //                 fontWeight: FontWeight.w400),
+                                                  //           ),
+                                                  //         ),
+                                                  //       ),
+                                                  //     ))
+                                                ],
+                                              ))),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Visibility(
+                                visible: specification.isOffering == offeringType,
+                                child: RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(children: [
+                                      TextSpan(
+                                        text:
+                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 11.sp,
+                                            /**/
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      TextSpan(
+                                        text: specification.priceUnit
+                                            .toString()
+                                            .replaceAll(
+                                            RegExp(r'[^0-9]'), '') /*'1000'*/,
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 17.sp,
+                                            /**/
+                                            fontWeight: FontWeight.w600),
+                                      ),
+                                      TextSpan(
+                                          text:
+                                          "/${specification.unitCount ?? Utils.checkNullString(false)}",
+                                          style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 11.sp,
+                                              /**/
+                                              fontWeight: FontWeight.w600)),
+                                    ])),
+                              ),
+                              SizedBox(
+                                height: 1.h,
+                              ),
+                              const Center(
+                                child: TitleSmallNormalTextWidget(
+                                  title:
+                                  "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
+                                  size: 8,
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 8,
+                              ),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Text.rich(TextSpan(children: [
+                                    TextSpan(
+                                      text: "Last Updated",
+                                      style: TextStyle(
+                                          fontSize: 8.sp,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  ])),
+                                  SizedBox(
+                                    height: 2.w,
+                                  ),
+                                  Text.rich(TextSpan(children: [
+                                    TextSpan(
+                                      text: /*"Nov 23, 4:33 PM"*/ DateFormat(
+                                          "MMM dd, yyyy")
+                                          .format(DateTime.parse(
+                                          specification.date ?? "")),
+                                      style: TextStyle(
+                                          fontSize: 10.sp, color: lightBlueLabel),
+                                    )
+                                  ])),
+                                ],
+                              ),
+                              const SizedBox(
+                                height: 7,
+                              ),
+                              Visibility(
+                                visible: false,
+                                child: SizedBox(
+                                  height: 20.h,
+                                  child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      shrinkWrap: true,
+                                      itemCount:
+                                      specification.certifications!.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                              BorderRadius.circular(25),
+                                              border: Border.all(
+                                                  color: Colors.grey.shade500)),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(25),
+                                            child: Image.network(
+                                              specification.certifications![index]
+                                                  .certification!.icon ??
+                                                  'images/ic_list.png',
+                                              height: 20.w,
+                                              width: 20.h,
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              showDetailsButton == true ?
                               Padding(
-                                padding: EdgeInsets.only(bottom: 2.w),
-                                child: Visibility(
-                                    visible: Ui.showHide(
-                                        specification.isVerified) /*true*/,
-                                    maintainSize: true,
-                                    maintainState: true,
-                                    maintainAnimation: true,
-                                    child: Image.asset(
-                                      'images/ic_verified_supplier.png',
-                                      width: 8.w,
-                                      height: 8.w,
-                                      fit: BoxFit.fill,
-                                    )),
+                                  padding: EdgeInsets.only(
+                                    left: 4.w,
+                                    right: 4.w,
+                                  ),
+                                  child: GestureDetector(
+                                      onTap: () {
+                                        openDetailsScreen(context,
+                                            specObj: bidData!.specification,
+                                            isFromBid: true);
+                                      },
+                                      child: SizedBox(
+                                        width: 80,
+                                        height: 22,
+                                        child: Center(
+                                          child: BidNowWidget(
+                                            title: 'Details',
+                                            size: 10.sp,
+                                            padding: 10,
+                                          ),
+                                        ),
+                                      )))
+                                  :
+                              FutureBuilder<String>(
+                                future: Utils.getUserId(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Padding(
+                                        padding: EdgeInsets.only(
+                                          left: 4.w,
+                                          right: 4.w,
+                                        ),
+                                        child: GestureDetector(
+                                            onTap: () {
+                                              if (snapshot.data ==
+                                                  specification.fsUserId) {
+                                                Utils.updateDialog(
+                                                    context,
+                                                    null,
+                                                    null,
+                                                    specification,
+                                                        (updateSpecification) {});
+                                              } else {
+                                                openDetailsScreen(context,
+                                                    specObj: specification,
+                                                    sendProposal: true);
+                                              }
+                                              // Fluttertoast.showToast(msg: 'coming soon');
+                                            },
+                                            child: SizedBox(
+                                              width: 80,
+                                              height: 22,
+                                              child: Center(
+                                                child: BidNowWidget(
+                                                  title: snapshot.data !=
+                                                      specification.fsUserId
+                                                      ? 'Send Proposal'
+                                                      : "Update",
+                                                  size: 10.sp,
+                                                  padding: 10,
+                                                ),
+                                              ),
+                                            )));
+                                  } else {
+                                    return Text(
+                                      'Error: ${snapshot.error}',
+                                      overflow: TextOverflow.fade,
+                                      maxLines: 1,
+                                      softWrap: false,
+                                    );
+                                  }
+                                },
                               )
                             ],
                           ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Container(
-                                  color: blueContainerLight,
-                                  child: Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 5, vertical: 1),
-                                    child: Center(
-                                      child: TitleMediumBoldSmallTextWidget(
-                                        title: Utils.setFabricFamilyData(
-                                            specification),
-                                        color: Colors.white,
-                                        textSize: 12,
-                                      ),
-                                    ),
-                                  )),
-                              const SizedBox(
-                                width: 2,
-                              ),
-                              Expanded(
-                                child: TitleMediumTextWidget(
-                                  title: Utils.setFabricTitle(specification),
-                                  color: Colors.black87,
-                                  weight: FontWeight.w600,
-                                  size: 13,
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          TitleSmallBoldTextWidget(
-                            title: Utils.setFabricDetails(specification),
-                            color: Colors.black87,
-                            size: 12,
-                            weight: FontWeight.w500,
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          SizedBox(
-                            width: size.width * 0.55,
-                            child: Utils.setFabricBlueTags(specification),
-                          ),
-                          SizedBox(height: 8.w),
-                          Visibility(
-                            visible: specification.isOffering == offeringType,
-                            child: Utils.setPropertiesWithIcons(specification),
-                          ),
-                          SizedBox(
-                            height: 8.h,
-                          ),
-                          Visibility(
-                            visible: showCounts ?? false,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                  left: 0.w,
-                                  right: 18.w,
-                                  top: 0.w,
-                                  bottom: 10.w),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: greenButton,
-                                                width:
-                                                    1, //                   <--- border width here
-                                              ),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(4.w))),
-                                          child: Stack(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 6.w),
-                                                child: Center(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Text(
-                                                        'Proposals',
-                                                        style: TextStyle(
-                                                            fontSize: 9.sp,
-                                                            color:
-                                                                Colors.black87,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                      ),
-                                                      Text(
-                                                        specification
-                                                            .proposalCount
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 9.sp,
-                                                            color: greenButton,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700),
-                                                      ),
-                                                      // SizedBox(
-                                                      //   width: 3.w,
-                                                      // )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              // Align(
-                                              //     alignment: AlignmentDirectional.topEnd,
-                                              //     child: Padding(
-                                              //       padding: const EdgeInsets.all(2),
-                                              //       child: Container(
-                                              //         width: 10,
-                                              //         height: 10,
-                                              //         decoration: BoxDecoration(
-                                              //             color: redColor,
-                                              //             borderRadius: BorderRadius.all(
-                                              //                 Radius.circular(10.w))),
-                                              //         child: Center(
-                                              //           child: Text(
-                                              //             specification.proposalCount.toString(),
-                                              //             textAlign: TextAlign.center,
-                                              //             style: TextStyle(
-                                              //                 fontSize: 8.sp,
-                                              //                 color: Colors.white,
-                                              //                 fontWeight: FontWeight.w400),
-                                              //           ),
-                                              //         ),
-                                              //       ),
-                                              //     ))
-                                            ],
-                                          ))),
-                                  SizedBox(
-                                    width: 10.w,
-                                  ),
-                                  Expanded(
-                                      child: Container(
-                                          decoration: BoxDecoration(
-                                              /*color: lightYellowContainer,*/
-                                              border: Border.all(
-                                                color: greenButton,
-                                                width:
-                                                    1, //                   <--- border width here
-                                              ),
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(4.w))),
-                                          child: Stack(
-                                            children: [
-                                              Padding(
-                                                padding: EdgeInsets.symmetric(
-                                                    vertical: 6.w),
-                                                child: Center(
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceAround,
-                                                    children: [
-                                                      Text(
-                                                        'Matches',
-                                                        style: TextStyle(
-                                                            fontSize: 9.sp,
-                                                            color:
-                                                                Colors.black87,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w400),
-                                                      ),
-                                                      Text(
-                                                        specification
-                                                            .matchedCount
-                                                            .toString(),
-                                                        style: TextStyle(
-                                                            fontSize: 9.sp,
-                                                            color: greenButton,
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .w700),
-                                                      ),
-                                                      // SizedBox(
-                                                      //   width: 3.w,
-                                                      // )
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                              // Align(
-                                              //     alignment: AlignmentDirectional.topEnd,
-                                              //     child: Padding(
-                                              //       padding: const EdgeInsets.all(2),
-                                              //       child: Container(
-                                              //         width: 10,
-                                              //         height: 10,
-                                              //         decoration: BoxDecoration(
-                                              //             color: redColor,
-                                              //             borderRadius: BorderRadius.all(
-                                              //                 Radius.circular(10.w))),
-                                              //         child: Center(
-                                              //           child: Text(
-                                              //             '3',
-                                              //             textAlign: TextAlign.center,
-                                              //             style: TextStyle(
-                                              //                 fontSize: 8.sp,
-                                              //                 color: Colors.white,
-                                              //                 fontWeight: FontWeight.w400),
-                                              //           ),
-                                              //         ),
-                                              //       ),
-                                              //     ))
-                                            ],
-                                          ))),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                        )
+                      ],
                     ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Visibility(
-                            visible: specification.isOffering == offeringType,
-                            child: RichText(
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(children: [
-                                  TextSpan(
-                                    text:
-                                        '${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}.',
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 11.sp,
-                                        /**/
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  TextSpan(
-                                    text: specification.priceUnit
-                                        .toString()
-                                        .replaceAll(
-                                            RegExp(r'[^0-9]'), '') /*'1000'*/,
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 17.sp,
-                                        /**/
-                                        fontWeight: FontWeight.w600),
-                                  ),
-                                  TextSpan(
-                                      text:
-                                          "/${specification.unitCount ?? Utils.checkNullString(false)}",
-                                      style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 11.sp,
-                                          /**/
-                                          fontWeight: FontWeight.w600)),
-                                ])),
-                          ),
-                          SizedBox(
-                            height: 1.h,
-                          ),
-                          const Center(
-                            child: TitleSmallNormalTextWidget(
-                              title:
-                                  "Ex- Factory\nincl. tax" /*specification.deliveryPeriod*/,
-                              size: 8,
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 8,
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text.rich(TextSpan(children: [
-                                TextSpan(
-                                  text: "Last Updated",
-                                  style: TextStyle(
-                                      fontSize: 8.sp,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.w500),
-                                ),
-                              ])),
-                              SizedBox(
-                                height: 2.w,
-                              ),
-                              Text.rich(TextSpan(children: [
-                                TextSpan(
-                                  text: /*"Nov 23, 4:33 PM"*/ DateFormat(
-                                          "MMM dd, yyyy")
-                                      .format(DateTime.parse(
-                                          specification.date ?? "")),
-                                  style: TextStyle(
-                                      fontSize: 10.sp, color: lightBlueLabel),
-                                )
-                              ])),
-                            ],
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          Visibility(
-                            visible: false,
-                            child: SizedBox(
-                              height: 20.h,
-                              child: ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  itemCount:
-                                      specification.certifications!.length,
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(25),
-                                          border: Border.all(
-                                              color: Colors.grey.shade500)),
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(25),
-                                        child: Image.network(
-                                          specification.certifications![index]
-                                                  .certification!.icon ??
-                                              'images/ic_list.png',
-                                          height: 20.w,
-                                          width: 20.h,
-                                        ),
-                                      ),
-                                    );
-                                  }),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          FutureBuilder<String>(
-                            future: Utils.getUserId(),
-                            builder: (context, snapshot) {
-                              if (snapshot.hasData) {
-                                return Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 4.w,
-                                      right: 4.w,
-                                    ),
-                                    child: GestureDetector(
-                                        onTap: () {
-                                          if (snapshot.data ==
-                                              specification.fsUserId) {
-                                            Utils.updateDialog(
-                                                context,
-                                                null,
-                                                null,
-                                                specification,
-                                                (updateSpecification) {});
-                                          } else {
-                                            openDetailsScreen(context,
-                                                specObj: specification,
-                                                sendProposal: true);
-                                          }
-                                          // Fluttertoast.showToast(msg: 'coming soon');
-                                        },
-                                        child: SizedBox(
-                                          width: 80,
-                                          height: 22,
-                                          child: Center(
-                                            child: BidNowWidget(
-                                              title: snapshot.data !=
-                                                      specification.fsUserId
-                                                  ? 'Send Proposal'
-                                                  : "Update",
-                                              size: 10.sp,
-                                              padding: 10,
-                                            ),
-                                          ),
-                                        )));
-                              } else {
-                                return Text(
-                                  'Error: ${snapshot.error}',
-                                  overflow: TextOverflow.fade,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                );
-                              }
-                            },
-                          )
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                  ),
+                  showDetailsButton == true ?
+                  Padding(
+                    padding: EdgeInsets.only(
+                        left: 0.w, right: 0.w, top: 0.w,bottom: 0.w),
+                    child: Utils.buildContainer(bidData!),
+                  ) : Container()
+                ],
               ),
             ),
             Visibility(
-              visible: Ui.showHide(specification.isFeatured),
+              visible: Ui.showHide(specification.isFeatured) && showDetailsButton==false,
               child: Positioned.fill(
                 left: 0,
                 top: 0,
@@ -547,6 +583,41 @@ Widget buildFabricRenewedAgainWidget(
                 ,
               ),
             ),
+            Positioned(
+              top: 0,
+              right: 18,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Visibility(
+                    visible: Ui.showHide(specification.isFeatured) && showDetailsButton == true,
+                    maintainSize: true,
+                    maintainState: true,
+                    maintainAnimation: true,
+                    child: Container(
+                        width: 58.w,
+                        padding: EdgeInsets.all(3.w),
+                        decoration: BoxDecoration(
+                            color: pintFeatureClr,
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(0.w),
+                              bottomLeft: Radius.circular(3.w),
+                              bottomRight: Radius.circular(3.w),
+                            )),
+                        child: Text(
+                          'Featured'.toUpperCase(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 6.sp,
+
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )),
+                  ),
+                ],
+              ),
+            )
           ],
         )),
   );

@@ -59,13 +59,13 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.10 * MediaQuery.of(context).size.height,
+              height: 0.095 * MediaQuery.of(context).size.height,
               child: ListView.builder(
                 itemCount: trendsList.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 2.0,right: 2.0),
+                    padding: const EdgeInsets.only(left: 2.0, right: 2.0),
                     child: Row(
                       children: [
                         ClipRRect(
@@ -74,7 +74,8 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                             child: Container(
                               width: MediaQuery.of(context).size.width / 2.4,
                               // decoration: BoxDecoration(color: const Color(0xFFEDF1F6)),
-                              decoration: BoxDecoration(color:Colors.grey.shade100),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade100),
                               child: Padding(
                                 padding: EdgeInsets.all(6.w),
                                 child: Column(
@@ -120,13 +121,15 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                               // fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.w800),
                                         ),
-                                        Text(trendsList[index].percent.toString(),
+                                        Text(
+                                          trendsList[index].percent.toString(),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                             style: TextStyle(
-                                              color: trendsList[index].isDrop == true
-                                                      ? redDownColor
-                                                      : greenUpColor,
+                                          style: TextStyle(
+                                              color: trendsList[index].isDrop ==
+                                                      true
+                                                  ? redDownColor
+                                                  : greenUpColor,
                                               fontSize: 12.sp,
                                               // fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.w700),
@@ -137,7 +140,8 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       height: 4,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Image.asset(
                                           trendsList[index].isDrop == true
@@ -148,9 +152,12 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                         const SizedBox(
                                           width: 5,
                                         ),
-
                                         Padding(
-                                          padding: trendsList[index].isDrop == true ? const EdgeInsets.only(top: 2.0) : const EdgeInsets.only(bottom: 1.0),
+                                          padding: trendsList[index].isDrop ==
+                                                  true
+                                              ? const EdgeInsets.only(top: 2.0)
+                                              : const EdgeInsets.only(
+                                                  bottom: 1.0),
                                           child: Text(
                                             trendsList[index].isDrop == true
                                                 ? "Drop Quickly"
@@ -159,7 +166,9 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: TextStyle(
-                                                color: trendsList[index].isDrop == true
+                                                color:
+                                                    trendsList[index].isDrop ==
+                                                            true
                                                         ? redDownColor
                                                         : greenUpColor,
                                                 fontSize: 10.sp,
