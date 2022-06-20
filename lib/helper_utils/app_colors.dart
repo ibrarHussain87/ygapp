@@ -98,6 +98,8 @@ var cardTitleColor = HexColor.fromHex('#72818F');
 var redDownColor = HexColor.fromHex('#E70808');
 var greenUpColor = HexColor.fromHex('#20DA5F');
 var tendsTileColor = HexColor.fromHex('#EDF1F6');
+var notificationCountColor = HexColor.fromHex('#F8A435');
+var notificationDateColor = HexColor.fromHex('#B4B9C1');
 
 var lightBlueChip = const Color(0xFFE3ECFF);
 var darkBlueChip = const Color(0xFF2E59B1);

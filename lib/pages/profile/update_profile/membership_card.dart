@@ -172,8 +172,9 @@ Widget buildFreeMembershipWidget(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  const SizedBox(height: 20,),
-                  Text(subscriptionPlan.spName ?? '',
+                  const SizedBox(height: 15,),
+                  Text(index==0 ? "Starter" : index==1 ? "Pro" : "Premium",
+                  // Text(subscriptionPlan.spName ?? '',
                       style: TextStyle(
                           fontSize: 20.0.w,
                           color: name==subscriptionPlan.spName? Colors.white : unSelectHeadingTextColor,
@@ -187,52 +188,176 @@ Widget buildFreeMembershipWidget(
                   SizedBox(height: height/40,),
                   Row(
                     children: [
+                      // Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      // const SizedBox(width: 5),
+                      // Text(subscriptionPlan.spLongDescription.toString(),
+                      //     maxLines: 1,
+                      //     overflow:TextOverflow.ellipsis ,
+                      //     style: TextStyle(
+                      //         fontSize: 10.0.w,
+                      //         color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //         fontWeight: FontWeight.w400)),
                       Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
                       const SizedBox(width: 5),
-                      Text(subscriptionPlan.spLongDescription.toString(),
-                          maxLines: 1,
-                          overflow:TextOverflow.ellipsis ,
-                          style: TextStyle(
-                              fontSize: 10.0.w,
-                              color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
-                              fontWeight: FontWeight.w400)),
+                      Expanded(
+                        child: Text("All Business Area",
+                            maxLines: 1,
+                            overflow:TextOverflow.ellipsis ,
+                            style: TextStyle(
+                                fontSize: 10.0.w,
+                                color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ),
+
                     ],
                   ),
                   SizedBox(height: height/40,),
                   Row(
                     children: [
+                      // Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      // const SizedBox(width: 5),
+                      // Text(subscriptionPlan.spShortDescription.toString(),
+                      //     maxLines: 1,
+                      //     overflow:TextOverflow.ellipsis ,
+                      //     style: TextStyle(
+                      //         fontSize: 10.0.w,
+                      //         color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //         fontWeight: FontWeight.w400)),
                       Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
                       const SizedBox(width: 5),
-                      Text(subscriptionPlan.spShortDescription.toString(),
-                          maxLines: 1,
-                          overflow:TextOverflow.ellipsis ,
-                          style: TextStyle(
-                              fontSize: 10.0.w,
-                              color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
-                              fontWeight: FontWeight.w400)),
+                      Expanded(
+                        child: Text("Unlimited Offering",
+                            maxLines: 1,
+                            overflow:TextOverflow.ellipsis ,
+                            style: TextStyle(
+                                fontSize: 10.0.w,
+                                color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ),
                     ],
                   ),
-                  SizedBox(height: height/45,),
+                  SizedBox(height: height/40,),
+                  Row(
+                    children: [
+                      // Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      // const SizedBox(width: 5),
+                      // Text(subscriptionPlan.spShortDescription.toString(),
+                      //     maxLines: 1,
+                      //     overflow:TextOverflow.ellipsis ,
+                      //     style: TextStyle(
+                      //         fontSize: 10.0.w,
+                      //         color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //         fontWeight: FontWeight.w400)),
+                      Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text("Unlimited Requirements",
+                            maxLines: 1,
+                            overflow:TextOverflow.ellipsis ,
+                            style: TextStyle(
+                                fontSize: 10.0.w,
+                                color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height/40,),
+                  Row(
+                    children: [
+                      // Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      // const SizedBox(width: 5),
+                      // Text(subscriptionPlan.spShortDescription.toString(),
+                      //     maxLines: 1,
+                      //     overflow:TextOverflow.ellipsis ,
+                      //     style: TextStyle(
+                      //         fontSize: 10.0.w,
+                      //         color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //         fontWeight: FontWeight.w400)),
+                      Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(("List of Bidders/Day\t")+(index==0 ? "Engage Through YG" : index==1 ? "1 on Each Product" : "2 on Each Product"),
+                            maxLines: 1,
+                            overflow:TextOverflow.ellipsis ,
+                            style: TextStyle(
+                                fontSize: 10.0.w,
+                                color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height/40,),
+                  Row(
+                    children: [
+                      // Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      // const SizedBox(width: 5),
+                      // Text(subscriptionPlan.spShortDescription.toString(),
+                      //     maxLines: 1,
+                      //     overflow:TextOverflow.ellipsis ,
+                      //     style: TextStyle(
+                      //         fontSize: 10.0.w,
+                      //         color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //         fontWeight: FontWeight.w400)),
+                      Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text(("Requirement Match\t")+(index==0 ? "Everything Anonymous" : index==1 ? "1 nearest price add will be matched" : "2 nearest price add will be matched"),
+                            maxLines: 1,
+                            overflow:TextOverflow.ellipsis ,
+                            style: TextStyle(
+                                fontSize: 10.0.w,
+                                color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: height/40,),
+                  Row(
+                    children: [
+                      // Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      // const SizedBox(width: 5),
+                      // Text(subscriptionPlan.spShortDescription.toString(),
+                      //     maxLines: 1,
+                      //     overflow:TextOverflow.ellipsis ,
+                      //     style: TextStyle(
+                      //         fontSize: 10.0.w,
+                      //         color:name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //         fontWeight: FontWeight.w400)),
+                      Image.asset(name==subscriptionPlan.spName ? white_tick : black_tick,height: 20,width: 20,),
+                      const SizedBox(width: 5),
+                      Expanded(
+                        child: Text((index==0 ? "1" : index==1 ? "3" : "5")+("\tBrands"),
+                            maxLines: 1,
+                            overflow:TextOverflow.ellipsis ,
+                            style: TextStyle(
+                                fontSize: 10.0.w,
+                                color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                                fontWeight: FontWeight.w400)),
+                      ),
+                    ],
+                  ),
+                  // SizedBox(height: height/1,),
 
                   Image.asset(divider_line,height:10,color:  name==subscriptionPlan.spName  ?  subHeadingColor : unSelectHeadingTextColor,),
 
-                  SizedBox(height: height/6,),
+                  SizedBox(height: height/90,),
                   RichText(
                     text: TextSpan(
-                      text: '\$ '+subscriptionPlan.spPrice.toString(),
+                      // text: '\$ '+subscriptionPlan.spPrice.toString(),
+                      text:subscriptionPlan.spDurationCount.toString()+"\t"+subscriptionPlan.spDurationType.toString(),
                       style: TextStyle(
                           fontSize: 20.0.w,
                           color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
                           fontWeight: FontWeight.w700),
-                      children: [
-                        TextSpan(text: '/'+subscriptionPlan.spDurationCount.toString()+"\t"+subscriptionPlan.spDurationType.toString(), style: TextStyle(
-                            fontSize: 14.0.w,
-                            color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
-                            fontWeight: FontWeight.w400)),
-                      ]
+                      // children: [
+                      //   TextSpan(text: '/'+subscriptionPlan.spDurationCount.toString()+"\t"+subscriptionPlan.spDurationType.toString(), style: TextStyle(
+                      //       fontSize: 14.0.w,
+                      //       color: name==subscriptionPlan.spName ? Colors.white : unSelectHeadingTextColor,
+                      //       fontWeight: FontWeight.w400)),
+                      // ]
                     ),
                   ),
-                  SizedBox(height: height/80,),
+                  SizedBox(height: height/90,),
                   SizedBox(
                       width: double.infinity,
                       height: height/15,

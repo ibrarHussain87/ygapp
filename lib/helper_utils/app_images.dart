@@ -73,8 +73,10 @@ String fabricsImage = "images/fabrics.png";
 String yarnImage = "images/yarn.png";
 String stockLotsImage = "images/stocklots.png";
 String servicesImage = "images/services.png";
-String bellImage = "images/bell.png";
-String navImage = "images/nav.png";
+// String bellImage = "images/bell.png";
+// String navImage = "images/nav.png";
+String bellImage = "assets/bell.svg";
+String navImage = "assets/nav.svg";
 String fiberIcon = "images/fiber_icon.png";
 String fabricsIcon = "images/fabric_icon.png";
 String stockLotsIcon = "images/stocklots_icon.png";
@@ -82,5 +84,19 @@ String yarnIcon = "images/yarn_icon.png";
 String serviceIcon = "images/service_icon.png";
 String green = "images/green_up.png";
 String red = "images/red_down.png";
+
+//Notifications Static Images
+String notificationImage_1 = "images/notification_1.png";
+String notificationImage_2 = "images/notification_2.png";
+String notificationImage_3 = "images/notification_3.png";
+String notificationImage_4 = "images/notification_4.png";
+String notificationImage_5 = "images/notification_5.png";
+
+// String notificationImage_1 = "assets/notification_1.svg";
+// String notificationImage_2 = "assets/notification_2.svg";
+// String notificationImage_3 = "assets/notification_3.svg";
+// String notificationImage_4 = "assets/notification_4.svg";
+// String notificationImage_5 = "assets/notification_5.svg";
+
 
 
