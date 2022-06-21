@@ -10,11 +10,12 @@ import '../../../../elements/list_widgets/single_select_tile_renewed_widget.dart
 class FabricBlendFamily extends StatefulWidget {
   final Function fabricFamilyCallback;
   final Function blendCallback;
+  bool showBlends;
 
-  const FabricBlendFamily(
+  FabricBlendFamily(
       {Key? key,
       required this.fabricFamilyCallback,
-      required this.blendCallback})
+      required this.blendCallback,this.showBlends= true})
       : super(key: key);
 
   @override
@@ -112,7 +113,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
               child: TitleTextWidget(title: blend)),
         ),
         Visibility(
-          visible: _fabricSpecificationProvider.fabricBlends.isNotEmpty,
+          visible: _fabricSpecificationProvider.fabricBlends.isNotEmpty && widget.showBlends,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
             child: Padding(

@@ -137,7 +137,7 @@ class FiberProductPageState extends State<FiberProductPage> {
                 )*/,
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(bottom: 8.0,),
                   child: Center(
                     child: OfferingRequirementSegmentComponent(
                       callback: (value) {

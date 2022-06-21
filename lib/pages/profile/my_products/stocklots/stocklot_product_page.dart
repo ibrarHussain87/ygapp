@@ -134,7 +134,7 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                           })),
                 ),
                 Visibility(
-                  visible: stocklotProvider.showCategory,
+                  visible: /*stocklotProvider.showCategory*/false,
                   child: Container(
                     color: Colors.white,
                     padding: const EdgeInsets.all(8.0),
@@ -153,7 +153,7 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                 ),
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(bottom: 8.0,),
                   child: Center(
                     child: OfferingRequirementSegmentComponent(
                       callback: (value) {
