@@ -218,7 +218,7 @@ class FiberPageState extends State<FiberPage> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
-                                          child: BlendsWithImageListWidget(
+                                          child: BlendWithImageListWidget(
                                             key: _fiberSpecificationProvider
                                                 .blendWidgetKey,
                                             selectedItem: -1,

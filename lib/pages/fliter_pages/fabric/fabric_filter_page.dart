@@ -79,7 +79,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
 
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
   //String? _selectedNature;
-  final GlobalKey<BlendsWithImageListWidgetState> _catWithImageListState = GlobalKey<BlendsWithImageListWidgetState>();
+  final GlobalKey<BlendWithImageListWidgetState> _catWithImageListState = GlobalKey<BlendWithImageListWidgetState>();
 
   final GlobalKey<SingleSelectTileWidgetState> _plyKey =
       GlobalKey<SingleSelectTileWidgetState>();
@@ -277,7 +277,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                   child: const TitleTextWidget(
                                     title: 'Fabric Blends',
                                   )),
-                              BlendsWithImageListWidget(
+                              BlendWithImageListWidget(
                                 key: _catWithImageListState,
                                 selectedItem: _fabricBlendsList.indexWhere((element) => element.blnId == _selectedMaterial),
                                 listItem: _fabricBlendsList

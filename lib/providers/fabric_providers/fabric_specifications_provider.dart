@@ -40,6 +40,7 @@ class FabricSpecificationsProvider extends ChangeNotifier{
   getFamilyData() async{
     var dbInstance = await AppDbInstance().getDbInstance();
     fabricFamily = await dbInstance.fabricFamilyDao.findAllFabricFamily();
+    notifyListeners();
 
   }
 

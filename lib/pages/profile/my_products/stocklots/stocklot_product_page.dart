@@ -115,7 +115,7 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                       const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
                   child: Padding(
                       padding: const EdgeInsets.only(top: 2.0),
-                      child: BlendsWithImageListWidget(
+                      child: BlendWithImageListWidget(
                           listItem: stocklotProvider.stocklots!,
                           onClickCallback: (value) {
                             setState(() {

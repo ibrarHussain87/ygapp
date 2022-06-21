@@ -116,7 +116,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
                                   padding: EdgeInsets.only(
                                       left: 8, right: 8, top: 2),
                                   child: Divider()),
-                              BlendsWithImageListWidget(
+                              BlendWithImageListWidget(
                                 key: _fiberPostProvider.blendWidgetKey,
                                 listItem: _fiberPostProvider.fiberBlendsList,
                                 onClickCallback: (index) {

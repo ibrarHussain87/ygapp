@@ -38,11 +38,11 @@ class FiberSpecificationProvider extends ChangeNotifier {
 
   String? locality;
 
-  final GlobalKey<BlendsWithImageListWidgetState> blendWidgetKey =
-      GlobalKey<BlendsWithImageListWidgetState>();
+  final GlobalKey<BlendWithImageListWidgetState> blendWidgetKey =
+      GlobalKey<BlendWithImageListWidgetState>();
 
-  final GlobalKey<BlendsWithImageListWidgetState> filterBlendWidgetKey =
-  GlobalKey<BlendsWithImageListWidgetState>();
+  final GlobalKey<BlendWithImageListWidgetState> filterBlendWidgetKey =
+  GlobalKey<BlendWithImageListWidgetState>();
 
 
   GetSpecificationRequestModel _specificationRequestModel =

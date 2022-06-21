@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -29,7 +30,7 @@ import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
-
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'helper_utils/app_constants.dart';
 import 'helper_utils/connection_status_singleton.dart';
 import 'notification/notification.dart';
@@ -43,18 +44,38 @@ final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await FCM.initialize(flutterLocalNotificationsPlugin);
+  await Firebase.initializeApp();
   await init();
   runApp(YgApp());
 }
 
 Future init() async {
-  WidgetsFlutterBinding.ensureInitialized();
+  runZonedGuarded<Future<void>>(() async {
 
-  ///Set preferred orientation to portrait
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  setupLocators();
-  await FCM.initialize(flutterLocalNotificationsPlugin);
-  await Firebase.initializeApp();
+    ///Set preferred orientation to portrait
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+    setupLocators();
+
+    if (kDebugMode) {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
+    } else {
+      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
+    }
+    // FirebaseCrashlytics.instance.crash();
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterError;
+    // Pass all uncaught errors from the framework to Crashlytics.
+  }, (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack);
+  });
+  Isolate.current.addErrorListener(RawReceivePort((pair) async {
+    final List<dynamic> errorAndStacktrace = pair;
+    await FirebaseCrashlytics.instance.recordError(
+      errorAndStacktrace.first,
+      errorAndStacktrace.last,
+    );
+  }).sendPort);
 }
 
 class YgApp extends StatelessWidget {
@@ -139,15 +160,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     });
   }
 
-  void _firebaseCrash() async {
-    if (kDebugMode) {
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(false);
-    } else {
-      await FirebaseCrashlytics.instance.setCrashlyticsCollectionEnabled(true);
-    }
-    // FirebaseCrashlytics.instance.crash();
-  }
-
   void _incrementCounter() {
     setState(() {
       heightC1 = MediaQuery.of(context).size.width * 0.5;
@@ -173,7 +185,6 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
     firebaseMessaging.streamCtlr.stream.listen(_changeData);
     firebaseMessaging.bodyCtlr.stream.listen(_changeBody);
     firebaseMessaging.titleCtlr.stream.listen(_changeTitle);
-    _firebaseCrash();
     super.initState();
 
     _controller = AnimationController(

@@ -170,7 +170,7 @@ class YarnProductPageState extends State<YarnProductPage>
                       SizedBox(
                         height: 8.w,
                       ),
-                      BlendsWithImageListWidget(
+                      BlendWithImageListWidget(
                         selectedItem: -1,
                         listItem: yarnFamilyList,
                         onClickCallback: (index) {

@@ -15,7 +15,8 @@ class FabricBlendFamily extends StatefulWidget {
   FabricBlendFamily(
       {Key? key,
       required this.fabricFamilyCallback,
-      required this.blendCallback,this.showBlends= true})
+      required this.blendCallback,
+      this.showBlends = true})
       : super(key: key);
 
   @override
@@ -67,6 +68,11 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
     // TODO: implement dispose
     super.dispose();
     _fabricSpecificationProvider.fabricBlends = [];
+    _fabricSpecificationProvider.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
@@ -84,7 +90,7 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
                   child: TitleTextWidget(title: fabricCategory)),
               SizedBox(
                 height: 0.055 * MediaQuery.of(context).size.height,
-                child: BlendsWithImageListWidget(
+                child: BlendWithImageListWidget(
                   selectedItem: -1,
                   listItem: _fabricSpecificationProvider.fabricFamily,
                   onClickCallback: (value) {
@@ -113,7 +119,8 @@ class _FabricBlendFamilyState extends State<FabricBlendFamily> {
               child: TitleTextWidget(title: blend)),
         ),
         Visibility(
-          visible: _fabricSpecificationProvider.fabricBlends.isNotEmpty && widget.showBlends,
+          visible: _fabricSpecificationProvider.fabricBlends.isNotEmpty &&
+              widget.showBlends,
           child: SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
             child: Padding(
