@@ -200,7 +200,6 @@ class _CreateStockLotPageState extends State<CreateStockLotPage> {
                                       height: 8.h,
                                     ),
                                     SingleSelectTileWidget(
-                                      spanCount: 3,
                                       listOfItems:
                                           stocklotProvider.stocklotSubcategories!,
                                       selectedIndex: -1,

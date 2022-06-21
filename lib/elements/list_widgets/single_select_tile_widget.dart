@@ -15,7 +15,7 @@ class SingleSelectTileWidget extends StatefulWidget {
 
   const SingleSelectTileWidget(
       {Key? key,
-        required this.spanCount,
+        this.spanCount,
         required this.callback,
         required this.listOfItems,
         this.selectedIndex,
@@ -55,10 +55,10 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: widget.spanCount! == 2 ? 16 : 6,
+          crossAxisSpacing: widget.listOfItems.length < 3 ? 6 : widget.spanCount! == 2 ? 16 : 6,
           mainAxisSpacing: 8,
-          crossAxisCount: widget.spanCount!,
-          childAspectRatio: aspectRatio),
+          crossAxisCount:widget.listOfItems.length < 3 ? 2 : widget.spanCount!,
+          childAspectRatio: widget.listOfItems.length < 3 ? 4.4:aspectRatio),
       itemCount: widget.listOfItems.length,
       itemBuilder: (context, index) {
         return  buildGrid(index);
@@ -194,7 +194,6 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
 
   Container buildRoundedContainer(bool checked, int index) {
     return Container(
-      width: double.maxFinite,
       decoration: BoxDecoration(
           border: Border.all(
             color: Colors.transparent,
@@ -208,7 +207,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           Visibility(
             visible: checked,
             child: Padding(
-              padding: const EdgeInsets.only(top: 6,bottom: 6,left: 5,right: 5),
+              padding: const EdgeInsets.only(top: 4,bottom: 4,right: 4,left: 0),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
                 child: Icon(Icons.check,color: darkBlueChip,size: 18,),
