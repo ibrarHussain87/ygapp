@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:showcaseview/showcaseview.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -44,14 +45,22 @@ class _MainPageState extends State<MainPage> {
      //     });
      //   },
      // ),
-      DashboardPage(
-       key: homePageState,
-       callback: (value) {
-         setState(() {
-           _onItemTapped(value);
-         });
-       },
-     ),
+      ShowCaseWidget(
+        builder: Builder(builder: (_) =>   DashboardPage(
+          key: homePageState,
+          callback: (value) {
+            setState(() {
+              _onItemTapped(value);
+            });
+          },
+        ),),
+        onStart: (index, key) => print('On started $index'),
+        onComplete: (index, key) => print('On completed $index'),
+        onFinish: () => print('Finished completely'),
+        // autoPlay: true,
+        // autoPlayDelay: const Duration(seconds: 3),
+      ),
+
       MarketPage(
         locality: local,
       ),

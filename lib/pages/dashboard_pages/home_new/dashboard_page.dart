@@ -1,8 +1,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:showcaseview/showcaseview.dart';
+import 'package:yg_app/elements/custom_showcase_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -12,6 +16,7 @@ import 'package:yg_app/pages/dashboard_pages/home_new/trends_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/alert_widget.dart';
 import 'package:yg_app/pages/dashboard_pages/home_widgets/banner_body.dart';
 import 'package:yg_app/pages/dashboard_pages/market_page.dart';
+import 'package:yg_app/pages/dashboard_pages/notifications/notification_page.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
 import 'package:yg_app/providers/home_providers/banners_provider.dart';
 
@@ -52,10 +57,31 @@ class DashboardPageState extends State<DashboardPage> {
     ChangeNotifierProvider<BannersProvider>(create: (_) => BannersProvider()),
     // ChangeNotifierProvider<FamilyListProvider>(create: (_) => FamilyListProvider())
   ];
-
+  int selectedIndex = 0;
+  final keyOne = GlobalKey();
+  final keyTwo = GlobalKey();
+  final keyThree = GlobalKey();
+  final keyFour = GlobalKey();
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      final sharedPreferences = await SharedPreferences.getInstance();
+      bool isFirstLaunch = sharedPreferences.getBool(IS_FIRST_LAUNCH) ?? true;
+
+      if(isFirstLaunch) {
+        sharedPreferences.setBool(IS_FIRST_LAUNCH, false);
+        ShowCaseWidget.of(context)?.startShowCase([
+          keyOne,
+          keyTwo
+        ]);
+      }
+
+    });
+
+
+
   }
 
   @override
@@ -85,12 +111,19 @@ class DashboardPageState extends State<DashboardPage> {
                     ),
                   );
                 },
-                child: Padding(
-                    padding: EdgeInsets.only(left: 4.w, top: 8.w),
-                    child: Image.asset(
-                      navImage,
-                      scale: 1.3,
-                    )),
+                child: CustomShowcaseWidget(
+                  globalKey: keyOne,
+                  title: "Navigation",
+                  description: 'Explore More Options By Navigation',
+                  child: Padding(
+                    padding: EdgeInsets.only(left: 4.w,right: 4.w, top: 8.h,bottom: 8.h),
+                    child:    SvgPicture.asset(navImage,
+                      // color: Colors.transparent,
+                      height: 17,
+                      width: 17,
+                    ),
+                  ),
+                ),
               ),
               Align(
                 alignment: Alignment.center,
@@ -105,13 +138,26 @@ class DashboardPageState extends State<DashboardPage> {
                 alignment: Alignment.centerRight,
                 child: GestureDetector(
                   behavior: HitTestBehavior.opaque,
-                  onTap: () {},
-                  child: Padding(
-                      padding: EdgeInsets.only(left: 10.w, top: 6.w),
-                      child: Image.asset(
-                        bellImage,
-                        scale: 1.3,
-                      )),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>  const NotificationPage(),
+                      ),
+                    );
+                  },
+                  child:   CustomShowcaseWidget(
+                    globalKey: keyTwo,
+                    title: "Notifications",
+                    description: 'Search For Notifications',
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 6.h,bottom: 6.h),
+                        child: SvgPicture.asset(
+                          bellImage,
+                          width: 24,
+                          height: 24,
+                        )),
+                  ),
                 ),
               ),
             ],
@@ -154,7 +200,7 @@ class DashboardPageState extends State<DashboardPage> {
                         //     style: TextStyle(
                         //         color: Colors.black,
                         //         fontSize: 15.sp,
-                        //         
+                        //
                         //         fontWeight: FontWeight.w700),
                         //   ),
                         // ),
