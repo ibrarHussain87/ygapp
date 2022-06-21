@@ -205,7 +205,7 @@ class User{
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
     company = json['company'];
-    companyId= json['company_idfk'];
+    companyId= json['company_idfk'].toString();
     ntn_number = json['ntn_number'];
     user_country = json['user_country'];
     city_state_name = json['city_state'];

@@ -627,6 +627,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
           ProgressDialogUtil.hideDialog();
           if (value.status!) {
             AppDbInstance().getDbInstance().then((db) async {
+              await db.businessInfoDao.deleteBusinessInfoData();
               await db.businessInfoDao.insertBusinessInfo(value.data!.businessInfo!);
               Fluttertoast.showToast(
                   msg: value.message ?? "",

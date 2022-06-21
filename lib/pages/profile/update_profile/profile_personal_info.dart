@@ -265,7 +265,8 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   _updateProfileRequestModel.cityStateId =
                       value?.stateId.toString();
                 },
-                decoration: textFieldDecoration('Select', "State/District", true),
+                decoration:
+                    textFieldDecoration('Select', "State/District", true),
                 validator: (value) =>
                     value == null ? 'Please select sate/district' : null,
               ),
@@ -486,6 +487,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           if (value.status!) {
             AppDbInstance().getDbInstance().then((db) async {
 //                await db.userDao.insertUser(value.data!.user!);
+              await db.userDao.deleteUserData();
               await db.userDao.insertUser(value.data!);
             });
 

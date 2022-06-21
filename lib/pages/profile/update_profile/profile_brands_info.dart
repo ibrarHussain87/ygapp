@@ -394,6 +394,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
           if (value.status!) {
             Logger().e(value.data!.brands!);
             AppDbInstance().getDbInstance().then((db) async {
+              await db.userDao.deleteUserData();
               await db.userDao.insertUser(value.data!);
               if (value.data!.brands != null) {
                 for (Brands element in value.data!.brands!) {
