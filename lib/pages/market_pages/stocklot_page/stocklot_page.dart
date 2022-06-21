@@ -238,6 +238,7 @@ class StockLotPageState extends State<StockLotPage> {
                                             stocklotProvider
                                                 .setShowCategory(true);
 
+
                                             if (stocklotProvider.subFamilyKey
                                                     .currentState !=
                                                 null) {
