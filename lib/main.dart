@@ -94,7 +94,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<YarnFilterProvider>()),
       ],
       child: MaterialApp(
-        title: 'Splash Screen',
+        title: 'Yarn Guru',
         theme: ThemeData(
             primaryColor: lightBlueTabs,
             primarySwatch: Colors.green,

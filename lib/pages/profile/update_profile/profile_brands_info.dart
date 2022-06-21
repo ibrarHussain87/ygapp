@@ -108,7 +108,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                         controller: _typeAheadController,
                         style: TextStyle(fontSize: 13.sp),
                         decoration:
-                            textFieldProfile('Enter Brand', "Brand", true),
+                            textFieldDecoration('Enter Brand', "Brand", true),
                       ),
                       suggestionsCallback: (pattern) {
                         return _brandsProvider.allBrandsList

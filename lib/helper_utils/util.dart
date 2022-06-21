@@ -1,7 +1,9 @@
 import 'package:dotted_line/dotted_line.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_switch/flutter_switch.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:logger/logger.dart';
@@ -9,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
+import 'package:yg_app/elements/decoration_widgets.dart';
 import 'package:yg_app/elements/elevated_button_without_icon_widget.dart';
 import 'package:yg_app/elements/list_widgets/brand_text.dart';
 import 'package:yg_app/elements/text_widgets.dart';
@@ -458,15 +461,15 @@ class Utils {
     var color = Colors.grey.shade50;
     switch (status) {
       case '0':
-       // color = Colors.grey.shade200;
+        // color = Colors.grey.shade200;
         color = pending_background_color;
         break;
       case '1':
-       // color = lightBlueBidderColor;
+        // color = lightBlueBidderColor;
         color = accepted_background_color;
         break;
       case '2':
-       // color = lightOrangeBidderColor;
+        // color = lightOrangeBidderColor;
         color = rejected_background_color;
         break;
     }
@@ -479,7 +482,9 @@ class Utils {
       child: Container(
         decoration: BoxDecoration(
             color: Utils.getBackgroundColorCustom(bidData.status!),
-            borderRadius: const BorderRadius.only(bottomLeft: Radius.circular(10),bottomRight: Radius.circular(10))),
+            borderRadius: const BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(10))),
         child: Column(
           children: [
             Padding(
@@ -1126,7 +1131,7 @@ class Utils {
       context: context,
       barrierLabel: "Barrier",
       barrierDismissible: true,
-      barrierColor: Colors.black.withOpacity(0.5),
+      barrierColor: Colors.black.withOpacity(0.4),
       transitionDuration: const Duration(milliseconds: 700),
       pageBuilder: (_, __, ___) {
         return StatefulBuilder(
@@ -1135,374 +1140,295 @@ class Utils {
             backgroundColor: Colors.transparent,
             body: Center(
               child: Container(
-                height: 300.h,
-                color: Colors.white,
+                decoration: const BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(16.0),
+                      topRight: Radius.circular(16.0),
+                      bottomLeft: Radius.circular(16.0),
+                      bottomRight: Radius.circular(16.0),
+                    )),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
-                    Expanded(
-                      flex: 2,
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Image.asset(
-                            ic_update_header,
-                            fit: BoxFit.cover,
-                            width: double.maxFinite,
+                    Stack(
+                      children: [
+                        Center(
+                          child: Container(
+                            margin: EdgeInsets.only(top: 32.h),
+                            child: TitleTextWidget(
+                              fontSize: 18.sp,
+                              title: "Update Product",
+                              color: Colors.black87,
+                            ),
                           ),
-                          const Center(
-                              child: TitleSmallBoldTextWidget(
-                            title: "Update Product",
-                            color: Colors.white,
-                          )),
-                          Positioned(
-                            child: GestureDetector(
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                child: const Icon(
-                                  Icons.clear,
-                                  size: 24,
-                                  color: Colors.white,
-                                )),
-                            right: 1,
-                            top: 1,
-                          )
-                        ],
-                      ),
+                        ),
+                        GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context);
+                            },
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                top: 16.w,
+                              ),
+                              alignment: Alignment.centerRight,
+                              child: Icon(
+                                Icons.clear,
+                                size: 18,
+                                color: Colors.grey.shade500,
+                              ),
+                            )),
+                      ],
                     ),
-                    Expanded(
-                      flex: 8,
-                      child: SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                    SizedBox(height: 16.h,),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Row(
                           mainAxisSize: MainAxisSize.max,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  TitleMediumTextWidget(
-                                      title: isSwitched
-                                          ? strActive = "Active"
-                                          : "InActive"),
-                                  Switch(
-                                    onChanged: (bool value) {
-                                      setState(() {
-                                        isSwitched = value;
-                                      });
-                                      if (specObj is FabricSpecification) {
-                                        if (value) {
-                                          updateFabricRequestModel
-                                              .specification_status = "1";
-                                        } else {
-                                          updateFabricRequestModel
-                                              .specification_status = "0";
-                                        }
-                                      } else {
-                                        if (value) {
-                                          updateFabricRequestModel
-                                              .specification_status = "1";
-                                        } else {
-                                          updateFabricRequestModel
-                                              .specification_status = "0";
-                                        }
-                                      }
-                                    },
-                                    value: isSwitched,
-                                    activeColor: Colors.green,
-                                    activeTrackColor: Colors.green.shade200,
-                                    inactiveThumbColor: Colors.grey,
-                                    inactiveTrackColor: Colors.grey.shade200,
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey.shade100,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.w)),
-                                  color: searchBarWhiteBg),
-                              margin: EdgeInsets.only(
-                                  top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: TextField(
-                                      controller: controllerUpdatePrice,
-                                      keyboardType: TextInputType.number,
-                                      cursorColor: lightBlueTabs,
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none,
-                                          focusedBorder: InputBorder.none,
-                                          enabledBorder: InputBorder.none,
-                                          errorBorder: InputBorder.none,
-                                          disabledBorder: InputBorder.none,
-                                          contentPadding:
-                                              EdgeInsets.only(left: 8),
-                                          hintText: "Price"),
-                                      style: TextStyle(fontSize: 14.sp),
-                                      maxLines: 1,
-                                      inputFormatters: [
-                                        FilteringTextInputFormatter.allow(
-                                            RegExp("[0-9]")),
-                                      ],
-                                      onChanged: (value) {
-                                        // _controllerUpdatePrice.text = value;
-                                        if (value.isNotEmpty) {
-                                          if (specObj is FabricSpecification) {
-                                            updateFabricRequestModel
-                                                .specification_rate = value;
-                                          } else {
-                                            updateFabricRequestModel
-                                                .specification_rate = value;
-                                          }
-                                        }
-                                      },
-                                    ),
-                                    flex: 9,
-                                  ),
-                                  Expanded(
-                                      child: TitleSmallTextWidget(
-                                          title: specification != null
-                                              ? '/${specification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'
-                                              : yarnSpecification != null
-                                                  ? '/${yarnSpecification.priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'
-                                                  : '/${(specObj as FabricSpecification).priceUnit.toString().replaceAll(RegExp(r'[^a-zA-Z$]'), '')}'))
-                                ],
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey.shade100,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.w)),
-                                  color: searchBarWhiteBg),
-                              margin: EdgeInsets.only(
-                                  top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
-                              child: TextField(
-                                controller: controllerAvailQ,
-                                keyboardType: TextInputType.number,
-                                cursorColor: lightBlueTabs,
-                                decoration: const InputDecoration(
-                                    border: InputBorder.none,
-                                    focusedBorder: InputBorder.none,
-                                    enabledBorder: InputBorder.none,
-                                    errorBorder: InputBorder.none,
-                                    disabledBorder: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(left: 8),
-                                    hintText: "Available Quantity"),
-                                style: TextStyle(fontSize: 14.sp),
-                                maxLines: 1,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.allow(
-                                      RegExp("[0-9]")),
-                                ],
-                                onChanged: (value) {
-                                  if (value.isNotEmpty) {
-                                    if (specObj is FabricSpecification) {
-                                      updateFabricRequestModel
-                                          .specification_quantity = value;
-                                    } else {
-                                      updateFabricRequestModel
-                                          .specification_quantity = value;
-                                    }
-                                  }
-                                  // _controllerUpdatePrice.text = value;
-                                },
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.grey.shade100,
-                                  ),
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(4.w)),
-                                  color: searchBarWhiteBg),
-                              margin: EdgeInsets.only(
-                                  top: 8.w, right: 8.w, bottom: 8.w, left: 8.w),
-                              padding: EdgeInsets.symmetric(horizontal: 8.w),
-                              child: DropdownButton(
-                                isExpanded: true,
-                                value: deliveryPeriod,
-                                items: deliveryPeriodList
-                                    .map((value) =>
-                                        DropdownMenuItem<DeliveryPeriod>(
-                                          child: Text(value.dprName ?? "",
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                  /**/)),
-                                          value: value,
-                                        ))
-                                    .toList(),
-                                underline: const SizedBox(),
-                                onChanged: (DeliveryPeriod? value) {
-                                  setState(() {
-                                    deliveryPeriod = value!;
-                                    showNoOfDays(deliveryPeriod);
-                                  });
-                                  if (specObj is FabricSpecification) {
+                            TitleTextWidget(
+                                title: isSwitched
+                                    ? strActive = "Active"
+                                    : "InActive"),
+                            FlutterSwitch(
+                              width: 48.0,
+                              height: 22.0,
+                              padding: 2,
+                              toggleSize: 18,
+                              showOnOff: false,
+                              onToggle: (bool value) {
+                                setState(() {
+                                  isSwitched = value;
+                                });
+                                if (specObj is FabricSpecification) {
+                                  if (value) {
                                     updateFabricRequestModel
-                                            .specification_delivery_period =
-                                        value!.dprId.toString();
+                                        .specification_status = "1";
                                   } else {
                                     updateFabricRequestModel
-                                            .specification_delivery_period =
-                                        value!.dprId.toString();
+                                        .specification_status = "0";
                                   }
-                                },
-                                // value: widget.syncFiberResponse.data.fiber.countries.first,
-                                style: TextStyle(
-                                    fontSize: 11.sp, color: textColorGrey),
-                              ),
-                            ),
-                            Visibility(
-                              visible: noOfDays,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: Colors.grey.shade100,
-                                    ),
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(4.w)),
-                                    color: searchBarWhiteBg),
-                                margin: EdgeInsets.only(
-                                    top: 8.w,
-                                    right: 8.w,
-                                    bottom: 8.w,
-                                    left: 8.w),
-                                child: TextField(
-                                  controller: controllerNoOfDays,
-                                  keyboardType: TextInputType.number,
-                                  cursorColor: lightBlueTabs,
-                                  style: TextStyle(fontSize: 11.sp),
-                                  decoration: const InputDecoration(
-                                      border: InputBorder.none,
-                                      focusedBorder: InputBorder.none,
-                                      enabledBorder: InputBorder.none,
-                                      errorBorder: InputBorder.none,
-                                      disabledBorder: InputBorder.none,
-                                      counterText: "",
-                                      contentPadding: EdgeInsets.only(left: 8),
-                                      hintText: "No of Days"),
-                                  textAlign: TextAlign.left,
-                                  cursorHeight: 16.w,
-                                  maxLines: 1,
-                                  maxLength: 3,
-                                  /* onSaved: (input) {
-                                      updateFabricRequestModel
-                                          .fbp_no_of_days = input!;
-                                    },
-                                    validator: (input) {
-                                      if (input == null ||
-                                          input.isEmpty ||
-                                          int.parse(input) < 1) {
-                                        return "No of days";
-                                      }
-                                      return null;
-                                    },*/
-                                  onChanged: (String value) {
-                                    updateFabricRequestModel.fbp_no_of_days =
-                                        value;
-                                  },
-                                ),
-                              ),
+                                } else {
+                                  if (value) {
+                                    updateFabricRequestModel
+                                        .specification_status = "1";
+                                  } else {
+                                    updateFabricRequestModel
+                                        .specification_status = "0";
+                                  }
+                                }
+                              },
+                              value: isSwitched,
+                              activeColor: Colors.green,
                             ),
                           ],
                         ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButtonWithoutIcon(
-                        callback: () {
-                            if (int.parse(
-                                updateFabricRequestModel.fbp_no_of_days??"0") <=
-                                0 && noOfDays) {
+                        SizedBox(height: 24.0.h),
+                        TextField(
+                          controller: controllerUpdatePrice,
+                          keyboardType: TextInputType.number,
+                          cursorColor: lightBlueTabs,
+                          decoration: textFieldDecoration(
+                              '', "Product Price",false),
+                          style: TextStyle(fontSize: 14.sp),
+                          maxLines: 1,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                          ],
+                          onChanged: (value) {
+                            // _controllerUpdatePrice.text = value;
+                            if (value.isNotEmpty) {
+                              if (specObj is FabricSpecification) {
+                                updateFabricRequestModel.specification_rate =
+                                    value;
+                              } else {
+                                updateFabricRequestModel.specification_rate =
+                                    value;
+                              }
+                            }
+                          },
+                        ),
+                        SizedBox(height: 16.0.h),
+                        TextField(
+                          controller: controllerAvailQ,
+                          keyboardType: TextInputType.number,
+                          cursorColor: lightBlueTabs,
+                          decoration: textFieldDecoration(
+                              '', "Quantity",false),
+                          style: TextStyle(fontSize: 14.sp),
+                          maxLines: 1,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                          ],
+                          onChanged: (value) {
+                            if (value.isNotEmpty) {
+                              if (specObj is FabricSpecification) {
+                                updateFabricRequestModel
+                                    .specification_quantity = value;
+                              } else {
+                                updateFabricRequestModel
+                                    .specification_quantity = value;
+                              }
+                            }
+                            // _controllerUpdatePrice.text = value;
+                          },
+                        ),
+                        SizedBox(height: 16.0.h),
+                        DropdownButtonFormField(
+                          decoration: textFieldDecoration(
+                              'Select Delivery Period', "Delivery Period",false),
+                          isExpanded: true,
+                          value: deliveryPeriod,
+                          items: deliveryPeriodList
+                              .map(
+                                  (value) => DropdownMenuItem<DeliveryPeriod>(
+                                        child: Text(value.dprName ?? "",
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                                /**/)),
+                                        value: value,
+                                      ))
+                              .toList(),
+                          onChanged: (DeliveryPeriod? value) {
+                            setState(() {
+                              deliveryPeriod = value!;
+                              showNoOfDays(deliveryPeriod);
+                            });
+                            if (specObj is FabricSpecification) {
+                              updateFabricRequestModel
+                                      .specification_delivery_period =
+                                  value!.dprId.toString();
+                            } else {
+                              updateFabricRequestModel
+                                      .specification_delivery_period =
+                                  value!.dprId.toString();
+                            }
+                          },
+                          // value: widget.syncFiberResponse.data.fiber.countries.first,
+                          style: TextStyle(
+                              fontSize: 11.sp, color: textColorGrey),
+                        ),
+                        SizedBox(height: 16.0.h,),
+                        Visibility(
+                          visible: noOfDays,
+                          child: TextField(
+                            controller: controllerNoOfDays,
+                            keyboardType: TextInputType.number,
+                            cursorColor: lightBlueTabs,
+                            style: TextStyle(fontSize: 11.sp),
+                            decoration: textFieldDecoration(
+                                'No of Days', "No of Days",false),
+                            textAlign: TextAlign.left,
+                            cursorHeight: 16.w,
+                            maxLines: 1,
+                            maxLength: 3,
+                            /* onSaved: (input) {
+                              updateFabricRequestModel
+                                  .fbp_no_of_days = input!;
+                            },
+                            validator: (input) {
+                              if (input == null ||
+                                  input.isEmpty ||
+                                  int.parse(input) < 1) {
+                                return "No of days";
+                              }
+                              return null;
+                            },*/
+                            onChanged: (String value) {
+                              updateFabricRequestModel.fbp_no_of_days = value;
+                            },
+                          ),
+                        ),
+                        ElevatedButtonWithoutIcon(
+                          callback: () {
+                            if (int.parse(updateFabricRequestModel
+                                            .fbp_no_of_days ??
+                                        "0") <=
+                                    0 &&
+                                noOfDays) {
                               Fluttertoast.showToast(
                                   msg: "Please add no of days");
                               return;
                             }
 
-                          showGenericDialog(
-                              "Alert",
-                              'Are you sure, you want to update specification?',
-                              context,
-                              StylishDialogType.WARNING,
-                              "Confirm", () {
-                            Logger().e(
-                                updateFabricRequestModel.toJson().toString());
-                            ProgressDialogUtil.showDialog(
-                                context, "Please wait..");
-                            ApiService().updateSpecification(
-                                    updateFabricRequestModel, "")
-                                .then((value) {
-                              ProgressDialogUtil.hideDialog();
-                              if (value.status!) {
-                                Logger().e(value.toJson().toString());
-                                // Fluttertoast.showToast(msg: value.message);
-                                if (value.responseCode == 205) {
-                                  showGenericDialog(
-                                      "Alert",
-                                      value.message!,
-                                      context,
-                                      StylishDialogType.WARNING,
-                                      "My Products", () {
+                            showGenericDialog(
+                                "Alert",
+                                'Are you sure, you want to update specification?',
+                                context,
+                                StylishDialogType.WARNING,
+                                "Confirm", () {
+                              Logger().e(updateFabricRequestModel
+                                  .toJson()
+                                  .toString());
+                              ProgressDialogUtil.showDialog(
+                                  context, "Please wait..");
+                              ApiService()
+                                  .updateSpecification(
+                                      updateFabricRequestModel, "")
+                                  .then((value) {
+                                ProgressDialogUtil.hideDialog();
+                                if (value.status!) {
+                                  Logger().e(value.toJson().toString());
+                                  // Fluttertoast.showToast(msg: value.message);
+                                  if (value.responseCode == 205) {
+                                    showGenericDialog(
+                                        "Alert",
+                                        value.message!,
+                                        context,
+                                        StylishDialogType.WARNING,
+                                        "My Products", () {
+                                      Navigator.pop(context);
+                                      openMyAdsScreen(context);
+                                    });
+                                  } else {
+                                    callback(value.data);
                                     Navigator.pop(context);
-                                    openMyAdsScreen(context);
-                                  });
-                                } else {
-                                  callback(value.data);
-                                  Navigator.pop(context);
-                                  if (yarnSpecification != null) {
-                                    final yarnSpecificationsProvider =
-                                        Provider.of<YarnSpecificationsProvider>(
-                                            context,
-                                            listen: false);
-                                    yarnSpecificationsProvider
-                                        .getUpdatedYarnSpecificationsData();
-                                  } else if (specification != null) {
-                                    final _fiberSpecificationsProvider =
-                                        locator<FiberSpecificationProvider>();
-                                    _fiberSpecificationsProvider
-                                        .getUpdatedFiberSpecificationsData();
-                                  } else if (specObj is FabricSpecification) {
-                                    final fabricSpecificationsProvider =
-                                        Provider.of<
-                                                FabricSpecificationsProvider>(
-                                            context,
-                                            listen: false);
-                                    fabricSpecificationsProvider
-                                        .getUpdatedFabricSpecificationsData();
+                                    if (yarnSpecification != null) {
+                                      final yarnSpecificationsProvider =
+                                          Provider.of<
+                                                  YarnSpecificationsProvider>(
+                                              context,
+                                              listen: false);
+                                      yarnSpecificationsProvider
+                                          .getUpdatedYarnSpecificationsData();
+                                    } else if (specification != null) {
+                                      final _fiberSpecificationsProvider =
+                                          locator<
+                                              FiberSpecificationProvider>();
+                                      _fiberSpecificationsProvider
+                                          .getUpdatedFiberSpecificationsData();
+                                    } else if (specObj
+                                        is FabricSpecification) {
+                                      final fabricSpecificationsProvider =
+                                          Provider.of<
+                                                  FabricSpecificationsProvider>(
+                                              context,
+                                              listen: false);
+                                      fabricSpecificationsProvider
+                                          .getUpdatedFabricSpecificationsData();
+                                    }
                                   }
+                                } else {
+                                  Ui.showSnackBar(context, value.message!);
                                 }
-                              } else {
-                                Ui.showSnackBar(context, value.message!);
-                              }
-                            }).onError((error, stackTrace) {
-                              ProgressDialogUtil.hideDialog();
-                              Ui.showSnackBar(context, error.toString());
+                              }).onError((error, stackTrace) {
+                                ProgressDialogUtil.hideDialog();
+                                Ui.showSnackBar(context, error.toString());
+                              });
                             });
-                          });
-                        },
-                        color: Colors.green,
-                        btnText: "Update",
-                      ),
+                          },
+                          color: Colors.green,
+                          btnText: "Update",
+                        ),
+                        SizedBox(height: 16.h,),
+                      ],
                     )
                   ],
                 ),
                 margin: const EdgeInsets.symmetric(horizontal: 20),
+                padding: const EdgeInsets.symmetric(horizontal: 12),
                 // decoration: BoxDecoration(
                 //     color: Colors.white, borderRadius: BorderRadius.circular(40)),
               ),

@@ -123,7 +123,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "GST (NTN Number)",false)),
             ],
           ),
@@ -141,7 +141,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   textFieldConfiguration: TextFieldConfiguration(
                     style: TextStyle(fontSize: 13.sp),
                     controller: _companyTypeAheadController,
-                    decoration: textFieldProfile(
+                    decoration: textFieldDecoration(
                         '', "Company Name",true),
                   ),
                   noItemsFoundBuilder: (BuildContext context) {
@@ -203,7 +203,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
             children: [
 
               DropdownButtonFormField<GenericCategories>(
-                decoration:textFieldProfile(
+                decoration:textFieldDecoration(
                     'Select Business Area', "Business Area",false),
                 isDense: true,
                 isExpanded: true,
@@ -252,7 +252,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "Trade Mark",false)),
             ],
           ),
@@ -278,7 +278,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "Employment Role",false)),
             ],
           ),
@@ -292,7 +292,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
 
               DropdownButtonFormField<Designations?>(
-                decoration: textFieldProfile(
+                decoration: textFieldDecoration(
                     'Select', "Designation",false) ,
                 isDense: true,
                 hint:Text("Select Designation",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
@@ -339,7 +339,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "Company Address",false)),
             ],
           ),
@@ -454,7 +454,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       value!.stateId.toString();
                 },
 
-                decoration: textFieldProfile(
+                decoration: textFieldDecoration(
                     'Select', "Company State/District",true),
                 validator: (value) => value == null ? 'Please select sate/district' : null,
               ),
@@ -497,7 +497,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                       value?.cityId.toString();
                 },
 
-                decoration: textFieldProfile(
+                decoration: textFieldDecoration(
                     'Select', "City",true),
                 validator: (value) => value == null ? 'Please select city' : null,
               ),
@@ -529,7 +529,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 //                     }
 //                     return null;
 //                   },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "Company Zip Code",false)),
             ],
           ),
@@ -557,7 +557,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "Website",false)),
             ],
           ),

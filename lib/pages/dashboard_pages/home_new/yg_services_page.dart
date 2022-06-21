@@ -166,7 +166,7 @@ class YgServicePageState extends State<YgServicePage>
                       value?.serviceTypeId.toString();
                 },
 
-                decoration: textFieldProfile('Select', "Service Type", true),
+                decoration: textFieldDecoration('Select', "Service Type", true),
                 validator: (value) =>
                     value == null ? 'Please select service type' : null,
               ),
@@ -213,7 +213,7 @@ class YgServicePageState extends State<YgServicePage>
                   textFieldConfiguration: TextFieldConfiguration(
                     style: TextStyle(fontSize: 13.sp),
                     controller: _companyTypeAheadController,
-                    decoration: textFieldProfile(
+                    decoration: textFieldDecoration(
                         'Enter Company Name', "Company Name", true),
                   ),
                   suggestionsCallback: (pattern) {
@@ -273,7 +273,7 @@ class YgServicePageState extends State<YgServicePage>
                     }
                     return null;
                   },
-                  decoration: textFieldProfile('Enter Name', "Name", true)),
+                  decoration: textFieldDecoration('Enter Name', "Name", true)),
             ],
           ),
         ),
@@ -299,7 +299,7 @@ class YgServicePageState extends State<YgServicePage>
                     }
                     return null;
                   },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       'Enter Contact Number', "Contact Number", true)),
             ],
           ),
@@ -324,7 +324,7 @@ class YgServicePageState extends State<YgServicePage>
                     return null;
                   },
                   decoration:
-                      textFieldProfile('Enter Address', "Address", true)),
+                      textFieldDecoration('Enter Address', "Address", true)),
             ],
           ),
         ),
@@ -350,7 +350,7 @@ class YgServicePageState extends State<YgServicePage>
                     }
                     return null;
                   },
-                  decoration: textFieldProfile('Enter Email', "Email", true)),
+                  decoration: textFieldDecoration('Enter Email', "Email", true)),
             ],
           ),
         ),
@@ -372,7 +372,7 @@ class YgServicePageState extends State<YgServicePage>
                   //   return null;
                   // },
                   decoration:
-                      textFieldProfile('Enter Landmark', "Landmark", false)),
+                      textFieldDecoration('Enter Landmark', "Landmark", false)),
             ],
           ),
         ),
@@ -397,7 +397,7 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile('Enter Secondary Contact Name',
+                  decoration: textFieldDecoration('Enter Secondary Contact Name',
                       "Secondary Contact Name", false)),
             ],
           ),
@@ -423,7 +423,7 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile('Enter Secondary Contact Number',
+                  decoration: textFieldDecoration('Enter Secondary Contact Number',
                       "Secondary Contact Number", false)),
             ],
           ),
@@ -446,7 +446,7 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile('', "Details", false)),
+                  decoration: textFieldDecoration('', "Details", false)),
             ],
           ),
         ),
@@ -470,7 +470,7 @@ class YgServicePageState extends State<YgServicePage>
                   //   return null;
                   // },
                   decoration:
-                      textFieldProfile('', "Special Instructions", false)),
+                      textFieldDecoration('', "Special Instructions", false)),
             ],
           ),
         ),

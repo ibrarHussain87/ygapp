@@ -122,7 +122,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     }*/
                     return null;
                   },
-                  decoration: textFieldProfile('Enter Name', "Name", false)),
+                  decoration: textFieldDecoration('Enter Name', "Name", false)),
             ],
           ),
         ),
@@ -147,7 +147,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     }*/
                     return null;
                   },
-                  decoration: textFieldProfile('', "Address", false)),
+                  decoration: textFieldDecoration('', "Address", false)),
             ],
           ),
         ),
@@ -265,7 +265,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   _updateProfileRequestModel.cityStateId =
                       value?.stateId.toString();
                 },
-                decoration: textFieldProfile('Select', "State/District", true),
+                decoration: textFieldDecoration('Select', "State/District", true),
                 validator: (value) =>
                     value == null ? 'Please select sate/district' : null,
               ),
@@ -304,7 +304,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                   _profileInfoProvider.selectedCity = value;
                   _updateProfileRequestModel.city = value?.cityName;
                 },
-                decoration: textFieldProfile('Select', "City", true),
+                decoration: textFieldDecoration('Select', "City", true),
                 validator: (value) =>
                     value == null ? 'Please select city' : null,
               ),
@@ -332,7 +332,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     }*/
                     return null;
                   },
-                  decoration: textFieldProfile('', "Postal Code", false)),
+                  decoration: textFieldDecoration('', "Postal Code", false)),
             ],
           ),
         ),
@@ -390,7 +390,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     }*/
                     return null;
                   },
-                  decoration: textFieldProfile('', "Telephone", false)),
+                  decoration: textFieldDecoration('', "Telephone", false)),
             ],
           ),
         ),
@@ -417,7 +417,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     }
                     return null;
                   },
-                  decoration: textFieldProfile('', "Email", true)),
+                  decoration: textFieldDecoration('', "Email", true)),
             ],
           ),
         ),

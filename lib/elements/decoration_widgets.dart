@@ -91,7 +91,7 @@ InputDecoration textFormFieldDecProfile(String hintLabel,String assetName) {
 }
 
 //////////Edit profile
-InputDecoration textFieldProfile(String hintLabel,String title,bool isMandatory) {
+InputDecoration textFieldDecoration(String hintLabel,String title,bool isMandatory) {
   return InputDecoration(
       contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
       label: Row(
@@ -114,7 +114,7 @@ InputDecoration textFieldProfile(String hintLabel,String title,bool isMandatory)
   );
 }
 
-InputDecoration dropDownProfile(String hintLabel,String title) {
+InputDecoration dropDownDecoration(String hintLabel,String title) {
   return InputDecoration(
 //    labelText: title,
       contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
