@@ -11,6 +11,7 @@ import 'package:yg_app/pages/profile/my_products/fabric/fabric_product_page.dart
 import 'package:yg_app/pages/profile/my_products/stocklots/stocklot_product_page.dart';
 import 'package:yg_app/pages/profile/my_products/yarn/yarn_product_page.dart';
 
+import '../../../elements/custom_header.dart';
 import 'fiber/fiber_product_page.dart';
 class MyProductPage extends StatefulWidget {
   const MyProductPage({Key? key}) : super(key: key);
@@ -80,6 +81,7 @@ class _MyProductPageState extends State<MyProductPage>
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
+        appBar: appBar(context, "My Products"),
         body: FutureBuilder<MyProductsResponse>(
           future: ApiService().myProducts(),
           builder: (context, snapshots) {
@@ -106,7 +108,7 @@ class _MyProductPageState extends State<MyProductPage>
                                   automaticallyImplyLeading: false,
                                   backgroundColor: Colors.white,
                                   titleSpacing: 0,
-                                  title: Padding(
+                                  title: /*Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Container(
                                       decoration: BoxDecoration(
@@ -187,23 +189,26 @@ class _MyProductPageState extends State<MyProductPage>
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  floating: true,
-                                  pinned: true,
-                                  snap: true,
-                                  bottom: TabBar(
-                                    isScrollable: false,
-                                    controller: tabController,
-                                    unselectedLabelColor: textColorGreyLight,
-                                    labelColor: lightBlueTabs,
-                                    indicatorColor: lightBlueTabs,
-                                    indicatorSize: TabBarIndicatorSize.label,
-                                    indicator: UnderlineTabIndicator(
-                                        borderSide: BorderSide(
-                                            color: lightBlueTabs, width: 2.w),
-                                        insets: const EdgeInsets.symmetric(
-                                            horizontal: 24.0, vertical: 5)),
-                                    tabs: tabMaker(),
+                                  )*/null,
+                                  floating: false,
+                                  pinned: false,
+                                  snap: false,
+                                  bottom: PreferredSize(
+                                    preferredSize: const Size.fromHeight(0),
+                                    child: TabBar(
+                                      isScrollable: false,
+                                      controller: tabController,
+                                      unselectedLabelColor: textColorGreyLight,
+                                      labelColor: lightBlueTabs,
+                                      indicatorColor: lightBlueTabs,
+                                      indicatorSize: TabBarIndicatorSize.label,
+                                      indicator: UnderlineTabIndicator(
+                                          borderSide: BorderSide(
+                                              color: lightBlueTabs, width: 2.w),
+                                          insets: const EdgeInsets.symmetric(
+                                              horizontal: 24.0, vertical: 5)),
+                                      tabs: tabMaker(),
+                                    ),
                                   ),
                                 ),
                               ),
