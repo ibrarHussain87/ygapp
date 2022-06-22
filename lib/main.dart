@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
@@ -267,7 +268,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
       backgroundColor: Colors.white,
       body: Stack(
         children: [
-          Positioned(
+          /*Positioned(
             top: -(MediaQuery.of(context).size.width * 0.1),
             left: -(MediaQuery.of(context).size.width * 0.2),
             child: AnimatedContainer(
@@ -334,7 +335,13 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
             child: Align(
                 alignment: Alignment.center,
                 child: Image.asset(logoImage, height: 84.w, width: 84.w)),
-          ))
+          ))*/
+          Image.asset(
+            'images/splash_reloaded.png',
+            width: double.infinity,
+            height: double.infinity,
+            fit: BoxFit.fill,
+          )
         ],
       ),
     );

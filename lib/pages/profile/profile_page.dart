@@ -177,7 +177,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                                 top: 5.0),
                                             child: ProfileTileWidget(
                                                 title: "Account Details",
-                                                image: 'images/img_person_profile.png'),
+                                                image: 'images/svg/ic_profile_reloaded.svg'),
                                           ),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
@@ -211,7 +211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Column(
                                         children: [
                                           const ProfileTileWidget(title: "My Products",
-                                              image: 'images/img_my_offering.png'),
+                                              image: 'images/svg/ic_offering_reloaded.svg'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -225,7 +225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Column(
                                         children: [
                                           const ProfileTileWidget(title: "My Bids",
-                                              image: 'images/img_my_requirement.png'),
+                                              image: 'images/svg/ic_requirements_reloaded.svg'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -240,7 +240,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Column(
                                         children: [
                                           const ProfileTileWidget(title: "My Services",
-                                              image: 'images/img_auction.png'),
+                                              image: 'images/svg/ic_services_reloaded.svg'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -270,7 +270,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                       child: Column(
                                         children: [
                                           const ProfileTileWidget(title: "Membership",
-                                              image: 'images/img_mebership.png'),
+                                              image: 'images/svg/ic_membership_reloaded.svg'),
                                           /*const Divider()*/
                                           SizedBox(height: 5.0.h,)
                                         ],
@@ -307,7 +307,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         children: [
                                           const ProfileTileWidget(
                                               title: "Customer Support",
-                                              image: 'images/img_customer_support.png'),
+                                              image: 'images/svg/ic_customer_support_reloaded.svg'),
                                           // const Divider()
                                           SizedBox(height: 10.0.h,)
                                         ],

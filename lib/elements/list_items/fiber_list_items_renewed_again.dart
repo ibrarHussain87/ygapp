@@ -196,7 +196,7 @@ Widget buildFiberRenewedAgainWidget(
                                     Expanded(
                                       child: BgLightBlueNormalTextWidget(
                                         title: specification.nature_id == '2'
-                                            ? 'M ${specification.micronaire ?? ""}'
+                                            ? 'Mic ${specification.micronaire ?? ""}'
                                             : 'Mic ${specification.micronaire ?? ""}',
                                       ),
                                       flex: 1,

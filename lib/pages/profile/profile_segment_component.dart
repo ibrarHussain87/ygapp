@@ -103,7 +103,7 @@ class ProfileSegmentComponentState extends State<ProfileSegmentComponent> {
                 //     color: tabBackground),
                 margin: EdgeInsets.symmetric(horizontal: 0.w,vertical: 6.w),
                 child: Padding(
-                  padding: const EdgeInsets.all(0),
+                  padding: const EdgeInsets.all(2),
                   child: CustomSlidingSegmentedControl<int>(
                     initialValue: selectedValue,
                     isStretch: true,

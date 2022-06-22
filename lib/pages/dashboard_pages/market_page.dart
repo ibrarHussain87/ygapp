@@ -83,12 +83,11 @@ class MarketPageState extends State<MarketPage>
             length: tabsList.length,
             child: Scaffold(
               backgroundColor:Colors.white,
-
               body: NestedScrollView(
                 headerSliverBuilder:
                     (BuildContext context, bool innerBoxIsScrolled) {
                   return <Widget>[
-                    SliverOverlapAbsorber(
+                    /*SliverOverlapAbsorber(
                       handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                           context),
                       sliver: SliverSafeArea(
@@ -97,7 +96,7 @@ class MarketPageState extends State<MarketPage>
                           elevation: 0.0,
                           backgroundColor: bgColor,
                           titleSpacing: 0,
-                          title: Padding(
+                          title: *//*Padding(
                             padding: const EdgeInsets.only(
                                 left: 8, right: 8, top: 8, bottom: 1),
                             child: Row(
@@ -200,7 +199,7 @@ class MarketPageState extends State<MarketPage>
                                         _openFabricFilterPage();
                                       }
                                     },
-                                    child: /*Card(
+                                    child: *//**//*Card(
                                       elevation: 1,
                                       child: Padding(
                                           padding: EdgeInsets.all(4.w),
@@ -210,7 +209,7 @@ class MarketPageState extends State<MarketPage>
                                             size: 16.w,
                                           )
                                       )
-                                  ),*/
+                                  ),*//**//*
                                     Padding(
                                       padding: const EdgeInsets.only(left: 4),
                                       child: Image.asset(
@@ -221,7 +220,7 @@ class MarketPageState extends State<MarketPage>
                                     )),
                               ],
                             ),
-                          ),
+                          )*//*null,
                           floating: true,
                           pinned: true,
                           snap: true,
@@ -242,7 +241,7 @@ class MarketPageState extends State<MarketPage>
                           // ),
                         ),
                       ),
-                    ),
+                    ),*/
                   ];
                 },
                 body: TabBarView(

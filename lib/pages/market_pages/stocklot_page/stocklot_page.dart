@@ -16,9 +16,11 @@ import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.
 import 'package:yg_app/providers/stocklot_providers/stocklot_specification_provider.dart';
 
 import '../../../elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
+import '../../fliter_pages/stocklot/stocklot_filter_page.dart';
 
 class StockLotPage extends StatefulWidget {
   final String? locality;
@@ -53,6 +55,18 @@ class StockLotPageState extends State<StockLotPage> {
       child: Builder(builder: (context) {
         return !_stockLotSpecificationProvider.isLoading
             ? Scaffold(
+                appBar: appBar(context, 'Stocklot', isFilterVisible: true,
+                    filterCallback: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const StockLotFilterPage()),
+                      ).then((value) {
+                        //Getting result from filter
+                          if (value != null) {
+                            _stockLotSpecificationProvider.searchData(value);
+                          }
+                      });
+                }),
                 backgroundColor: Colors.white,
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
@@ -72,7 +86,7 @@ class StockLotPageState extends State<StockLotPage> {
                       Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Row(
                               children: [
                                 Expanded(
@@ -240,8 +254,7 @@ class StockLotPageState extends State<StockLotPage> {
                                                 .getStockLotSpecRequestModel
                                                 .stocklotFamilyId = null;
 
-                                            if (_stockLotSpecificationProvider
-                                                    .subFamilyKey
+                                            if (_stockLotSpecificationProvider.subFamilyKey
                                                     .currentState !=
                                                 null) {
                                               _stockLotSpecificationProvider

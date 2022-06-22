@@ -102,7 +102,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
       children: [
         Padding(
           padding:
-          EdgeInsets.only(top: 30.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 30.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -130,7 +130,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -197,7 +197,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -233,7 +233,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -259,7 +259,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -285,7 +285,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -321,7 +321,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -347,7 +347,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -383,7 +383,13 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
                          Text("*", style: TextStyle(color: Colors.red)),
                         ],
                       ),
-                      suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black54,
+                        ),
+                      ),
                       floatingLabelBehavior:FloatingLabelBehavior.always ,
                       hintText: "Select",
                       hintStyle:  TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),
@@ -418,7 +424,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -463,7 +469,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -510,7 +516,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -537,7 +543,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
 
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -563,7 +569,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(16.w),
+          padding: EdgeInsets.only(top:14.w,bottom: 14.w),
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {

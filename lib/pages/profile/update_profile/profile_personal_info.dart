@@ -104,7 +104,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
       children: [
         Padding(
           padding:
-              EdgeInsets.only(top: 30.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 30.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -128,7 +128,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -153,7 +153,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -191,9 +191,12 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                           Text("*", style: TextStyle(color: Colors.red)),
                         ],
                       ),
-                      suffixIcon: const Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.black54,
+                      suffixIcon: const Padding(
+                        padding: EdgeInsets.only(left: 8),
+                        child: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black54,
+                        ),
                       ),
                       floatingLabelBehavior: FloatingLabelBehavior.always,
                       hintText: "Select",
@@ -231,7 +234,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w,left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -275,7 +278,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w,left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -314,7 +317,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -339,7 +342,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -362,13 +365,13 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
                     }*/
                     return null;
                   },
-                  decoration: textFormWhatsAppProfile('+92 |', "WhatsApp")),
+                  decoration: textFormWhatsAppProfile('+92 | ', "WhatsApp")),
             ],
           ),
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w,left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -397,7 +400,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
         ),
         Padding(
           padding:
-              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w,left: 0.w, right: 0.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -423,7 +426,7 @@ class ProfilePersonalInfoPageState extends State<ProfilePersonalInfoPage>
           ),
         ),
         Padding(
-          padding: EdgeInsets.all(14.w),
+          padding: EdgeInsets.only(top:14.w,bottom: 14.w),
           child: SizedBox(
               width: double.infinity,
               child: Builder(builder: (BuildContext context1) {

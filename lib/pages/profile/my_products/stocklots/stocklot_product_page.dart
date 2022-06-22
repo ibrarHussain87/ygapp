@@ -84,6 +84,7 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                     ],
                   ),
                 ),
+
                 Expanded(
                     flex: 3,
                     child: ElevatedButtonWithoutIcon(
