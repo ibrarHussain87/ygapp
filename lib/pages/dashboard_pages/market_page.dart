@@ -10,6 +10,7 @@ import 'package:yg_app/pages/market_pages/fiber_page/fiber_page.dart';
 import 'package:yg_app/pages/market_pages/yarn_page/yarn_page.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_specification_provider.dart';
 
 import '../../helper_utils/app_images.dart';
 import '../market_pages/fabric_page/fabric_page.dart';
@@ -45,6 +46,7 @@ class MarketPageState extends State<MarketPage>
   TabController? tabController;
   final _fiberSpecificationProvider = locator<FiberSpecificationProvider>();
   final _specificationLocalFilterProvider = locator<SpecificationLocalFilterProvider>();
+  final _stockLotSpecificationProvider = locator<StockLotSpecificationProvider>();
   int pageIndex = 0;
 
   @override
@@ -353,7 +355,7 @@ class MarketPageState extends State<MarketPage>
         //Getting result from filter
         if (tabController!.index == 3) {
           if (value != null) {
-            _stocklotPageState.currentState!.stocklotProvider.searchData(value);
+            _stockLotSpecificationProvider.searchData(value);
           }
         }
       });

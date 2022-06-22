@@ -28,6 +28,7 @@ import 'package:yg_app/providers/pre_login_sync_provider.dart';
 import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
 import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/post_stocklot_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
@@ -37,7 +38,7 @@ import 'notification/notification.dart';
 import 'providers/fabric_providers/fabric_specifications_provider.dart';
 import 'providers/fabric_providers/filter_fabric_provider.dart';
 import 'providers/profile_providers/user_brands_provider.dart';
-import 'providers/stocklot_providers/stocklot_provider.dart';
+import 'providers/stocklot_providers/stocklot_specification_provider.dart';
 import 'providers/yarn_providers/yarn_specifications_provider.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -83,8 +84,8 @@ class YgApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<StocklotProvider>(
-            create: (_) => StocklotProvider()),
+        ChangeNotifierProvider<StockLotSpecificationProvider>(
+            create: (_) => StockLotSpecificationProvider()),
         ChangeNotifierProvider<YarnSpecificationsProvider>(
             create: (_) => YarnSpecificationsProvider()),
         ChangeNotifierProvider<FabricSpecificationsProvider>(
@@ -104,7 +105,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<PreLoginSyncProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<SpecificationLocalFilterProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<StocklotProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<StockLotSpecificationProvider>()),
         ChangeNotifierProvider(create: (_) => locator<PostFabricProvider>()),
         ChangeNotifierProvider(
             create: (_) => locator<YarnSpecificationsProvider>()),
@@ -113,6 +114,7 @@ class YgApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => locator<ProfileInfoProvider>()),
         ChangeNotifierProvider(create: (_) => locator<YgServicesProvider>()),
         ChangeNotifierProvider(create: (_) => locator<YarnFilterProvider>()),
+        ChangeNotifierProvider(create: (_) => locator<PostStockLotProvider>()),
       ],
       child: MaterialApp(
         title: 'Yarn Guru',

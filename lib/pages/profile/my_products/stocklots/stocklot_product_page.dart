@@ -13,7 +13,7 @@ import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_specification_response.dart';
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
-import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_specification_provider.dart';
 
 class StocklotProductPage extends StatefulWidget {
   final List<StockLotSpecification?>? specification;
@@ -26,7 +26,7 @@ class StocklotProductPage extends StatefulWidget {
 }
 
 class StocklotProductPageState extends State<StocklotProductPage> {
-  var stocklotProvider = locator<StocklotProvider>();
+  var stocklotProvider = locator<StockLotSpecificationProvider>();
 
   filterListSearch(value) {
     setState(() {
@@ -50,17 +50,8 @@ class StocklotProductPageState extends State<StocklotProductPage> {
     _filteredSpecification = _specification!
         .where((element) => element!.isOffering == isOffering)
         .toList();
-
-    // AppDbInstance().getDbInstance().then((db) async {
-    //   await db.stocklotCategoriesDao
-    //       .findParentStocklot()
-    //       .then((value) => setState(() {
-    //             stocklotFamilyList = value;
-    //           }));
-    //   return true;
-    // });
     super.initState();
-    stocklotProvider.getStocklotData();
+    stocklotProvider.getStockLotData();
 
     stocklotProvider.addListener(() {
       setState(() {});
@@ -70,109 +61,88 @@ class StocklotProductPageState extends State<StocklotProductPage> {
   @override
   Widget build(BuildContext context) {
     return Container(
-            color: Colors.grey.shade200,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+      color: Colors.grey.shade200,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            padding:
+                EdgeInsets.only(left: 16.0, right: 16.0, top: 8.w, bottom: 8.w),
+            child: Row(
               children: [
-                Container(
-                  padding: EdgeInsets.only(
-                      left: 16.0, right: 16.0, top: 8.w, bottom: 8.w),
-                  child: Row(
+                Expanded(
+                  flex: 7,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Expanded(
-                        flex: 7,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const TitleTextWidget(title: "Add New"),
-                            SizedBox(
-                              height: 4.w,
-                            ),
-                            const TitleExtraSmallTextWidget(
-                                title:
-                                    "You are currently seeing your requirment")
-                          ],
-                        ),
+                      const TitleTextWidget(title: "Add New"),
+                      SizedBox(
+                        height: 4.w,
                       ),
-                      Expanded(
-                          flex: 3,
-                          child: ElevatedButtonWithoutIcon(
-                            callback: () {
-                              showBottomSheetOR(context, (value) {
-                                openStockLotPostPage(
-                                    context, local, 'Stocklot', value);
-                              });
-                            },
-                            btnText: "Post Offer",
-                            color: Colors.green,
-                          ))
+                      const TitleExtraSmallTextWidget(
+                          title: "You are currently seeing your requirment")
                     ],
                   ),
                 ),
-                Container(
-                  color: Colors.white,
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
-                  child: Padding(
-                      padding: const EdgeInsets.only(top: 2.0),
-                      child: BlendWithImageListWidget(
-                          listItem: stocklotProvider.stocklots!,
-                          onClickCallback: (value) {
-                            setState(() {
-                              _filteredSpecification = _specification!
-                                  .where((element) =>
-                                      element!.stocklotCategoryId.toString() ==
-                                      stocklotProvider
-                                          .stocklots![value].stocklotFamilyId
-                                          .toString())
-                                  .toList();
-                            });
-                            stocklotProvider.getCategories(stocklotProvider
-                                .stocklots![value].stocklotFamilyId
-                                .toString());
-                            stocklotProvider.setShowCategory(true);
-                          })),
-                ),
-                Visibility(
-                  visible: /*stocklotProvider.showCategory*/false,
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(8.0),
-                    child: SizedBox(
-                      height: 0.04 * MediaQuery.of(context).size.height,
-                      child: SingleSelectTileRenewedWidget(
-                        spanCount: 2,
-                        selectedIndex: stocklotProvider.selectedIndex,
-                        listOfItems: stocklotProvider.stocklotCategories!,
-                        callback: (StockLotFamily value) {
-                          setState(() {});
-                        },
-                      ),
-                    ),
-                  ),
-                ),
-                Container(
-                  color: Colors.white,
-                  padding: const EdgeInsets.only(bottom: 8.0,),
-                  child: Center(
-                    child: OfferingRequirementSegmentComponent(
-                      callback: (value) {
-                        setState(() {
-                          isOffering = value.toString();
-                          _filteredSpecification = _specification!
-                              .where((element) =>
-                                  element!.isOffering.toString() ==
-                                  value.toString())
-                              .toList();
+                Expanded(
+                    flex: 3,
+                    child: ElevatedButtonWithoutIcon(
+                      callback: () {
+                        showBottomSheetOR(context, (value) {
+                          openStockLotPostPage(
+                              context, local, 'Stocklot', value);
                         });
                       },
-                    ),
-                  ),
-                ),
-                Expanded(
-                    child: Container(
-                      color: Colors.white,
-                      child: _filteredSpecification!.isNotEmpty
+                      btnText: "Post Offer",
+                      color: Colors.green,
+                    ))
+              ],
+            ),
+          ),
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4),
+            child: Padding(
+                padding: const EdgeInsets.only(top: 2.0),
+                child: BlendWithImageListWidget(
+                    listItem: stocklotProvider.stockLots!,
+                    onClickCallback: (value) {
+                      setState(() {
+                        _filteredSpecification = _specification!
+                            .where((element) =>
+                                element!.stocklotCategoryId.toString() ==
+                                stocklotProvider
+                                    .stockLots![value].stocklotFamilyId
+                                    .toString())
+                            .toList();
+                      });
+                      // stocklotProvider.getStockLotCategoriesData(
+                      //     stocklotProvider.stocklots![value].stocklotFamilyId!);
+                    })),
+          ),
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.only(
+              bottom: 8.0,
+            ),
+            child: Center(
+              child: OfferingRequirementSegmentComponent(
+                callback: (value) {
+                  setState(() {
+                    isOffering = value.toString();
+                    _filteredSpecification = _specification!
+                        .where((element) =>
+                            element!.isOffering.toString() == value.toString())
+                        .toList();
+                  });
+                },
+              ),
+            ),
+          ),
+          Expanded(
+              child: Container(
+                  color: Colors.white,
+                  child: _filteredSpecification!.isNotEmpty
                       ? ListView.builder(
                           itemCount: _filteredSpecification!.length,
                           itemBuilder: (context, index) => GestureDetector(
@@ -185,23 +155,10 @@ class StocklotProductPageState extends State<StocklotProductPage> {
                                   specification:
                                       _filteredSpecification![index]!,
                                   showCount: true)),
-                          // separatorBuilder: (context, index) {
-                          //   return Divider(
-                          //     height: 1,
-                          //     color: Colors.grey.shade400,
-                          //   );
-                          // },
                         )
-                      : const NoDataFoundWidget()
-                      // Center(
-                      //     child: TitleSmallTextWidget(
-                      //       title: 'No Data Found',
-                      //     ),
-                      //   ),
-                ))
-              ],
-            ),
-          );
-
+                      : const NoDataFoundWidget()))
+        ],
+      ),
+    );
   }
 }

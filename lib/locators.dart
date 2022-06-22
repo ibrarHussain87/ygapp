@@ -8,7 +8,8 @@ import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
 import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
 import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
-import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/post_stocklot_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_specification_provider.dart';
 import 'package:yg_app/providers/yarn_providers/yarn_filter_provider.dart';
 import 'providers/profile_providers/user_brands_provider.dart';
 import 'package:yg_app/providers/yarn_providers/post_yarn_provider.dart';
@@ -85,9 +86,15 @@ void setupLocators() {
     );
   }
 
-  if(!locator.isRegistered<StocklotProvider>()) {
-    locator.registerLazySingleton<StocklotProvider>(
-          () => StocklotProvider(),
+  if(!locator.isRegistered<StockLotSpecificationProvider>()) {
+    locator.registerLazySingleton<StockLotSpecificationProvider>(
+          () => StockLotSpecificationProvider(),
+    );
+  }
+
+  if(!locator.isRegistered<PostStockLotProvider>()) {
+    locator.registerLazySingleton<PostStockLotProvider>(
+          () => PostStockLotProvider(),
     );
   }
 

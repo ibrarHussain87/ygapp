@@ -2678,6 +2678,19 @@ class _$StocklotFamilyDao extends StocklotFamilyDao {
   }
 
   @override
+  Future<List<StockLotFamily>> findStocklotCategories(int id) async {
+    return _queryAdapter.queryList(
+        'SELECT * FROM stocklots_family where stocklotFamilyParentId == ?1',
+        mapper: (Map<String, Object?> row) => StockLotFamily(
+            stocklotFamilyId: row['stocklotFamilyId'] as int?,
+            stocklotFamilyParentId: row['stocklotFamilyParentId'] as String?,
+            stocklotFamilyName: row['stocklotFamilyName'] as String?,
+            stocklotFamilyActive: row['stocklotFamilyActive'] as String?,
+            stocklotFamilySortid: row['stocklotFamilySortid'] as String?),
+        arguments: [id]);
+  }
+
+  @override
   Future<StockLotFamily?> findStocklotCategoriesWithId(int id) async {
     return _queryAdapter.query(
         'SELECT * FROM stocklots_family where stocklotFamilyParentId = ?1',
