@@ -154,7 +154,7 @@ InputDecoration textFormWhatsAppProfile(String hintLabel,String title) {
       ),
       floatingLabelBehavior:FloatingLabelBehavior.always ,
       prefixText: hintLabel,
-      prefixStyle: TextStyle(fontSize: 10.sp,fontWeight: FontWeight.w500,color: Colors.black87),
+      prefixStyle: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color: Colors.black87),
 
       border: OutlineInputBorder(
           borderRadius:const BorderRadius.all(
