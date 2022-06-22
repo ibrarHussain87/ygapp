@@ -233,7 +233,7 @@ class YarnProductPageState extends State<YarnProductPage>
                 ),
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.only(bottom: 8.0,),
+                  padding: const EdgeInsets.only(left:8,right:8,bottom: 8.0,),
                   child: Center(
                     child: OfferingRequirementSegmentComponent(
                       callback: (value) {

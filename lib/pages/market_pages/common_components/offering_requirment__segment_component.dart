@@ -26,7 +26,7 @@ class OfferingRequirementSegmentComponentState
     return Container(
       width: double.infinity,
       decoration:myBoxDecoration(radius: 8,color:Colors.grey.shade400,width: 0.5),
-      margin: EdgeInsets.symmetric(horizontal: 16.w,vertical: 8.w),
+      margin: EdgeInsets.symmetric(horizontal: /*16.w*/0.w,vertical: 8.w),
       child: CustomSlidingSegmentedControl(
         initialValue: selectedValue,
         isStretch: true,

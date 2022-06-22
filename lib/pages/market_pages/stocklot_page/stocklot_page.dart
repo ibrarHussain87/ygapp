@@ -70,7 +70,7 @@ class StockLotPageState extends State<StockLotPage> {
                       Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Row(
                               children: [
                                 Expanded(

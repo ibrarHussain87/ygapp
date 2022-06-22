@@ -96,58 +96,60 @@ class FabricPageState extends State<FabricPage> {
           color: bgColor,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    flex: widget.locality==international ? 8: 10,
-                    child: OfferingRequirementSegmentComponent(
-                      callback: (value) {
-                        fabricSpecificationListState.currentState!
-                            .searchData(FabricSpecificationRequestModel(
-                            is_offering: value.toString()));
-                      },
-                    ),
-                  ),
-                  Visibility(
-                    visible: widget.locality==international,
-                    maintainState: false,
-                    maintainSize: false,
-                    child: Expanded(
-                      child: Image.asset(
-                        ic_products,
-                        width: 12,
-                        height: 12,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      flex: widget.locality==international ? 8: 10,
+                      child: OfferingRequirementSegmentComponent(
+                        callback: (value) {
+                          fabricSpecificationListState.currentState!
+                              .searchData(FabricSpecificationRequestModel(
+                              is_offering: value.toString()));
+                        },
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: widget.locality==international ? 2: 0,
-                    child: Visibility(
-                        maintainSize: false,
-                        maintainState: false,
-                        visible: widget.locality==international,
-                        child:SearchChoices.single(
-                          displayClearIcon: false,
-                          isExpanded: true,
-                          hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
-                          items:_countries
-                              .map((value) =>
-                              DropdownMenuItem(
-                                child: Text(
-                                  value.conName ??
-                                      Utils.checkNullString(false),
-                                  textAlign: TextAlign
-                                      .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
-                                value: value,
-                              )).toList(),
-                          isCaseSensitiveSearch: false,
-                          onChanged: (Countries? value) {
-                            fabricSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
-                          },
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: textColorGrey,overflow: TextOverflow.ellipsis,),
-                        )
+                    Visibility(
+                      visible: widget.locality==international,
+                      maintainState: false,
+                      maintainSize: false,
+                      child: Expanded(
+                        child: Image.asset(
+                          ic_products,
+                          width: 12,
+                          height: 12,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: widget.locality==international ? 2: 0,
+                      child: Visibility(
+                          maintainSize: false,
+                          maintainState: false,
+                          visible: widget.locality==international,
+                          child:SearchChoices.single(
+                            displayClearIcon: false,
+                            isExpanded: true,
+                            hint: const TitleExtraSmallBoldTextWidget(title: 'Country'),
+                            items:_countries
+                                .map((value) =>
+                                DropdownMenuItem(
+                                  child: Text(
+                                    value.conName ??
+                                        Utils.checkNullString(false),
+                                    textAlign: TextAlign
+                                        .center,style: TextStyle(fontSize: 12.sp,   overflow: TextOverflow.ellipsis,),),
+                                  value: value,
+                                )).toList(),
+                            isCaseSensitiveSearch: false,
+                            onChanged: (Countries? value) {
+                              fabricSpecificationListState.currentState!.fabricListBodyState.currentState!.filterListSearch(value!.conName.toString());
+                            },
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: textColorGrey,overflow: TextOverflow.ellipsis,),
+                          )
 
 
 //                                DropdownButtonFormField(
@@ -174,26 +176,27 @@ class FabricPageState extends State<FabricPage> {
 //                                      fontSize: 11.sp,
 //                                      color: textColorGrey),
 //                                ),
-                    ),
-                  ),
-                  Visibility(
-                    visible: false,
-                    child: Expanded(
-                      flex: 1,
-                      child: Center(
-                        child: Card(
-                            elevation: 1,
-                            child: Padding(
-                                padding: EdgeInsets.all(4.w),
-                                child: Icon(
-                                  Icons.filter_alt_sharp,
-                                  color: lightBlueTabs,
-                                  size: 16.w,
-                                ))),
                       ),
                     ),
-                  ),
-                ],
+                    Visibility(
+                      visible: false,
+                      child: Expanded(
+                        flex: 1,
+                        child: Center(
+                          child: Card(
+                              elevation: 1,
+                              child: Padding(
+                                  padding: EdgeInsets.all(4.w),
+                                  child: Icon(
+                                    Icons.filter_alt_sharp,
+                                    color: lightBlueTabs,
+                                    size: 16.w,
+                                  ))),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               Material(
                 elevation: 0.2,
