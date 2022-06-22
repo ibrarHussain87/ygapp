@@ -81,192 +81,30 @@ class MarketPageState extends State<MarketPage>
             length: tabsList.length,
             child: Scaffold(
               backgroundColor:Colors.white,
-              body: NestedScrollView(
-                headerSliverBuilder:
-                    (BuildContext context, bool innerBoxIsScrolled) {
-                  return <Widget>[
-                    /*SliverOverlapAbsorber(
-                      handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
-                          context),
-                      sliver: SliverSafeArea(
-                        top: false,
-                        sliver: SliverAppBar(
-                          elevation: 0.0,
-                          backgroundColor: bgColor,
-                          titleSpacing: 0,
-                          title: *//*Padding(
-                            padding: const EdgeInsets.only(
-                                left: 8, right: 8, top: 8, bottom: 1),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                        border: Border.all(
-                                          color: searchBarColor,
-                                        ),
-                                        borderRadius: BorderRadius.all(
-                                            Radius.circular(24.w)),
-                                        color: Colors.grey.shade100),
-                                    child: Padding(
-                                      padding: EdgeInsets.only(
-                                          top: 8.w, bottom: 8.w),
-                                      child: Row(
-                                        children: [
-                                          SizedBox(
-                                            width: 8.w,
-                                          ),
-                                          Icon(
-                                            Icons.search_rounded,
-                                            size: 16.w,
-                                            color: searchBarGreyStroke,
-                                          ),
-                                          SizedBox(
-                                            width: 4.w,
-                                          ),
-                                          Expanded(
-                                            child: TextFormField(
-                                              onChanged: (value) {
-                                                _filterList(value);
-                                              },
-                                              cursorColor: Colors.black,
-                                              keyboardType:
-                                              TextInputType.text,
-                                              style:
-                                              TextStyle(fontSize: 11.sp),
-                                              decoration:
-                                              const InputDecoration(
-                                                border: InputBorder.none,
-                                                focusedBorder:
-                                                InputBorder.none,
-                                                enabledBorder:
-                                                InputBorder.none,
-                                                errorBorder: InputBorder.none,
-                                                disabledBorder:
-                                                InputBorder.none,
-                                                isDense: true,
-                                                // this will remove the default content padding
-                                                // now you can customize it here or add padding widget
-                                                contentPadding:
-                                                EdgeInsets.symmetric(
-                                                    horizontal: 0,
-                                                    vertical: 0),
-                                                // contentPadding:
-                                                // EdgeInsets.only(left: 4, bottom: 4, top: 4, right: 4),
-                                                hintText:
-                                                "Search Product,Brand and Category",
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(
-                                  width: 4.w,
-                                ),
-                                Visibility(
-                                  visible: false,
-                                  child: Card(
-                                      elevation: 1,
-                                      child: Padding(
-                                          padding: EdgeInsets.all(4.w),
-                                          child: Icon(
-                                            Icons.notifications,
-                                            color: Colors.grey,
-                                            size: 16.w,
-                                          ))),
-                                ),
-                                GestureDetector(
-                                    behavior: HitTestBehavior.opaque,
-                                    onTap: () async {
-                                      if (stateFiberPage.currentState !=
-                                          null) {
-                                        _openFiberFilterView();
-                                      } else if (yarnPageState.currentState !=
-                                          null) {
-                                        _openYarnFilterPage();
-                                      } else if (_stocklotPageState
-                                          .currentState !=
-                                          null) {
-                                        _openStockLotFilterPage();
-                                      } else if (_fabricPageState
-                                          .currentState !=
-                                          null) {
-                                        _openFabricFilterPage();
-                                      }
-                                    },
-                                    child: *//**//*Card(
-                                      elevation: 1,
-                                      child: Padding(
-                                          padding: EdgeInsets.all(4.w),
-                                          child: Icon(
-                                            Icons.filter_alt_sharp,
-                                            color: lightBlueTabs,
-                                            size: 16.w,
-                                          )
-                                      )
-                                  ),*//**//*
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 4),
-                                      child: Image.asset(
-                                        FILTERED_RENEWED,
-                                        width: 25.w,
-                                        height: 25.h,
-                                      ),
-                                    )),
-                              ],
-                            ),
-                          )*//*null,
-                          floating: true,
-                          pinned: true,
-                          snap: true,
-                          // bottom: TabBar(
-                          //   isScrollable: true,
-                          //   controller: tabController,
-                          //   labelPadding: EdgeInsets.only(left: 24,right: 24),
-                          //   unselectedLabelColor: font_light_grey,
-                          //   labelColor: font_dark_grey,
-                          //   indicatorColor: darkBlueChip,
-                          //   indicatorSize: TabBarIndicatorSize.label,
-                          //   indicator: UnderlineTabIndicator(
-                          //       borderSide: BorderSide(
-                          //           color: darkBlueChip, width: 2.w),
-                          //       insets: const EdgeInsets.symmetric(
-                          //           horizontal: 24.0, vertical: 0)),
-                          //   tabs: tabMaker(),
-                          // ),
-                        ),
-                      ),
-                    ),*/
-                  ];
-                },
-                body: TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    FiberPage(
-                      key: stateFiberPage,
-                      locality: widget.locality!,
-                    ),
-                    YarnPage(
-                      key: yarnPageState,
-                      locality: widget.locality,
-                    ),
-                    FabricPage(
-                      key: _fabricPageState,
-                      locality: widget.locality,
-                    ),
-                    StockLotPage(
-                      key: _stocklotPageState,
-                      locality: widget.locality,
-                    ),
-                    // ProductWeavingPage(),
-                    // ConverstionLeasingPage(),
-                    // StockLotPage()
-                  ],
-                  controller: tabController,
-                ),
+              body: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  FiberPage(
+                    key: stateFiberPage,
+                    locality: widget.locality!,
+                  ),
+                  YarnPage(
+                    key: yarnPageState,
+                    locality: widget.locality,
+                  ),
+                  FabricPage(
+                    key: _fabricPageState,
+                    locality: widget.locality,
+                  ),
+                  StockLotPage(
+                    key: _stocklotPageState,
+                    locality: widget.locality,
+                  ),
+                  // ProductWeavingPage(),
+                  // ConverstionLeasingPage(),
+                  // StockLotPage()
+                ],
+                controller: tabController,
               ),
             ),
           )),
