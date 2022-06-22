@@ -20,9 +20,11 @@ import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../../fliter_pages/fiber/fiber_filter_page.dart';
 
 class FiberPage extends StatefulWidget {
   final String locality;
@@ -66,6 +68,18 @@ class FiberPageState extends State<FiberPage> {
   bodyContent() {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar(context, 'Fiber', isFilterVisible: true, filterCallback: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FiberFilterView()),
+          ).then((value) {
+            //Getting result from filter
+              if (value != null) {
+                _fiberSpecificationProvider.specificationRequestModel = value;
+                _fiberSpecificationProvider.notifyUI();
+              }
+          });
+        }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {

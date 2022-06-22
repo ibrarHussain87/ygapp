@@ -56,7 +56,7 @@ class YarnPageState extends State<YarnPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        /*appBar:
+        appBar:
         appBar(context, yarn, isFilterVisible: true, filterCallback: () {
           Navigator.push(
             context,
@@ -64,7 +64,7 @@ class YarnPageState extends State<YarnPage> {
           ).then((value) {
             _yarnSpecificationProvider.setRequestParams(value, widget.locality!);
           });
-        }),*/
+        }),
         resizeToAvoidBottomInset: false,
         backgroundColor: Colors.grey.shade100,
         floatingActionButton: FloatingActionButton(

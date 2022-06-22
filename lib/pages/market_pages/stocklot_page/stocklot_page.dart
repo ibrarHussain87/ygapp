@@ -15,9 +15,11 @@ import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.
 import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
 
 import '../../../elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
+import '../../fliter_pages/stocklot/stocklot_filter_page.dart';
 
 class StockLotPage extends StatefulWidget {
   final String? locality;
@@ -51,6 +53,18 @@ class StockLotPageState extends State<StockLotPage> {
         stocklotProvider = Provider.of<StocklotProvider>(context);
         return stocklotProvider.stocklots!.isNotEmpty
             ? Scaffold(
+                appBar: appBar(context, 'Stocklot', isFilterVisible: true,
+                    filterCallback: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const StockLotFilterPage()),
+                      ).then((value) {
+                        //Getting result from filter
+                          if (value != null) {
+                            stocklotProvider.searchData(value);
+                          }
+                      });
+                }),
                 backgroundColor: Colors.white,
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
@@ -237,7 +251,6 @@ class StockLotPageState extends State<StockLotPage> {
                                                 .stocklotFamilyId = null;
                                             stocklotProvider
                                                 .setShowCategory(true);
-
 
                                             if (stocklotProvider.subFamilyKey
                                                     .currentState !=
