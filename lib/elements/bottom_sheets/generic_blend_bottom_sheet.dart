@@ -680,7 +680,7 @@ class BlendRatioWidgetState extends State<BlendRatioWidget> {
     }
     /*_isChecked[widget.selectedIndex] = true;
     _yarnPostProvider.blendList[widget.selectedIndex].isSelected = true;*/
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // Add Your Code here.
       /*_yarnPostProvider.addSelectedBlend =
       _yarnPostProvider.blendList[widget.selectedIndex];*/

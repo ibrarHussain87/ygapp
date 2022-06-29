@@ -46,7 +46,7 @@ class FiberPageState extends State<FiberPage> {
       updateUI();
     });
     _fiberSpecificationProvider.specificationRequestModel.isOffering = "1";
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _fiberSpecificationProvider.fiberSyncDataForMarketPage();
     });
   }

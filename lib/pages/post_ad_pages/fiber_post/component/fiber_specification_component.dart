@@ -70,7 +70,7 @@ class FiberSpecificationComponentState
     _postFiberProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _postFiberProvider.resetData();
       _postFiberProvider.getFiberAllSyncedData();
       _postFiberProvider.fiberSettingSelectedBlend();

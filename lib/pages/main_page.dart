@@ -74,7 +74,7 @@ class _MainPageState extends State<MainPage> {
     _syncProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _syncProvider.syncAppData(context);
     });
   }

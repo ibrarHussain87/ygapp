@@ -49,7 +49,7 @@ class ProfileBusinessInfoPageState extends State<ProfileBusinessInfoPage> with A
       updateUI();
     });
 
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // _profileInfoProvider.getSyncedData();
       _updateBusinessRequestModel = _profileInfoProvider.updateBusinessRequestModel;
       _companyTypeAheadController.text=_profileInfoProvider.businessInfo?.name!=null ? _profileInfoProvider.businessInfo!.name.toString() : '';

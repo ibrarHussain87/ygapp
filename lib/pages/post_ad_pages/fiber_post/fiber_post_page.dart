@@ -53,7 +53,7 @@ class _FiberPostPageState extends State<FiberPostPage> {
     _fiberPostProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _fiberPostProvider.getFiberSyncedData();
     });
   }

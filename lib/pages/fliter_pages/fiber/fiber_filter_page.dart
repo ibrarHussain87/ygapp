@@ -69,7 +69,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
     _fiberSpecificationProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _fiberSpecificationProvider.getFiberSyncDataForFilter();
     });
   }

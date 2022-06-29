@@ -41,7 +41,7 @@ class _FabricPostPageState extends State<FabricPostPage> {
     postFabricProvider.addListener(() {
       setState(() {});
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showBlendsSheets(context);
     });
   }

@@ -46,7 +46,7 @@ class FabricPageState extends State<FabricPage> {
     AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _postFabricProvider.getSyncData();
     });
   }

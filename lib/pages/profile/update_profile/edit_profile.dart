@@ -23,7 +23,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   void initState() {
 
     super.initState();
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _profileInfoProvider.resetData();
       _profileInfoProvider.getSyncedData();
 

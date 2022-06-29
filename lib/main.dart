@@ -257,12 +257,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     //Set the fit size (fill in the screen size of the device in the design) If the design is based on the size of the 360*690(dp)
-    ScreenUtil.init(
-        BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width,
-            maxHeight: MediaQuery.of(context).size.height),
-        designSize: const Size(360, 690),
-        orientation: Orientation.portrait);
+    ScreenUtil.init(context);
 
     return Scaffold(
       backgroundColor: Colors.white,

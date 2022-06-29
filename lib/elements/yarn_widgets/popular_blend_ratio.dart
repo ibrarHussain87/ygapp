@@ -64,7 +64,7 @@ class PopularBlendRatioWidgetState extends State<PopularBlendRatioWidget> {
       }
       fabricProvider!.addListener(updateUI);
     }
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // Add Your Code here.
       /*_yarnPostProvider.addSelectedBlend =
       _yarnPostProvider.blendList[widget.selectedIndex];*/

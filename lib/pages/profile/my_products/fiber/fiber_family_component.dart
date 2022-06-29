@@ -26,7 +26,7 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
   void initState() {
     super.initState();
     _fiberSpecificationProvider.addListener(() {updateUI();});
-    WidgetsBinding.instance?.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_){
       _fiberSpecificationProvider.fiberSyncDataForMarketPage();
     });
   }
