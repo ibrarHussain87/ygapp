@@ -11,6 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:provider/single_child_widget.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -25,6 +26,7 @@ import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.da
 import 'package:yg_app/providers/fiber_providers/post_fiber_provider.dart';
 import 'package:yg_app/providers/home_providers/family_list_provider.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
+import 'package:yg_app/providers/home_providers/trends_widget_provider.dart';
 import 'package:yg_app/providers/pre_login_sync_provider.dart';
 import 'package:yg_app/providers/profile_providers/my_yg_services_provider.dart';
 import 'package:yg_app/providers/profile_providers/profile_info_provider.dart';
@@ -84,39 +86,7 @@ class YgApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      providers: [
-        ChangeNotifierProvider<StockLotSpecificationProvider>(
-            create: (_) => StockLotSpecificationProvider()),
-        ChangeNotifierProvider<YarnSpecificationsProvider>(
-            create: (_) => YarnSpecificationsProvider()),
-        ChangeNotifierProvider<FabricSpecificationsProvider>(
-            create: (_) => FabricSpecificationsProvider()),
-        ChangeNotifierProvider(
-            create: (_) => locator<FabricSpecificationsProvider>()),
-        ChangeNotifierProvider<PostFabricProvider>(
-            create: (_) => PostFabricProvider()),
-        ChangeNotifierProvider<FilterFabricProvider>(
-            create: (_) => FilterFabricProvider()),
-        ChangeNotifierProvider(create: (_) => locator<PostYarnProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<FiberSpecificationProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<PostFiberProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<FamilyListProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<SyncProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<PreLoginSyncProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<SpecificationLocalFilterProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<StockLotSpecificationProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<PostFabricProvider>()),
-        ChangeNotifierProvider(
-            create: (_) => locator<YarnSpecificationsProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<UserBrandsProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<ProfileInfoProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<YgServicesProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<YarnFilterProvider>()),
-        ChangeNotifierProvider(create: (_) => locator<PostStockLotProvider>()),
-      ],
+      providers: providersList(),
       child: MaterialApp(
         title: 'Yarn Guru',
         theme: ThemeData(
@@ -131,6 +101,43 @@ class YgApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
       ),
     );
+  }
+
+  List<SingleChildWidget> providersList() {
+    return [
+      ChangeNotifierProvider<StockLotSpecificationProvider>(
+          create: (_) => StockLotSpecificationProvider()),
+      ChangeNotifierProvider<YarnSpecificationsProvider>(
+          create: (_) => YarnSpecificationsProvider()),
+      ChangeNotifierProvider<FabricSpecificationsProvider>(
+          create: (_) => FabricSpecificationsProvider()),
+      ChangeNotifierProvider(
+          create: (_) => locator<FabricSpecificationsProvider>()),
+      ChangeNotifierProvider<PostFabricProvider>(
+          create: (_) => PostFabricProvider()),
+      ChangeNotifierProvider<FilterFabricProvider>(
+          create: (_) => FilterFabricProvider()),
+      ChangeNotifierProvider(create: (_) => locator<PostYarnProvider>()),
+      ChangeNotifierProvider(
+          create: (_) => locator<FiberSpecificationProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<PostFiberProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<FamilyListProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<SyncProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<PreLoginSyncProvider>()),
+      ChangeNotifierProvider(
+          create: (_) => locator<SpecificationLocalFilterProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<StockLotSpecificationProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<PostFabricProvider>()),
+      ChangeNotifierProvider(
+          create: (_) => locator<YarnSpecificationsProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<UserBrandsProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<DetailPageProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<ProfileInfoProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<YgServicesProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<YarnFilterProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<PostStockLotProvider>()),
+      ChangeNotifierProvider(create: (_) => locator<TrendsWidgetProvider>()),
+    ];
   }
 }
 

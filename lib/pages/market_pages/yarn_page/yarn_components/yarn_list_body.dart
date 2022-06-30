@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 
@@ -81,9 +82,7 @@ class YarnListBodyState extends State<YarnListBody> {
                       showCount: false));
             })
         : const Center(
-            child: TitleSmallTextWidget(
-              title: "No Data Found!!",
-            ),
+            child: NoDataFoundWidget(),
           );
   }
 }

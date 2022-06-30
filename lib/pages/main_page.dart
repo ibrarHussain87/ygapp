@@ -72,7 +72,9 @@ class _MainPageState extends State<MainPage> {
       // const PastAdPage()
     ];
     _syncProvider.addListener(() {
-      updateUI();
+      if(mounted) {
+        updateUI();
+      }
     });
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       _syncProvider.syncAppData(context);

@@ -2,9 +2,31 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/locators.dart';
+import 'package:yg_app/providers/home_providers/trends_widget_provider.dart';
 
-class SlidingAlertWidget extends StatelessWidget {
+class SlidingAlertWidget extends StatefulWidget {
   const SlidingAlertWidget({Key? key}) : super(key: key);
+
+  @override
+  State<SlidingAlertWidget> createState() => _SlidingAlertWidgetState();
+}
+
+class _SlidingAlertWidgetState extends State<SlidingAlertWidget> {
+
+  final _trendWidgetProvider = locator<TrendsWidgetProvider>();
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _trendWidgetProvider.addListener(() {
+      if(mounted){
+        setState((){});
+      }
+    });
+    _trendWidgetProvider.getAlertBars();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +51,7 @@ class SlidingAlertWidget extends StatelessWidget {
                     enlargeCenterPage: false,
                     pageSnapping: true,
                     disableCenter: false),
-                items: [1, 2, 3, 4, 5].map((i) {
+                items: _trendWidgetProvider.alertBarsList.map((value) {
                   return Builder(
                     builder: (BuildContext context) {
                       return Row(
@@ -51,7 +73,7 @@ class SlidingAlertWidget extends StatelessWidget {
                               strutStyle: StrutStyle(fontSize: 11.0.sp),
                               text: TextSpan(
                                   text:
-                                      'Alert text with animation that get from server $i',
+                                  value.alertBarText,
                                   style: TextStyle(
                                     color: Colors.black87,
                                     fontSize: 9.sp,
@@ -65,20 +87,20 @@ class SlidingAlertWidget extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              const Icon(
-                                Icons.arrow_downward_outlined,
-                                color: Colors.red,
+                              Icon(
+                                value.alertBarDirection == 'down' ? Icons.arrow_downward_outlined : Icons.arrow_upward_outlined,
+                                color:value.alertBarDirection == 'down'? Colors.red : Colors.green,
                                 size: 9,
                               ),
                               RichText(
                                 overflow: TextOverflow.ellipsis,
                                 strutStyle: StrutStyle(fontSize: 9.0.sp),
                                 text: TextSpan(
-                                    text: '+21.20%',
+                                    text: value.alertBarPercentage,
                                     style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 9.sp,
-                                        /**/)),
+                                      color: Colors.black,
+                                      fontSize: 9.sp,
+                                      /**/)),
                               ),
                             ],
                           )
@@ -95,3 +117,4 @@ class SlidingAlertWidget extends StatelessWidget {
     );
   }
 }
+

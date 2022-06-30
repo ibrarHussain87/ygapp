@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/bids_list/bids_list_items.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 
 import '../../../../model/response/list_bid_response.dart';
@@ -44,7 +45,7 @@ class _BidsListPageState extends State<BidsListPage> {
                       )*/Container();
                     }),
               ): const Center(
-                      child: TitleSmallTextWidget(title: 'No data found!!'))
+                      child: NoDataFoundWidget())
                   : Center(
                   child: TitleSmallTextWidget(title: snapshot.data!.message));
             }else if (snapshot.hasError) {

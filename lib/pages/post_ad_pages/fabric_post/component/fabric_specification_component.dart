@@ -2151,6 +2151,7 @@ class FabricSpecificationComponentState
 
   void handleNextClick() {
     _createRequestModel!.spc_category_idfk = "3";
+    _createRequestModel!.is_offering = widget.businessArea;
     /*_createRequestModel!.fs_blend_idfk =
     _selectedMaterial != null ? _selectedMaterial.toString() : '';*/
     if (validationAllPage()) {

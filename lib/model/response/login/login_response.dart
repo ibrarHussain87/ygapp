@@ -96,8 +96,14 @@ class Data {
   String? token;
 
   Data.fromJson(Map<String, dynamic> json){
-    user = User.fromJson(json['user']);
-    token = json['token'];
+    if(json['user']!=null) {
+      user = User.fromJson(json['user']);
+    }else{
+      user = User.fromJson(json);
+    }
+    if(json['token']!=null) {
+      token = json['token'];
+    }
   }
 
   Map<String, dynamic> toJson() {

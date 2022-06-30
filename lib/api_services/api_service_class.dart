@@ -85,6 +85,7 @@ class ApiService {
   String myYgServicesEndPoint = "/my-yg-service";
   String createCustomerServicePoint = "/create-customer-support";
   String subscribeToPlanEndPoint = "/subscribe-to-plan";
+  String uploadUserProfilePic = "/upload-user-profile-pic";
 
   Future<PreConfigResponse> preConfig(String countryID) async {
     try {
@@ -1378,6 +1379,10 @@ class ApiService {
         return GetYarnSpecificationResponse.fromJson(
           json.decode(response.body),
         );
+      }else if(catId == '3'){
+        return FabricSpecificationResponse.fromJson(
+          json.decode(response.body),
+        );
       } else {
         return StockLotSpecificationResponse.fromJson(
           json.decode(response.body),
@@ -1478,6 +1483,54 @@ class ApiService {
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (noInternetAvailableMsg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  //UPLOAD USER PROFILE PIC
+
+  Future<AuthResponse> uploadProfilePic(String imagePath) async {
+    try {
+      var dioRequest = dio.Dio();
+      dioRequest.options.baseUrl = baseUrlApi;
+      var userDeviceToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+      var userToken =
+          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+      //[2] ADDING TOKEN
+      dioRequest.options.headers = {
+        "Accept": "application/json",
+        "Authorization": "Bearer $userToken",
+        "device_token": "$userDeviceToken"
+      };
+      //[4] ADD IMAGE TO UPLOAD
+      var file = await dio.MultipartFile.fromFile(
+        imagePath,
+        filename: imagePath.split("/").last,
+      );
+      FormData formData = FormData.fromMap({
+        "profile_pic": file,
+      });
+      var response = await dioRequest.post(
+        uploadProfilePicEndPoint,
+        data: formData,
+      );
+
+      //[5] SEND TO SERVER
+
+      final result = json.decode(response.toString());
+      return AuthResponse.fromJson(result);
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (noInternetAvailableMsg);
+      }else if (e is dio.DioError) {
+        throw (e.message.toString());
       } else if (e is TimeoutException) {
         throw (e.toString());
       } else {

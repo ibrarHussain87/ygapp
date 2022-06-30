@@ -6,7 +6,6 @@ import 'package:yg_app/model/response/common_response_models/payment_type_respon
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 
 class PreLoginResponse {
-
   int? code;
   bool? success;
   String? message;
@@ -50,20 +49,24 @@ class Data {
   List<SubscriptionPlans>? subscriptionPlans;
   List<ServiceTypes>? serviceTypes;
   List<CustomerSupportTypes>? customerSupportTypes;
+  List<AlertBars>? alertBars;
+  List<NotificationsGlobal>? notificationsGlobal;
 
   Data(
       {this.categories,
-        this.brands,
-        this.countries,
-        this.states,
-        this.cities,
-        this.companies,
-        this.designations,
-        this.ports,
-        this.paymentTypes,
-        this.subscriptionPlans,
-        this.customerSupportTypes,
-        this.serviceTypes});
+      this.brands,
+      this.countries,
+      this.states,
+      this.cities,
+      this.companies,
+      this.designations,
+      this.ports,
+      this.paymentTypes,
+      this.subscriptionPlans,
+      this.customerSupportTypes,
+      this.serviceTypes,
+      this.alertBars,
+      this.notificationsGlobal});
 
   Data.fromJson(Map<String, dynamic> json) {
     if (json['categories'] != null) {
@@ -138,6 +141,20 @@ class Data {
         serviceTypes!.add(ServiceTypes.fromJson(v));
       });
     }
+
+    if (json['alert_bar'] != null) {
+      alertBars = <AlertBars>[];
+      json['alert_bar'].forEach((v) {
+        alertBars!.add(AlertBars.fromJson(v));
+      });
+    }
+
+    if (json['notifications_global'] != null) {
+      notificationsGlobal = <NotificationsGlobal>[];
+      json['notifications_global'].forEach((v) {
+        notificationsGlobal!.add(NotificationsGlobal.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -182,6 +199,13 @@ class Data {
       data['service_types'] =
           this.serviceTypes!.map((v) => v.toJson()).toList();
     }
+    if (this.alertBars != null) {
+      data['alert_bar'] = this.alertBars!.map((v) => v.toJson()).toList();
+    }
+    if (this.notificationsGlobal != null) {
+      data['notifications_global'] =
+          this.notificationsGlobal!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
@@ -207,7 +231,6 @@ class GenericCategories {
   }
 }
 
-
 @Entity(tableName: 'states')
 class States {
   @PrimaryKey(autoGenerate: false)
@@ -219,10 +242,10 @@ class States {
 
   States(
       {this.stateId,
-        this.stateName,
-        this.countryIdfk,
-        this.stateIsActive,
-        this.stateSortid});
+      this.stateName,
+      this.countryIdfk,
+      this.stateIsActive,
+      this.stateSortid});
 
   States.fromJson(Map<String, dynamic> json) {
     stateId = json['state_id'];
@@ -255,11 +278,11 @@ class Cities {
 
   Cities(
       {this.cityId,
-        this.countryIdfk,
-        this.stateIdfk,
-        this.cityName,
-        this.citySortid,
-        this.cityIsActive});
+      this.countryIdfk,
+      this.stateIdfk,
+      this.cityName,
+      this.citySortid,
+      this.cityIsActive});
 
   Cities.fromJson(Map<String, dynamic> json) {
     cityId = json['city_id'];
@@ -331,6 +354,40 @@ class CustomerSupportTypes {
   }
 }
 
+@Entity(tableName: 'alert_bars')
+class AlertBars {
+  @PrimaryKey(autoGenerate: false)
+  int? alertBarId;
+  String? alertBarText;
+  String? alertBarDirection;
+  String? alertBarPercentage;
+  String? alertBarStatus;
+
+  AlertBars(
+      {this.alertBarId,
+      this.alertBarText,
+      this.alertBarDirection,
+      this.alertBarPercentage,
+      this.alertBarStatus});
+
+  AlertBars.fromJson(Map<String, dynamic> json) {
+    alertBarId = json['alert_bar_id'];
+    alertBarText = json['alert_bar_text'];
+    alertBarDirection = json['alert_bar_direction'];
+    alertBarPercentage = json['alert_bar_percentage'];
+    alertBarStatus = json['alert_bar_status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['alert_bar_id'] = alertBarId;
+    data['alert_bar_text'] = alertBarText;
+    data['alert_bar_direction'] = alertBarDirection;
+    data['alert_bar_percentage'] = alertBarPercentage;
+    data['alert_bar_status'] = alertBarStatus;
+    return data;
+  }
+}
 
 @Entity(tableName: 'subscription_plans')
 class SubscriptionPlans {
@@ -347,14 +404,14 @@ class SubscriptionPlans {
 
   SubscriptionPlans(
       {this.spId,
-        this.spName,
-        this.spDisplayTitle,
-        this.spStatus,
-        this.spLongDescription,
-        this.spShortDescription,
-        this.spPrice,
-        this.spDurationType,
-        this.spDurationCount});
+      this.spName,
+      this.spDisplayTitle,
+      this.spStatus,
+      this.spLongDescription,
+      this.spShortDescription,
+      this.spPrice,
+      this.spDurationType,
+      this.spDurationCount});
 
   SubscriptionPlans.fromJson(Map<String, dynamic> json) {
     spId = json['sp_id'];
@@ -404,6 +461,38 @@ class ServiceTypes {
     data['service_type_id'] = this.serviceTypeId;
     data['service_type_name'] = this.serviceTypeName;
     data['service_type_status'] = this.serviceTypeStatus;
+    return data;
+  }
+}
+
+@Entity(tableName: 'notification_global')
+class NotificationsGlobal {
+  @PrimaryKey(autoGenerate: false)
+  int? notificationGlobalId;
+  String? notificationGlobalTitle;
+  String? notificationGlobalDescription;
+  String? notificationGlobalStatus;
+
+  NotificationsGlobal(
+      {this.notificationGlobalId,
+      this.notificationGlobalTitle,
+      this.notificationGlobalDescription,
+      this.notificationGlobalStatus});
+
+  NotificationsGlobal.fromJson(Map<String, dynamic> json) {
+    notificationGlobalId = json['notification_global_id'];
+    notificationGlobalTitle = json['notification_global_title'];
+    notificationGlobalDescription = json['notification_global_description'];
+    notificationGlobalStatus = json['notification_global_status'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['notification_global_id'] = this.notificationGlobalId;
+    data['notification_global_title'] = this.notificationGlobalTitle;
+    data['notification_global_description'] =
+        this.notificationGlobalDescription;
+    data['notification_global_status'] = this.notificationGlobalStatus;
     return data;
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:logger/logger.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/detail_tile_model.dart';
@@ -76,7 +77,7 @@ class _SpecificationUserPageState extends State<SpecificationUserPage> {
                   specificationUser: snapshot.data!.data!,
                   specId: widget.specId,
                   categoryId: widget.categoryId) : const Center(
-                  child: TitleSmallTextWidget(title: "No data found!!")),
+                  child: NoDataFoundWidget()),
             ),
           );
         } else if (snapshot.hasError) {

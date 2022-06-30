@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
 import 'package:yg_app/pages/detail_pages/detail_page/history_bids_component/history_bids_body.dart';
 
@@ -52,7 +53,7 @@ class _HistoryOfBidsPageState extends State<HistoryOfBidsPage> {
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.data!.isEmpty) {
             return const Center(
-                child: TitleSmallTextWidget(title: 'No data found!!'));
+                child: NoDataFoundWidget());
           } else {
             return const Center(
               child: SpinKitWave(

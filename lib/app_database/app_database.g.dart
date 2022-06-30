@@ -177,6 +177,10 @@ class _$AppDatabase extends AppDatabase {
 
   YarnAppearanceDao? _yarnAppearanceDaoInstance;
 
+  NotificationGlobalDao? _notificationGlobalDaoInstance;
+
+  AlertBarDao? _alertBarDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -317,6 +321,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `stocklots_family` (`stocklotFamilyId` INTEGER, `stocklotFamilyParentId` TEXT, `stocklotFamilyName` TEXT, `stocklotFamilyActive` TEXT, `stocklotFamilySortid` TEXT, PRIMARY KEY (`stocklotFamilyId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `business_info_table` (`employmentRole` TEXT, `ntn_number` TEXT, `trade_mark` TEXT, `name` TEXT, `id` INTEGER, `designation_idfk` TEXT, `postalCode` TEXT, `countryId` TEXT, `userId` TEXT, `cityStateId` TEXT, `city` TEXT, `website` TEXT, `address` TEXT, PRIMARY KEY (`id`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `alert_bars` (`alertBarId` INTEGER, `alertBarText` TEXT, `alertBarDirection` TEXT, `alertBarPercentage` TEXT, `alertBarStatus` TEXT, PRIMARY KEY (`alertBarId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `notification_global` (`notificationGlobalId` INTEGER, `notificationGlobalTitle` TEXT, `notificationGlobalDescription` TEXT, `notificationGlobalStatus` TEXT, PRIMARY KEY (`notificationGlobalId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -648,6 +656,17 @@ class _$AppDatabase extends AppDatabase {
     return _yarnAppearanceDaoInstance ??=
         _$YarnAppearanceDao(database, changeListener);
   }
+
+  @override
+  NotificationGlobalDao get notificationGlobalDao {
+    return _notificationGlobalDaoInstance ??=
+        _$NotificationGlobalDao(database, changeListener);
+  }
+
+  @override
+  AlertBarDao get alertBarDao {
+    return _alertBarDaoInstance ??= _$AlertBarDao(database, changeListener);
+  }
 }
 
 class _$UserDao extends UserDao {
@@ -656,6 +675,41 @@ class _$UserDao extends UserDao {
         _userInsertionAdapter = InsertionAdapter(
             database,
             'user_table',
+            (User item) => <String, Object?>{
+                  'id': item.id,
+                  'name': item.name,
+                  'username': item.username,
+                  'telephoneNumber': item.telephoneNumber,
+                  'operatorId': item.operatorId,
+                  'status': item.status,
+                  'lastActive': item.lastActive,
+                  'fcmToken': item.fcmToken,
+                  'otp': item.otp,
+                  'postalCode': item.postalCode,
+                  'countryId': item.countryId,
+                  'cityStateId': item.cityStateId,
+                  'profileStatus': item.profileStatus,
+                  'email': item.email,
+                  'emailVerifiedAt': item.emailVerifiedAt,
+                  'company': item.company,
+                  'companyId': item.companyId,
+                  'ntn_number': item.ntn_number,
+                  'user_country': item.user_country,
+                  'city_state_name': item.city_state_name,
+                  'address': item.address,
+                  'city': item.city,
+                  'whatsApp': item.whatsApp,
+                  'roleId': item.roleId,
+                  'apiToken': item.apiToken,
+                  'deletedAt': item.deletedAt,
+                  'createdAt': item.createdAt,
+                  'updatedAt': item.updatedAt,
+                  'profilePicture': item.profilePicture
+                }),
+        _userUpdateAdapter = UpdateAdapter(
+            database,
+            'user_table',
+            ['id'],
             (User item) => <String, Object?>{
                   'id': item.id,
                   'name': item.name,
@@ -695,6 +749,8 @@ class _$UserDao extends UserDao {
   final QueryAdapter _queryAdapter;
 
   final InsertionAdapter<User> _userInsertionAdapter;
+
+  final UpdateAdapter<User> _userUpdateAdapter;
 
   @override
   Future<User?> getUser() async {
@@ -738,6 +794,11 @@ class _$UserDao extends UserDao {
   @override
   Future<void> insertUser(User user) async {
     await _userInsertionAdapter.insert(user, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<void> updateUser(User user) async {
+    await _userUpdateAdapter.update(user, OnConflictStrategy.replace);
   }
 }
 
@@ -5630,5 +5691,137 @@ class _$YarnAppearanceDao extends YarnAppearanceDao {
       List<YarnAppearance> yarnAppearance) {
     return _yarnAppearanceInsertionAdapter.insertListAndReturnIds(
         yarnAppearance, OnConflictStrategy.replace);
+  }
+}
+
+class _$NotificationGlobalDao extends NotificationGlobalDao {
+  _$NotificationGlobalDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _notificationsGlobalInsertionAdapter = InsertionAdapter(
+            database,
+            'notification_global',
+            (NotificationsGlobal item) => <String, Object?>{
+                  'notificationGlobalId': item.notificationGlobalId,
+                  'notificationGlobalTitle': item.notificationGlobalTitle,
+                  'notificationGlobalDescription':
+                      item.notificationGlobalDescription,
+                  'notificationGlobalStatus': item.notificationGlobalStatus
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<NotificationsGlobal>
+      _notificationsGlobalInsertionAdapter;
+
+  @override
+  Future<List<NotificationsGlobal>> findAllNotificationGlobal() async {
+    return _queryAdapter.queryList('SELECT * FROM notification_global',
+        mapper: (Map<String, Object?> row) => NotificationsGlobal(
+            notificationGlobalId: row['notificationGlobalId'] as int?,
+            notificationGlobalTitle: row['notificationGlobalTitle'] as String?,
+            notificationGlobalDescription:
+                row['notificationGlobalDescription'] as String?,
+            notificationGlobalStatus:
+                row['notificationGlobalStatus'] as String?));
+  }
+
+  @override
+  Future<NotificationsGlobal?> findNotificationGlobalWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM notification_global where notificationGlobalId = ?1',
+        mapper: (Map<String, Object?> row) => NotificationsGlobal(
+            notificationGlobalId: row['notificationGlobalId'] as int?,
+            notificationGlobalTitle: row['notificationGlobalTitle'] as String?,
+            notificationGlobalDescription:
+                row['notificationGlobalDescription'] as String?,
+            notificationGlobalStatus:
+                row['notificationGlobalStatus'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from alert_bars');
+  }
+
+  @override
+  Future<void> insertNotificationGlobal(
+      NotificationsGlobal notificationsGlobal) async {
+    await _notificationsGlobalInsertionAdapter.insert(
+        notificationsGlobal, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllNotificationGlobal(
+      List<NotificationsGlobal> notificationsGlobal) {
+    return _notificationsGlobalInsertionAdapter.insertListAndReturnIds(
+        notificationsGlobal, OnConflictStrategy.replace);
+  }
+}
+
+class _$AlertBarDao extends AlertBarDao {
+  _$AlertBarDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _alertBarsInsertionAdapter = InsertionAdapter(
+            database,
+            'alert_bars',
+            (AlertBars item) => <String, Object?>{
+                  'alertBarId': item.alertBarId,
+                  'alertBarText': item.alertBarText,
+                  'alertBarDirection': item.alertBarDirection,
+                  'alertBarPercentage': item.alertBarPercentage,
+                  'alertBarStatus': item.alertBarStatus
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<AlertBars> _alertBarsInsertionAdapter;
+
+  @override
+  Future<List<AlertBars>> findAllAlertBars() async {
+    return _queryAdapter.queryList('SELECT * FROM alert_bars',
+        mapper: (Map<String, Object?> row) => AlertBars(
+            alertBarId: row['alertBarId'] as int?,
+            alertBarText: row['alertBarText'] as String?,
+            alertBarDirection: row['alertBarDirection'] as String?,
+            alertBarPercentage: row['alertBarPercentage'] as String?,
+            alertBarStatus: row['alertBarStatus'] as String?));
+  }
+
+  @override
+  Future<AlertBars?> findAlertBarWithId(int id) async {
+    return _queryAdapter.query('SELECT * FROM brands where alertBarId = ?1',
+        mapper: (Map<String, Object?> row) => AlertBars(
+            alertBarId: row['alertBarId'] as int?,
+            alertBarText: row['alertBarText'] as String?,
+            alertBarDirection: row['alertBarDirection'] as String?,
+            alertBarPercentage: row['alertBarPercentage'] as String?,
+            alertBarStatus: row['alertBarStatus'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from alert_bars');
+  }
+
+  @override
+  Future<void> insertAlertBar(AlertBars alertBars) async {
+    await _alertBarsInsertionAdapter.insert(
+        alertBars, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllAlertBars(List<AlertBars> alertBars) {
+    return _alertBarsInsertionAdapter.insertListAndReturnIds(
+        alertBars, OnConflictStrategy.replace);
   }
 }
