@@ -427,7 +427,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               var dbInstance =
                                   await AppDbInstance().getDbInstance();
                               await dbInstance.userDao.deleteUserData();
-                              await dbInstance.categoriesDao.deleteAll();
+                              await dbInstance.userCategoriesDao.deleteAll();
                               await dbInstance.businessInfoDao
                                   .deleteBusinessInfoData();
                               await dbInstance.brandsDao.updateAllBrands(false);

@@ -1,62 +1,6 @@
 import 'package:floor/floor.dart';
-import 'package:yg_app/model/response/common_response_models/category_response.dart';
+import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
-
-
-class CountriesSyncResponse {
-  bool? status;
-  String? message;
-  Data? data;
-  int? responseCode;
-  int? code;
-
-  CountriesSyncResponse(
-      {this.status, this.message, this.data, this.responseCode, this.code});
-
-  CountriesSyncResponse.fromJson(Map<String, dynamic> json) {
-    status = json['success'];
-    message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
-    responseCode = json['response_code'];
-    code = json['code'];
-  }
-
-//  Map<String, dynamic> toJson() {
-//    final Map<String, dynamic> data = Map<String, dynamic>();
-//    data['status'] = status;
-//    data['message'] = message;
-//    if (this.data != null) {
-//      data['data'] = this.data!.toJson();
-//    }
-//    data['response_code'] = responseCode;
-//    data['code'] = code;
-//    return data;
-//  }
-}
-
-
-class Data {
-
-  late final List<Countries> countries;
-  late final List<Categories> categories;
-
-  Data({required this.countries,required this.categories});
-
-  Data.fromJson(Map<String, dynamic> json) {
-
-    countries =json['countries'].map<Countries>((
-        json) {
-      return Countries.fromJson(json);
-    }).toList();
-
-    categories =json['categories'].map<Categories>((
-        json) {
-      return Categories.fromJson(json);
-    }).toList();
-  }
-
-
-}
 
 @Entity(tableName: 'countries')
 class Countries {

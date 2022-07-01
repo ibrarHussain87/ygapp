@@ -784,6 +784,7 @@ class _SignInPageState extends State<SignInPage> {
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.userCategoriesDao.insertAllCategories(value.data!.user!.categories!);
               await db.businessInfoDao
                   .insertBusinessInfo(value.data!.user!.businessInfo!);
               // await db.userBrandsDao.insertAllUserBrands(value.data!.user!.brands!);

@@ -262,6 +262,7 @@ class _LoginPageState extends State<LoginPage> {
           if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.userCategoriesDao.insertAllCategories(value.data!.user!.categories!);
             });
 
             SharedPreferenceUtil.addStringToSF(

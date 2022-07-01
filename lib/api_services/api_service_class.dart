@@ -4,7 +4,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart' as dio;
 import 'package:dio/dio.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:logger/logger.dart';
 import 'package:yg_app/app_database/app_database_instance.dart';
@@ -36,6 +35,7 @@ import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_syn
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/model/response/yg_services/my_yg_services_response.dart';
+import 'package:yg_app/model/server_response.dart';
 
 import '../model/pre_login_response.dart';
 import '../model/request/filter_request/fabric_filter_request.dart';
@@ -80,6 +80,7 @@ class ApiService {
   String companiesEndPoint = "/company";
   String preLoginSync = "/get-pre-login-sync";
   String preConfigSync = "/get-pre-login-config";
+  String checkUserExistance = "/check-user-existance";
 
   String createYgService = "/create-yg-service";
   String myYgServicesEndPoint = "/my-yg-service";
@@ -99,6 +100,33 @@ class ApiService {
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: params);
       return PreConfigResponse.fromJson(
+        json.decode(response.body),
+      );
+    } on Exception catch (e) {
+      if (e is SocketException) {
+        throw (noInternetAvailableMsg);
+      } else if (e is TimeoutException) {
+        throw (e.toString());
+      } else {
+        throw (e.toString());
+      }
+    } catch (err) {
+      throw (err.toString());
+    }
+  }
+
+  Future<ServerResponse> checkUserExist(String type,
+      {String? email, String? number}) async {
+    try {
+      var params = {
+        'type': type,
+        'phone': number.toString(),
+        'email': email.toString()
+      };
+      String url = baseUrlApi + checkUserExistance;
+      final response =
+          await http.post(Uri.parse(url), headers: headerMap, body: params);
+      return ServerResponse.fromJson(
         json.decode(response.body),
       );
     } on Exception catch (e) {
@@ -1379,7 +1407,7 @@ class ApiService {
         return GetYarnSpecificationResponse.fromJson(
           json.decode(response.body),
         );
-      }else if(catId == '3'){
+      } else if (catId == '3') {
         return FabricSpecificationResponse.fromJson(
           json.decode(response.body),
         );
@@ -1401,36 +1429,36 @@ class ApiService {
     }
   }
 
-// Countries Api
-  Future<CountriesSyncResponse> syncCountriesCall() async {
-    try {
-      var userToken =
-          await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
-      headerMap['Authorization'] = 'Bearer $userToken';
-      var userDeviceToken =
-          await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
-      headerMap['device_token'] = '$userDeviceToken';
-      String url = baseUrlApi + preLoginSync;
-
-//      final response = await http.post(Uri.parse(url),
-//          headers: headerMap, body: requestModel.toJson());
-
-      final response = await http.post(Uri.parse(url), headers: headerMap);
-      Logger()
-          .e("Countries Sync got successfully : " + response.body.toString());
-      return CountriesSyncResponse.fromJson(
-        json.decode(response.body),
-      );
-    } catch (e) {
-      if (e is SocketException) {
-        throw (noInternetAvailableMsg);
-      } else if (e is TimeoutException) {
-        throw (e.toString());
-      } else {
-        throw ("Something went wrong" + e.toString());
-      }
-    }
-  }
+// // Countries Api
+//   Future<CountriesSyncResponse> syncCountriesCall() async {
+//     try {
+//       var userToken =
+//           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
+//       headerMap['Authorization'] = 'Bearer $userToken';
+//       var userDeviceToken =
+//           await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
+//       headerMap['device_token'] = '$userDeviceToken';
+//       String url = baseUrlApi + preLoginSync;
+//
+// //      final response = await http.post(Uri.parse(url),
+// //          headers: headerMap, body: requestModel.toJson());
+//
+//       final response = await http.post(Uri.parse(url), headers: headerMap);
+//       Logger()
+//           .e("Countries Sync got successfully : " + response.body.toString());
+//       return CountriesSyncResponse.fromJson(
+//         json.decode(response.body),
+//       );
+//     } catch (e) {
+//       if (e is SocketException) {
+//         throw (noInternetAvailableMsg);
+//       } else if (e is TimeoutException) {
+//         throw (e.toString());
+//       } else {
+//         throw ("Something went wrong" + e.toString());
+//       }
+//     }
+//   }
 
 // Coompanies Api
   Future<CompaniesSyncResponse> syncCompaniesCall() async {
@@ -1529,7 +1557,7 @@ class ApiService {
     } on Exception catch (e) {
       if (e is SocketException) {
         throw (noInternetAvailableMsg);
-      }else if (e is dio.DioError) {
+      } else if (e is dio.DioError) {
         throw (e.message.toString());
       } else if (e is TimeoutException) {
         throw (e.toString());

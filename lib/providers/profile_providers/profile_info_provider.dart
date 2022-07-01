@@ -3,6 +3,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 
 import '../../model/request/update_profile/update_business_request.dart';
 import '../../model/response/common_response_models/companies_reponse.dart';
@@ -21,6 +22,7 @@ class ProfileInfoProvider extends ChangeNotifier {
   List<Designations> designationsList = [];
   List<GenericCategories> categoriesList = [];
   List<Companies> companiesList = [];
+  List<UserCategories> userCategory = [];
 
 
   Countries? selectedCountry;
@@ -50,6 +52,7 @@ class ProfileInfoProvider extends ChangeNotifier {
         .findAllDesignations();
     categoriesList =
     await dbInstance.genericCategoriesDao.findAllGenericCategories();
+    userCategory = await dbInstance.userCategoriesDao.findAllCategories();
     companiesList = await dbInstance.companiesDao
         .findAllCompanies();
     getPersonalInfoData();

@@ -139,12 +139,14 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                       ? CachedNetworkImage(
                                           imageUrl: _profileInfoProvider
                                               .user!.profilePicture!,
-                                          placeholder: (context, url) =>
-                                              const SizedBox(
-                                                  width: 24,
-                                                  height: 24,
-                                                  child:
-                                                      CircularProgressIndicator()),
+                                          placeholder: (context, url) => Container(
+                                            child: const Center(
+                                              child: CircularProgressIndicator(
+                                              ),
+                                            ),
+                                              height: 55.w,
+                                              width: 55.w
+                                          ),
                                           errorWidget: (context, url, error) =>
                                               const Icon(Icons.wifi_tethering_error_outlined),
                                           height: 55.w,
@@ -166,7 +168,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                     File(imageFile!.path),
                                     width: 55.w,
                                     height: 55.w,
-                                    fit: BoxFit.fill,
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),

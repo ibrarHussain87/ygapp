@@ -63,7 +63,7 @@ import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-import '../model/response/common_response_models/category_response.dart';
+import '../model/response/common_response_models/user_category_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'dao/customer_support_types_dao.dart';
@@ -93,10 +93,10 @@ part 'app_database.g.dart'; // the generated code will be there
 ///flutter clean
 ///flutter pub get
 ///flutter packages pub run build_runner build --delete-conflicting-outputs
-/// Run the generator with flutter packages pub run build_runner build.
+/// Run the generator with flutter packages pub run build_runner build
 ///
 
-@Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,Categories,
+@Database(version: APP_DATABASE_VERSION,entities: [User,FiberFamily,FiberAppearance,FiberAvailbleForMarket,FiberCategories,FiberBlends,Brands,Countries,UserCategories,
   Certification,DeliveryPeriod,Units,Companies,CityState,Grades,FPriceTerms,PaymentType,Ports,FiberSettings,YarnSetting,Family,Blends,FabricSetting,FabricFamily,FabricBlends,DenimTypes,FabricAppearance,KnittingTypes,FabricPly,
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,
@@ -137,7 +137,7 @@ abstract class AppDatabase extends FloorDatabase {
 
   CountryDao get countriesDao;
 
-  CategoryDao get categoriesDao;
+  UserCategoryDao get userCategoriesDao;
   DeliveryPeriodDao get deliveryPeriodDao;
 
 

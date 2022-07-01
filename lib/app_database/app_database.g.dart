@@ -99,7 +99,7 @@ class _$AppDatabase extends AppDatabase {
 
   CountryDao? _countriesDaoInstance;
 
-  CategoryDao? _categoriesDaoInstance;
+  UserCategoryDao? _userCategoriesDaoInstance;
 
   DeliveryPeriodDao? _deliveryPeriodDaoInstance;
 
@@ -439,8 +439,9 @@ class _$AppDatabase extends AppDatabase {
   }
 
   @override
-  CategoryDao get categoriesDao {
-    return _categoriesDaoInstance ??= _$CategoryDao(database, changeListener);
+  UserCategoryDao get userCategoriesDao {
+    return _userCategoriesDaoInstance ??=
+        _$UserCategoryDao(database, changeListener);
   }
 
   @override
@@ -2235,13 +2236,13 @@ class _$CountryDao extends CountryDao {
   }
 }
 
-class _$CategoryDao extends CategoryDao {
-  _$CategoryDao(this.database, this.changeListener)
+class _$UserCategoryDao extends UserCategoryDao {
+  _$UserCategoryDao(this.database, this.changeListener)
       : _queryAdapter = QueryAdapter(database),
-        _categoriesInsertionAdapter = InsertionAdapter(
+        _userCategoriesInsertionAdapter = InsertionAdapter(
             database,
             'categories',
-            (Categories item) => <String, Object?>{
+            (UserCategories item) => <String, Object?>{
                   'catId': item.catId,
                   'catName': item.catName
                 });
@@ -2252,19 +2253,19 @@ class _$CategoryDao extends CategoryDao {
 
   final QueryAdapter _queryAdapter;
 
-  final InsertionAdapter<Categories> _categoriesInsertionAdapter;
+  final InsertionAdapter<UserCategories> _userCategoriesInsertionAdapter;
 
   @override
-  Future<List<Categories>> findAllCategories() async {
+  Future<List<UserCategories>> findAllCategories() async {
     return _queryAdapter.queryList('SELECT * FROM categories',
-        mapper: (Map<String, Object?> row) => Categories(
+        mapper: (Map<String, Object?> row) => UserCategories(
             catId: row['catId'] as int?, catName: row['catName'] as String?));
   }
 
   @override
-  Future<Categories?> findCategoryWithId(int id) async {
+  Future<UserCategories?> findCategoryWithId(int id) async {
     return _queryAdapter.query('SELECT * FROM categories where catId = ?1',
-        mapper: (Map<String, Object?> row) => Categories(
+        mapper: (Map<String, Object?> row) => UserCategories(
             catId: row['catId'] as int?, catName: row['catName'] as String?),
         arguments: [id]);
   }
@@ -2281,14 +2282,14 @@ class _$CategoryDao extends CategoryDao {
   }
 
   @override
-  Future<void> insertCategory(Categories category) async {
-    await _categoriesInsertionAdapter.insert(
+  Future<void> insertCategory(UserCategories category) async {
+    await _userCategoriesInsertionAdapter.insert(
         category, OnConflictStrategy.replace);
   }
 
   @override
-  Future<List<int>> insertAllCategories(List<Categories> category) {
-    return _categoriesInsertionAdapter.insertListAndReturnIds(
+  Future<List<int>> insertAllCategories(List<UserCategories> category) {
+    return _userCategoriesInsertionAdapter.insertListAndReturnIds(
         category, OnConflictStrategy.replace);
   }
 }

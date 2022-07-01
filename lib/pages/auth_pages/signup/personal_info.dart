@@ -953,6 +953,7 @@ class PersonalInfoComponentState
           } else if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.userCategoriesDao.insertAllCategories(value.data!.user!.categories!);
             });
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());
