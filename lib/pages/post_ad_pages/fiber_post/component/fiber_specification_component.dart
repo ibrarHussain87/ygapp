@@ -1109,13 +1109,8 @@ class FiberSpecificationComponentState
   }
 
   void submitData(BuildContext context) {
-    if (widget.businessArea == yarn) {
-      _postFiberProvider.createRequestModel!.ys_local_international =
-          widget.locality!.toUpperCase();
-    } else {
       _postFiberProvider.createRequestModel!.spc_local_international =
           widget.locality!.toUpperCase();
-    }
     _postFiberProvider.createRequestModel!.is_offering = widget.selectedTab;
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');
