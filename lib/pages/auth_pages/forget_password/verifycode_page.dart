@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:logger/logger.dart';
+import 'package:otp_timer_button/otp_timer_button.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import 'package:timer_button/timer_button.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
@@ -43,11 +43,7 @@ class VerifyCodePageState
   bool hasError = false;
   String currentText = "";
   String? telNumber = "";
-
-
-  var isResend=false;
-
-  bool showTimer=true;
+  OtpTimerButtonController controller = OtpTimerButtonController();
   bool isLoading=true;
 
 
@@ -62,7 +58,6 @@ class VerifyCodePageState
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -300,12 +295,30 @@ class VerifyCodePageState
                         ),
 
                         Center(
-                          child: TimerButton(
-                            label: "Resend code",
-                            timeOutInSeconds: 60,
-
+                          child: OtpTimerButton(
+                            controller: controller,
+                            height: 60,
+                            text: const Text(
+                              "Resend code",
+                              style: TextStyle(color: Colors.black54),
+                            ),
+                            duration: 60,
+                            radius: 8,
+                            textColor: Colors.white,
+                            buttonType: ButtonType.text_button, // or ButtonType.outlined_button
+                            loadingIndicator: const CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: Colors.red,
+                            ),
+                            loadingIndicatorColor: Colors.red,
                             onPressed: () {
                               resendOTP();
+                            },
+                          ), /*TimerButton(
+                            label: "Resend code",
+                            timeOutInSeconds: 60,
+                            onPressed: () {
+
                             },
                             disabledColor: Colors.white,
                             color: Colors.white,
@@ -317,7 +330,7 @@ class VerifyCodePageState
                                 decoration: TextDecoration.underline,
                                 fontSize: 12,
                                 fontWeight: FontWeight.normal),
-                          ),
+                          )*/
                         ),
 
                       ],
@@ -498,6 +511,8 @@ class VerifyCodePageState
           } else if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.userCategoriesDao.insertAllCategories(value.data!.user!.categories!);
+
             });
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());

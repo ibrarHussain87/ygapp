@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
 import 'package:yg_app/elements/list_items/stocklot_list_items.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/model/matched_response.dart';
 import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
@@ -48,7 +49,7 @@ class _MatchedPageState extends State<MatchedPage> {
                 child: YarnListBody(specification: snapshot.data!.data!.yarnSpecification!),
               );
             }else if(widget.catId == "5" && snapshot.data!.data!=null && snapshot.data!.data!.stockLotSpecification!=null){
-              return Padding(
+              return snapshot.data!.data!.stockLotSpecification!.isNotEmpty ? Padding(
                 padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
                 child: ListView.separated(
                   itemCount: snapshot.data!.data!.stockLotSpecification!.length,
@@ -70,7 +71,7 @@ class _MatchedPageState extends State<MatchedPage> {
                     );
                   },
                 ),
-              );
+              ) :const Center(child: NoDataFoundWidget(),);
             }else if(widget.catId == "3" && snapshot.data!.data!=null && snapshot.data!.data!.fabricSpecification!=null){
               return Padding(
                 padding: const EdgeInsets.only(top:8.0,left: 8.0,right: 8.0),
@@ -78,7 +79,7 @@ class _MatchedPageState extends State<MatchedPage> {
               );
             }else{
               return const Center(
-                  child: TitleSmallTextWidget(title: 'No data found!!'));
+                  child: NoDataFoundWidget());
             }
           } else if (snapshot.hasError) {
             return Center(

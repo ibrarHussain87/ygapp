@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 
@@ -66,10 +67,8 @@ class FabricListBodyState extends State<FabricListBody> {
                     context,showCounts: false
                   ));
             })
-        : const Center(
-            child: TitleSmallTextWidget(
-              title: "No Data Found!!",
-            ),
+        :  const Center(
+            child: NoDataFoundWidget(),
           );
   }
 }

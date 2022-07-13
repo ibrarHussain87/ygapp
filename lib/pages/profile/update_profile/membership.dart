@@ -87,8 +87,8 @@ class _MembershipPageState extends State<MembershipPage> {
 
               GFCarousel(
                 height: height/1.55,
-                pagination: false,
                 reverse: false,
+                hasPagination: false,
                 initialPage: 1,
                 enlargeMainPage: true,
                 enableInfiniteScroll: true,

@@ -1,5 +1,6 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 
 class AuthResponse {
   AuthResponse({
@@ -96,8 +97,14 @@ class Data {
   String? token;
 
   Data.fromJson(Map<String, dynamic> json){
-    user = User.fromJson(json['user']);
-    token = json['token'];
+    if(json['user']!=null) {
+      user = User.fromJson(json['user']);
+    }else{
+      user = User.fromJson(json);
+    }
+    if(json['token']!=null) {
+      token = json['token'];
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -181,6 +188,8 @@ class User{
 //  String? businessInfo;
   @ignore
   List<Brands>? brands;
+  @ignore
+  List<UserCategories>? categories;
   // @ignore
   // late final List<dynamic> certifications;
 
@@ -205,7 +214,7 @@ class User{
     email = json['email'];
     emailVerifiedAt = json['email_verified_at'];
     company = json['company'];
-    companyId= json['company_idfk'];
+    companyId= json['company_idfk'].toString();
     ntn_number = json['ntn_number'];
     user_country = json['user_country'];
     city_state_name = json['city_state'];
@@ -218,6 +227,7 @@ class User{
     businessInfo = BusinessInfo.fromJson(json['business_info']);
 //    businessInfo = '${BusinessInfo.fromJson(json['business_info'])}';
     brands = json['brands'].map<Brands>((json) {return Brands.fromJson(json);}).toList();
+    categories = json['categories'].map<UserCategories>((json) {return UserCategories.fromJson(json);}).toList();
 //    brands = List.castFrom<dynamic, dynamic>(json['certifications']);
   }
 
@@ -254,6 +264,7 @@ class User{
     _data['profile_picture'] = profilePicture;
     _data['business_info'] = businessInfo;
     _data['brands'] = brands;
+    _data['categories'] = categories;
     // _data['certifications'] = certifications;
     return _data;
   }
@@ -263,7 +274,6 @@ class User{
 
 @Entity(tableName: 'business_info_table')
 class BusinessInfo {
-
 
   String? employmentRole;
   String? ntn_number;

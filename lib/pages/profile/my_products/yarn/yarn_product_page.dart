@@ -15,6 +15,8 @@ import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart
 import 'package:yg_app/model/response/yarn_response/yarn_specification_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 
+import '../../../../elements/list_widgets/single_select_tile_renewed_widget.dart';
+
 class YarnProductPage extends StatefulWidget {
   final List<YarnSpecification?>? specification;
 
@@ -27,6 +29,7 @@ class YarnProductPage extends StatefulWidget {
 
 class YarnProductPageState extends State<YarnProductPage>
     with AutomaticKeepAliveClientMixin {
+
   void _filterFamily(value) {
     setState(() {
       _familyFilteredSpecification = _specification!
@@ -150,7 +153,7 @@ class YarnProductPageState extends State<YarnProductPage>
                   padding: EdgeInsets.only(top: 4.w, left: 8.w, right: 8.w),
                   child: Column(
                     children: [
-                      SizedBox(
+                      /*SizedBox(
                         height: 48.w,
                         child: FamilyTileWidget(
                           selectedIndex: -1,
@@ -163,8 +166,26 @@ class YarnProductPageState extends State<YarnProductPage>
                             queryFamilySettings(famId!);
                           },
                         ),
+                      ),*/
+                      SizedBox(
+                        height: 8.w,
                       ),
-                      Visibility(
+                      BlendWithImageListWidget(
+                        selectedItem: -1,
+                        listItem: yarnFamilyList,
+                        onClickCallback: (index) {
+                          Family value = yarnFamilyList[index];
+                          setState(() {
+                            famId = value.famId;
+                            _filterFamily(value.famName);
+                          });
+                          queryFamilySettings(famId!);
+                        },
+                      ),
+                      SizedBox(
+                        height: 8.w,
+                      ),
+                      /*Visibility(
                         visible: _yarnSetting != null
                             ? Ui.showHide(_yarnSetting!.showBlend)
                             : false,
@@ -181,13 +202,38 @@ class YarnProductPageState extends State<YarnProductPage>
                             },
                           ),
                         ),
-                      ),
+                      ),*/
+                      Visibility(
+                        visible: /*_yarnSetting != null
+                            ? Ui.showHide(_yarnSetting!.showBlend)
+                            : false*/false,
+                        child: SizedBox(
+                          height: MediaQuery
+                              .of(context)
+                              .size
+                              .height * 0.05,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 5, bottom: 5, left: 8),
+                            child: SingleSelectTileRenewedWidget(
+                              selectedIndex: -1,
+                              spanCount: 2,
+                              listOfItems: yarnBlendList
+                                  .where((element) =>
+                              element.familyIdfk == famId.toString())
+                                  .toList(),
+                              callback: (value) {
+                                _filterBlend(value);
+                              },
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left:8,right:8,bottom: 8.0,),
                   child: Center(
                     child: OfferingRequirementSegmentComponent(
                       callback: (value) {

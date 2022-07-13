@@ -10,7 +10,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/ui_utils.dart';
 import 'package:yg_app/model/pre_login_response.dart';
-import 'package:yg_app/model/response/common_response_models/category_response.dart';
+import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 
 import '../../../app_database/app_database_instance.dart';
 import '../../../elements/custom_header.dart';
@@ -313,7 +313,7 @@ class BusinessInfoComponentState
                 }).toList(),
 
                 onChanged: (newValue) {
-                  _signupRequestModel?.cityStateId=newValue?.catId.toString();
+                  _signupRequestModel?.categories=[newValue!.catId!];
                 },
                 validator: (input) {
                   if (input == null) {
@@ -425,7 +425,7 @@ class BusinessInfoComponentState
           Ui.showHide("1")) {
         Ui.showSnackBar(context, 'Please enter company name');
         return false;
-      } else if (_signupRequestModel?.cityStateId == null &&
+      } else if (_signupRequestModel?.categories == null &&
           Ui.showHide("1")) {
         Ui.showSnackBar(context, 'Please enter business area');
         return false;

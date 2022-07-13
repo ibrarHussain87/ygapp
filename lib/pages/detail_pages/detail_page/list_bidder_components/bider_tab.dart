@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/shared_pref_util.dart';
@@ -54,7 +55,7 @@ class _BidderListPageState extends State<BidderListPage> {
           } else if (snapshot.connectionState == ConnectionState.done &&
               snapshot.data!.data!.isEmpty) {
             return const Center(
-                child: TitleSmallTextWidget(title: 'No data found!!'));
+                child:NoDataFoundWidget());
           } else {
             return const Center(
               child: SpinKitWave(

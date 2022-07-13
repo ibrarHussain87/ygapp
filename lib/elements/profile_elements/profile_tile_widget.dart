@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 
 class ProfileTileWidget extends StatelessWidget {
@@ -17,7 +18,16 @@ class ProfileTileWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Expanded(flex:2,child: Image.asset(image,width: 20,height: 20,)),
+          /*Expanded(flex:2,child: Image.asset(image,width: 20,height: 20,)),*/
+          Expanded(
+            flex:2,
+            child: SvgPicture.asset(
+              image,
+              fit: BoxFit.scaleDown,
+              height: 25,
+              width: 25,
+            ),
+          ),
           SizedBox(width: 16.w,),
           Expanded(flex:8,child: NormalTitleTextWidget(title: title,fontSize: 14,)),
           SizedBox(width: 5.w,),

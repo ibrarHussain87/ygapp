@@ -80,590 +80,602 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    double width = MediaQuery
+        .of(context)
+        .size
+        .width;
+    double height = MediaQuery
+        .of(context)
+        .size
+        .height;
 
     return SafeArea(
         child: Scaffold(
-            key: scaffoldKey,
-            resizeToAvoidBottomInset: true,
-            backgroundColor: Colors.white,
-            body: Stack(
-              children: [
-                /*Image.asset(
+          key: scaffoldKey,
+          resizeToAvoidBottomInset: true,
+          backgroundColor: Colors.white,
+          body: Stack(
+            children: [
+            /*Image.asset(
                   "images/splash.png",
                   width: width,
                   height: height,
                   fit: BoxFit.fill,
                 ),*/
-                Container(
-                  color: skyBlueColor,
-                  width: width,
-                  height: height,
+            Container(
+            color: skyBlueColor,
+            width: width,
+            height: height,
+          ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(top: 35.w, bottom: 16.0.w),
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    'Sign up',
+                    style: TextStyle(
+
+                        fontSize: 28.sp,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.white),
+                  ),
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 35.w, bottom: 16.0.w),
-                      child: Align(
-                        alignment: Alignment.topCenter,
-                        child: Text(
-                          'Sign up',
-                          style: TextStyle(
-                              
-                              fontSize: 28.sp,
-                              fontWeight: FontWeight.w500,
-                              color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        'Delivery options and fees may vary based\non your country selection',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          
-                          color: Colors.white,
-                          fontSize: 11.sp,
-                          fontWeight: FontWeight.w400,
-                          height: 1.5.h,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10.w,
-                    ),
-                    Expanded(
-                        child: Container(
-                      decoration: BoxDecoration(
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(15.w),
-                              topLeft: Radius.circular(15.w)),
-                          gradient: const LinearGradient(
-                              colors: [Colors.white, Colors.white],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter)),
-                      child: Column(
-                        children: [
-                          Form(
-                            key: globalFormKey,
-                            child: Expanded(
-                              child: SingleChildScrollView(
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(left: 16.w, right: 16.w),
-                                  child: Center(
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Text(
+                  'Delivery options and fees may vary based\non your country selection',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+
+                    color: Colors.white,
+                    fontSize: 11.sp,
+                    fontWeight: FontWeight.w400,
+                    height: 1.5.h,
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 10.w,
+              ),
+              Expanded(
+                child: Container(
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(15.w),
+                          topLeft: Radius.circular(15.w)),
+                      gradient: const LinearGradient(
+                          colors: [Colors.white, Colors.white],
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter)),
+                  child: Column(
+                    children: [
+                    Form(
+                    key: globalFormKey,
+                    child: Expanded(
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding:
+                          EdgeInsets.only(left: 16.w, right: 16.w),
+                          child: Center(
+                            child: Column(
+                              children: [
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 16.w,
+                                        bottom: 8.w,
+                                        left: 8.w,
+                                        right: 8.w),
                                     child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
                                       children: [
-                                        Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 16.w,
-                                                bottom: 8.w,
-                                                left: 8.w,
-                                                right: 8.w),
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(telephoneNumberLabel,
-                                                    style: TextStyle(
-                                                        fontSize: 14.sp,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                        color: Colors.black)),
-                                                TextFormField(
-                                                    keyboardType:
-                                                        TextInputType.phone,
-                                                    textInputAction:
-                                                        TextInputAction.next,
-                                                    onEditingComplete: () =>
-                                                        FocusScope.of(context)
-                                                            .requestFocus(
-                                                                usernameFocus),
-                                                    inputFormatters: <TextInputFormatter>[
-                                                      FilteringTextInputFormatter
-                                                          .allow(RegExp(
-                                                              r'([+0-9])')),
-                                                      LengthLimitingTextInputFormatter(
-                                                          13),
-                                                    ],
-                                                    cursorColor: Colors.black,
-                                                    /*inputFormatters: [
+                                        Text(telephoneNumberLabel,
+                                            style: TextStyle(
+                                                fontSize: 14.sp,
+                                                fontWeight:
+                                                FontWeight.w500,
+                                                color: Colors.black)),
+                                        TextFormField(
+                                            keyboardType:
+                                            TextInputType.phone,
+                                            textInputAction:
+                                            TextInputAction.next,
+                                            onEditingComplete: () =>
+                                                FocusScope.of(context)
+                                                    .requestFocus(
+                                                    usernameFocus),
+                                            inputFormatters: <
+                                                TextInputFormatter>[
+                                              FilteringTextInputFormatter
+                                                  .allow(RegExp(
+                                                  r'([+0-9])')),
+                                              LengthLimitingTextInputFormatter(
+                                                  13),
+                                            ],
+                                            cursorColor: Colors.black,
+                                            /*inputFormatters: [
                                                       LengthLimitingTextInputFormatter(
                                                           13),
                                                     ],*/
-                                                    onChanged: (input) {
-                                                      Utils.validateMobile(
-                                                          input);
-                                                    },
-                                                    onSaved: (input) {
-                                                      _signupRequestModel
-                                                              .telephoneNumber =
-                                                          input!;
-                                                      _signupRequestModel
-                                                          .userName = input;
-                                                    },
-                                                    validator: (input) {
-                                                      if (input == null ||
-                                                          input.isEmpty ||
-                                                          input.length > 13) {
-                                                        return "Please enter valid telephone number";
-                                                      }
-                                                      return null;
-                                                    },
-                                                    decoration:
-                                                        textFormFieldDecSignup(
-                                                            telephoneNumberLabel,
-                                                            "assets/ic_call.svg")),
-                                              ],
-                                            )),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w,
-                                              bottom: 8.w,
-                                              left: 8.w,
-                                              right: 8.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(userNameLabel,
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black)),
-                                              TextFormField(
-                                                  focusNode: usernameFocus,
-                                                  keyboardType:
-                                                      TextInputType.text,
-                                                  textInputAction:
-                                                      TextInputAction.next,
-                                                  onEditingComplete: () =>
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              emailFocus),
-                                                  inputFormatters: <
-                                                      TextInputFormatter>[
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'([a-zA-Z0-9])')),
-                                                    LengthLimitingTextInputFormatter(
-                                                        20),
-                                                  ],
-                                                  cursorColor: Colors.black,
-                                                  onSaved: (input) =>
-                                                      _signupRequestModel.name =
-                                                          input!,
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty) {
-                                                      return "Please enter username";
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      textFormFieldDecSignup(
-                                                          userNameLabel,
-                                                          "assets/ic_profile.svg")),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w,
-                                              bottom: 8.w,
-                                              left: 8.w,
-                                              right: 8.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(emailLabel,
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black)),
-                                              TextFormField(
-                                                  focusNode: emailFocus,
-                                                  keyboardType: TextInputType
-                                                      .emailAddress,
-                                                  textInputAction:
-                                                      TextInputAction.next,
-                                                  onEditingComplete: () =>
-                                                      FocusScope.of(context)
-                                                          .requestFocus(
-                                                              passwordFocus),
-                                                  inputFormatters: <
-                                                      TextInputFormatter>[
-                                                    FilteringTextInputFormatter
-                                                        .allow(RegExp(
-                                                            r'([a-zA-Z0-9@.])')),
-                                                    LengthLimitingTextInputFormatter(
-                                                        25),
-                                                  ],
-                                                  cursorColor: Colors.black,
-                                                  onSaved: (input) =>
-                                                      _signupRequestModel
-                                                          .email = input!,
-                                                  validator: (input) {
-                                                    if (input == null ||
-                                                        input.isEmpty ||
-                                                        !input.isValidEmail()) {
-                                                      return "Please check your email";
-                                                    }
-                                                    return null;
-                                                  },
-                                                  decoration:
-                                                      textFormFieldDecSignup(
-                                                          emailLabel,
-                                                          "assets/ic_email.svg")),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w,
-                                              bottom: 8.w,
-                                              left: 8.w,
-                                              right: 8.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(passwordLabel,
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black)),
-                                              TextFormField(
-                                                focusNode: passwordFocus,
-                                                obscureText: !_showPassword,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                onEditingComplete: () =>
-                                                    FocusScope.of(context)
-                                                        .requestFocus(
-                                                            confirmPasswordFocus),
-                                                cursorColor: Colors.black,
-                                                onSaved: (input) =>
-                                                    password = input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty ||
-                                                      input.length < 8) {
-                                                    return "Password must be at least 8 characters long";
-                                                  }
-                                                  password = input;
-                                                  return null;
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: "Enter Here",
-                                                  hintStyle: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black87),
-                                                  prefixIcon: IconButton(
-                                                    onPressed: () {},
-                                                    icon: SvgPicture.asset(
-                                                      'assets/ic_password.svg',
-                                                      color: iconColor,
-                                                      fit: BoxFit.scaleDown,
-                                                      height: 16,
-                                                      width: 16,
-                                                    ),
-                                                  ),
-                                                  border: UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: textColorGrey),
-                                                  ),
-                                                  suffixIcon: GestureDetector(
-                                                    behavior:
-                                                        HitTestBehavior.opaque,
-                                                    onTap: () {
-                                                      _togglevisibility();
-                                                    },
-                                                    child: Icon(
-                                                      _showPassword
-                                                          ? Icons.visibility
-                                                          : Icons
-                                                              .visibility_off,
-                                                      color: textColorGrey,
-                                                      size: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w,
-                                              bottom: 8.w,
-                                              left: 8.w,
-                                              right: 8.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text('Confirm Password',
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black)),
-                                              TextFormField(
-                                                focusNode: confirmPasswordFocus,
-                                                obscureText: !_showPassword,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                onEditingComplete: () =>
-                                                    FocusScope.of(context)
-                                                        .requestFocus(
-                                                            businessAreaFocus),
-                                                cursorColor: Colors.black,
-                                                onSaved: (input) =>
-                                                    _signupRequestModel
-                                                        .password = input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty ||
-                                                      input.length < 8) {
-                                                    return "Password must be at least 8 characters long";
-                                                  } else if (input !=
-                                                      password) {
-                                                    return "Password not matched";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration: InputDecoration(
-                                                  hintText: "Enter Here",
-                                                  hintStyle: TextStyle(
-                                                      fontSize: 10.sp,
-                                                      fontWeight:
-                                                          FontWeight.w400,
-                                                      color: Colors.black87),
-                                                  prefixIcon: IconButton(
-                                                    onPressed: () {},
-                                                    icon: SvgPicture.asset(
-                                                      'assets/ic_confirm_password.svg',
-                                                      color: iconColor,
-                                                      fit: BoxFit.scaleDown,
-                                                      height: 16,
-                                                      width: 16,
-                                                    ),
-                                                  ),
-                                                  border: UnderlineInputBorder(
-                                                    borderSide: BorderSide(
-                                                        color: textColorGrey),
-                                                  ),
-                                                  suffixIcon: GestureDetector(
-                                                    behavior:
-                                                        HitTestBehavior.opaque,
-                                                    onTap: () {
-                                                      _togglevisibility();
-                                                    },
-                                                    child: Icon(
-                                                      _showPassword
-                                                          ? Icons.visibility
-                                                          : Icons
-                                                              .visibility_off,
-                                                      color: textColorGrey,
-                                                      size: 18,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w,
-                                              bottom: 8.w,
-                                              left: 8.w,
-                                              right: 8.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(businessArea,
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black)),
-                                              TextFormField(
-                                                focusNode: businessAreaFocus,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                textInputAction:
-                                                    TextInputAction.next,
-                                                onEditingComplete: () =>
-                                                    FocusScope.of(context)
-                                                        .requestFocus(
-                                                            companyFocus),
-                                                cursorColor: Colors.black,
-                                                onSaved: (input) =>
-                                                    _signupRequestModel
-                                                        .cityStateId = input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return "Please enter business area";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration: textFormFieldDecSignup(
-                                                    businessArea,
-                                                    'assets/ic_business_area.svg'),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              top: 8.w,
-                                              bottom: 8.w,
-                                              left: 8.w,
-                                              right: 8.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(company,
-                                                  style: TextStyle(
-                                                      fontSize: 14.sp,
-                                                      fontWeight:
-                                                          FontWeight.w500,
-                                                      color: Colors.black)),
-                                              TextFormField(
-                                                focusNode: companyFocus,
-                                                keyboardType:
-                                                    TextInputType.text,
-                                                textInputAction:
-                                                    TextInputAction.done,
-                                                cursorColor: Colors.black,
-                                                onSaved: (input) =>
-                                                    _signupRequestModel
-                                                        .company = input!,
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return "Please enter company name";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration: textFormFieldDecSignup(
-                                                    company,
-                                                    'assets/ic_business_area.svg'),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        Row(
-                                          children: [
-                                            Checkbox(
-                                                value: _termsChecked,
-                                                onChanged: (val) {
-                                                  setState(() {
-                                                    _termsChecked = val!;
-                                                  });
-                                                }),
-                                            RichText(
-                                              text: TextSpan(
-                                                // Note: Styles for TextSpans must be explicitly defined.
-                                                // Child text spans will inherit styles from parent
-                                                style: TextStyle(
-                                                  
-                                                  fontSize: 14.0.sp,
-                                                  color: Colors.black,
-                                                ),
-                                                children: <TextSpan>[
-                                                  TextSpan(
-                                                      text: 'I Agree to ',
-                                                      style: TextStyle(
-                                                          // fontFamily:
-                                                          //     'Metropolis',
-                                                          fontSize: 12.sp,
-                                                          color:
-                                                              textColorGrey)),
-                                                  TextSpan(
-                                                      text:
-                                                          'Terms & Conditions',
-                                                      style: TextStyle(
-                                                          // fontFamily:
-                                                          //     'Metropolis',
-                                                          fontSize: 12.sp,
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color:
-                                                              Colors.black87)),
-                                                ],
-                                              ),
-                                            )
-                                          ],
-                                        )
+                                            onChanged: (input) {
+                                              Utils.validateMobile(
+                                                  input);
+                                            },
+                                            onSaved: (input) {
+                                              _signupRequestModel.name = input!;
+                                              _signupRequestModel
+                                                  .telephoneNumber =
+                                              input;
+                                              _signupRequestModel
+                                                  .userName = input;
+                                            },
+                                            validator: (input) {
+                                              if (input == null ||
+                                                  input.isEmpty ||
+                                                  input.length > 13) {
+                                                return "Please enter valid telephone number";
+                                              }
+                                              return null;
+                                            },
+                                            decoration:
+                                            textFormFieldDecSignup(
+                                                telephoneNumberLabel,
+                                                "assets/ic_call.svg")),
                                       ],
-                                    ),
+                                    )),
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      top: 8.w,
+                                      bottom: 8.w,
+                                      left: 8.w,
+                                      right: 8.w),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                    CrossAxisAlignment.start,
+                                    children: [
+                                      Text(userNameLabel,
+                                          style: TextStyle(
+                                              fontSize: 14.sp,
+                                              fontWeight:
+                                              FontWeight.w500,
+                                              color: Colors.black)),
+                                      TextFormField(
+                                          focusNode: usernameFocus,
+                                          keyboardType:
+                                          TextInputType.text,
+                                          textInputAction:
+                                          TextInputAction.next,
+                                          onEditingComplete: () =>
+                                              FocusScope.of(context)
+                                                  .requestFocus(
+                                                  emailFocus),
+                                          inputFormatters: <
+                                              TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .allow(RegExp(
+                                                r'([a-zA-Z0-9])')),
+                                            LengthLimitingTextInputFormatter(
+                                                20),
+                                          ],
+                                          cursorColor: Colors.black,
+                                          onSaved: (input) =>
+                                          _signupRequestModel.name =
+                                          input!,
+                                          validator: (input) {
+                                            if (input == null ||
+                                                input.isEmpty) {
+                                              return "Please enter username";
+                                            }
+                                            return null;
+                                          },
+                                          decoration:
+                                          textFormFieldDecSignup(
+                                              userNameLabel,
+                                              "assets/ic_profile.svg")),
+                                    ],
                                   ),
                                 ),
-                              ),
+                                Padding(
+                                    padding: EdgeInsets.only(
+                                        top: 8.w,
+                                        bottom: 8.w,
+                                        left: 8.w,
+                                        right: 8.w),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                        children: [
+                                        Text(emailLabel,
+                                        style: TextStyle(
+                                            fontSize: 14.sp,
+                                            fontWeight:
+                                            FontWeight.w500,
+                                            color: Colors.black)),
+                                    TextFormField(
+                                        focusNode: emailFocus,
+                                        keyboardType: TextInputType
+                                            .emailAddress,
+                                        textInputAction:
+                                        TextInputAction.next,
+                                        onEditingComplete: () =>
+                                            FocusScope.of(context)
+                                                .requestFocus(
+                                                passwordFocus),
+                                        inputFormatters: <
+                                            TextInputFormatter>[
+                                          FilteringTextInputFormatter
+                                              .allow(RegExp(
+                                              r'([a-zA-Z0-9@.])')),
+                                          LengthLimitingTextInputFormatter(
+                                              25),
+                                        ],
+                                        cursorColor: Colors.black,
+                                        onSaved: (input) {
+                                          _signupRequestModel.name = input!;
+                                          _signupRequestModel
+                                              .email = input;
+                                        },
+                                        validator: (input) {
+                                if (input == null ||
+                                input.isEmpty ||
+                                !input.isValidEmail()) {
+                                return "Please check your email";
+                                }
+                                return null;
+                                },
+                                    decoration:
+                                    textFormFieldDecSignup(
+                                        emailLabel,
+                                        "assets/ic_email.svg")),
+                              ],
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(16.w),
-                            child: SizedBox(
-                                width: double.infinity,
-                                child: TextButton(
-                                    child: Text("Sign Up",
-                                        style: TextStyle(
-                                            
-                                            fontSize: 14.sp)),
-                                    style: ButtonStyle(
-                                        foregroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                Colors.white),
-                                        backgroundColor:
-                                            MaterialStateProperty.all<Color>(
-                                                btnColorLogin),
-                                        shape: MaterialStateProperty.all<
-                                                RoundedRectangleBorder>(
-                                            const RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.all(
-                                                    Radius.circular(8)),
-                                                side: BorderSide(
-                                                    color: Colors.transparent)))),
-                                    onPressed: () {
-                                      FocusScope.of(context).unfocus();
-                                      if (validateAndSave()) {
-                                        if (_signupRequestModel
-                                                .telephoneNumber !=
-                                            null) {
-                                          loginWithPhone();
-                                        }
-                                      }
-                                    })),
+                            padding: EdgeInsets.only(
+                                top: 8.w,
+                                bottom: 8.w,
+                                left: 8.w,
+                                right: 8.w),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(passwordLabel,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight:
+                                        FontWeight.w500,
+                                        color: Colors.black)),
+                                TextFormField(
+                                  focusNode: passwordFocus,
+                                  obscureText: !_showPassword,
+                                  keyboardType:
+                                  TextInputType.text,
+                                  textInputAction:
+                                  TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(
+                                          confirmPasswordFocus),
+                                  cursorColor: Colors.black,
+                                  onSaved: (input) =>
+                                  password = input!,
+                                  validator: (input) {
+                                    if (input == null ||
+                                        input.isEmpty ||
+                                        input.length < 8) {
+                                      return "Password must be at least 8 characters long";
+                                    }
+                                    password = input;
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: "Enter Here",
+                                    hintStyle: TextStyle(
+                                        fontSize: 10.sp,
+                                        fontWeight:
+                                        FontWeight.w400,
+                                        color: Colors.black87),
+                                    prefixIcon: IconButton(
+                                      onPressed: () {},
+                                      icon: SvgPicture.asset(
+                                        'assets/ic_password.svg',
+                                        color: iconColor,
+                                        fit: BoxFit.scaleDown,
+                                        height: 16,
+                                        width: 16,
+                                      ),
+                                    ),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: textColorGrey),
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      behavior:
+                                      HitTestBehavior.opaque,
+                                      onTap: () {
+                                        _togglevisibility();
+                                      },
+                                      child: Icon(
+                                        _showPassword
+                                            ? Icons.visibility
+                                            : Icons
+                                            .visibility_off,
+                                        color: textColorGrey,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ],
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 8.w,
+                                bottom: 8.w,
+                                left: 8.w,
+                                right: 8.w),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text('Confirm Password',
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight:
+                                        FontWeight.w500,
+                                        color: Colors.black)),
+                                TextFormField(
+                                  focusNode: confirmPasswordFocus,
+                                  obscureText: !_showPassword,
+                                  keyboardType:
+                                  TextInputType.text,
+                                  textInputAction:
+                                  TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(
+                                          businessAreaFocus),
+                                  cursorColor: Colors.black,
+                                  onSaved: (input) =>
+                                  _signupRequestModel
+                                      .password = input!,
+                                  validator: (input) {
+                                    if (input == null ||
+                                        input.isEmpty ||
+                                        input.length < 8) {
+                                      return "Password must be at least 8 characters long";
+                                    } else if (input !=
+                                        password) {
+                                      return "Password not matched";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: InputDecoration(
+                                    hintText: "Enter Here",
+                                    hintStyle: TextStyle(
+                                        fontSize: 10.sp,
+                                        fontWeight:
+                                        FontWeight.w400,
+                                        color: Colors.black87),
+                                    prefixIcon: IconButton(
+                                      onPressed: () {},
+                                      icon: SvgPicture.asset(
+                                        'assets/ic_confirm_password.svg',
+                                        color: iconColor,
+                                        fit: BoxFit.scaleDown,
+                                        height: 16,
+                                        width: 16,
+                                      ),
+                                    ),
+                                    border: UnderlineInputBorder(
+                                      borderSide: BorderSide(
+                                          color: textColorGrey),
+                                    ),
+                                    suffixIcon: GestureDetector(
+                                      behavior:
+                                      HitTestBehavior.opaque,
+                                      onTap: () {
+                                        _togglevisibility();
+                                      },
+                                      child: Icon(
+                                        _showPassword
+                                            ? Icons.visibility
+                                            : Icons
+                                            .visibility_off,
+                                        color: textColorGrey,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 8.w,
+                                bottom: 8.w,
+                                left: 8.w,
+                                right: 8.w),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(businessArea,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight:
+                                        FontWeight.w500,
+                                        color: Colors.black)),
+                                TextFormField(
+                                  focusNode: businessAreaFocus,
+                                  keyboardType:
+                                  TextInputType.text,
+                                  textInputAction:
+                                  TextInputAction.next,
+                                  onEditingComplete: () =>
+                                      FocusScope.of(context)
+                                          .requestFocus(
+                                          companyFocus),
+                                  cursorColor: Colors.black,
+                                  onSaved: (input) =>
+                                  _signupRequestModel
+                                      .cityStateId = input!,
+                                  validator: (input) {
+                                    if (input == null ||
+                                        input.isEmpty) {
+                                      return "Please enter business area";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: textFormFieldDecSignup(
+                                      businessArea,
+                                      'assets/ic_business_area.svg'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                                top: 8.w,
+                                bottom: 8.w,
+                                left: 8.w,
+                                right: 8.w),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(company,
+                                    style: TextStyle(
+                                        fontSize: 14.sp,
+                                        fontWeight:
+                                        FontWeight.w500,
+                                        color: Colors.black)),
+                                TextFormField(
+                                  focusNode: companyFocus,
+                                  keyboardType:
+                                  TextInputType.text,
+                                  textInputAction:
+                                  TextInputAction.done,
+                                  cursorColor: Colors.black,
+                                  onSaved: (input) =>
+                                  _signupRequestModel
+                                      .company = input!,
+                                  validator: (input) {
+                                    if (input == null ||
+                                        input.isEmpty) {
+                                      return "Please enter company name";
+                                    }
+                                    return null;
+                                  },
+                                  decoration: textFormFieldDecSignup(
+                                      company,
+                                      'assets/ic_business_area.svg'),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Row(
+                            children: [
+                              Checkbox(
+                                  value: _termsChecked,
+                                  onChanged: (val) {
+                                    setState(() {
+                                      _termsChecked = val!;
+                                    });
+                                  }),
+                              RichText(
+                                text: TextSpan(
+                                  // Note: Styles for TextSpans must be explicitly defined.
+                                  // Child text spans will inherit styles from parent
+                                  style: TextStyle(
+
+                                    fontSize: 14.0.sp,
+                                    color: Colors.black,
+                                  ),
+                                  children: <TextSpan>[
+                                    TextSpan(
+                                        text: 'I Agree to ',
+                                        style: TextStyle(
+                                          // fontFamily:
+                                          //     'Metropolis',
+                                            fontSize: 12.sp,
+                                            color:
+                                            textColorGrey)),
+                                    TextSpan(
+                                        text:
+                                        'Terms & Conditions',
+                                        style: TextStyle(
+                                          // fontFamily:
+                                          //     'Metropolis',
+                                            fontSize: 12.sp,
+                                            fontWeight:
+                                            FontWeight.bold,
+                                            color:
+                                            Colors.black87)),
+                                  ],
+                                ),
+                              )
+                            ],
+                          )
+                          ],
+                        ),
                       ),
-                    ))
-                  ],
-                )
-              ],
-            )));
+                    ),
+                  ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.all(16.w),
+                child: SizedBox(
+                    width: double.infinity,
+                    child: TextButton(
+                        child: Text("Sign Up",
+                            style: TextStyle(
+
+                                fontSize: 14.sp)),
+                        style: ButtonStyle(
+                            foregroundColor:
+                            MaterialStateProperty.all<Color>(
+                                Colors.white),
+                            backgroundColor:
+                            MaterialStateProperty.all<Color>(
+                                btnColorLogin),
+                            shape: MaterialStateProperty.all<
+                                RoundedRectangleBorder>(
+                                const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(8)),
+                                    side: BorderSide(
+                                        color: Colors.transparent)))),
+                        onPressed: () {
+                          FocusScope.of(context).unfocus();
+                          if (validateAndSave()) {
+                            if (_signupRequestModel
+                                .telephoneNumber !=
+                                null) {
+                              loginWithPhone();
+                            }
+                          }
+                        })),
+              ),
+            ],
+          ),
+        ))],
+    )
+    ]
+    ,
+    )
+    )
+    );
   }
 
   bool validateAndSave() {
@@ -722,9 +734,14 @@ class _SignUpPageState extends State<SignUpPage> {
         builder: (BuildContext buildContext) {
           return Container(
               color: Colors.white,
-              padding: MediaQuery.of(buildContext).viewInsets,
+              padding: MediaQuery
+                  .of(buildContext)
+                  .viewInsets,
               height: 350,
-              width: MediaQuery.of(buildContext).size.width,
+              width: MediaQuery
+                  .of(buildContext)
+                  .size
+                  .width,
               child: ListView(children: <Widget>[
                 const SizedBox(height: 30),
                 SizedBox(
@@ -749,7 +766,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 ),
                 Padding(
                   padding:
-                      const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
+                  const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                   child: RichText(
                     text: TextSpan(
                         text: "Enter the code sent to ",
@@ -883,7 +900,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           setState(() => hasError = true);
                         } else {
                           setState(
-                            () {
+                                () {
                               hasError = false;
                             },
                           );
@@ -893,12 +910,12 @@ class _SignUpPageState extends State<SignUpPage> {
                       },
                       child: Center(
                           child: Text(
-                        "VERIFY".toUpperCase(),
-                        style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold),
-                      )),
+                            "VERIFY".toUpperCase(),
+                            style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold),
+                          )),
                     ),
                   ),
                   decoration: BoxDecoration(
@@ -957,10 +974,8 @@ class _SignUpPageState extends State<SignUpPage> {
     //     });
   }
 
-  void verifyOTP(
-    String otp,
-    BuildContext buildContext,
-  ) async {
+  void verifyOTP(String otp,
+      BuildContext buildContext,) async {
     PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationID, smsCode: otp);
 
@@ -995,6 +1010,8 @@ class _SignUpPageState extends State<SignUpPage> {
           } else if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.userCategoriesDao.insertAllCategories(value.data!.user!.categories!);
+
             });
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());
@@ -1009,7 +1026,7 @@ class _SignUpPageState extends State<SignUpPage> {
                 timeInSecForIosWeb: 1);
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(builder: (context) => const MainPage()),
-                (Route<dynamic> route) => false);
+                    (Route<dynamic> route) => false);
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Text(value.message ?? "")));
@@ -1030,7 +1047,7 @@ class _SignUpPageState extends State<SignUpPage> {
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }

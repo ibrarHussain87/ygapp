@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/foundation.dart';
 
 import 'package:flutter/material.dart';
@@ -34,9 +32,9 @@ import '../../auth_pages/signup/country_search_page.dart';
 import '../../main_page.dart';
 
 class YgServicePage extends StatefulWidget {
-
-
-  const YgServicePage({Key? key,}) : super(key: key);
+  const YgServicePage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   YgServicePageState createState() => YgServicePageState();
@@ -53,44 +51,42 @@ class YgServicePageState extends State<YgServicePage>
 
   static const String DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss";
   String? dateTime;
-  List<String> contactList = ["Same as Profile","Different"];
-  final _companyTypeAheadController=TextEditingController();
-  final _nameController=TextEditingController();
-  final _addressController=TextEditingController();
-  final _numberController=TextEditingController();
-  final _emailController=TextEditingController();
+  List<String> contactList = ["Same as Profile", "Different"];
+  final _companyTypeAheadController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _numberController = TextEditingController();
+  final _emailController = TextEditingController();
   bool _termsChecked = false;
   final GlobalKey<SingleSelectTileWidgetState> _contactKey =
-  GlobalKey<SingleSelectTileWidgetState>();
+      GlobalKey<SingleSelectTileWidgetState>();
+
   @override
   void initState() {
     _ygServiceRequestModel = YGServiceRequestModel();
     AppDbInstance().getDbInstance().then((value) => {
-      value.serviceTypesDao.findAllServiceTypes().then((value) {
-        setState(() {
-          serviceList = value;
+          value.serviceTypesDao.findAllServiceTypes().then((value) {
+            setState(() {
+              serviceList = value;
+            });
+          }),
+          value.companiesDao.findAllCompanies().then((value) {
+            setState(() {
+              companiesList = value;
+            });
+          }),
+          value.userDao.getUser().then((value) {
+            setState(() {
+              user = value;
+              _setData();
+            });
+          }),
         });
-      }),
-      value.companiesDao.findAllCompanies().then((value) {
-        setState(() {
-          companiesList=value;
-        });
-      }),
-
-      value.userDao.getUser().then((value) {
-        setState(() {
-          user=value;
-          _setData();
-        });
-      }),
-
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-
     super.dispose();
   }
 
@@ -102,11 +98,11 @@ class YgServicePageState extends State<YgServicePage>
     double height = MediaQuery.of(context).size.height;
 
     return SafeArea(
-      child:Scaffold(
+      child: Scaffold(
 //                key: scaffoldKey,
         resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
-        appBar:appBar(context, "YG Services"),
+        appBar: appBar(context, "YG Services"),
         body: Column(
           children: [
             Form(
@@ -116,7 +112,8 @@ class YgServicePageState extends State<YgServicePage>
                   child: Center(
                     child: Builder(builder: (BuildContext context2) {
                       return Padding(
-                        padding:EdgeInsets.only(top: 30.w, bottom: 8.w, left: 18.w, right: 18.w),
+                        padding: EdgeInsets.only(
+                            top: 30.w, bottom: 8.w, left: 18.w, right: 18.w),
                         child: buildUserDataColumn(context2),
                       );
                     }),
@@ -124,13 +121,11 @@ class YgServicePageState extends State<YgServicePage>
                 ),
               ),
             )
-
           ],
         ),
       ),
     );
   }
-
 
   Column buildUserDataColumn(BuildContext context2) {
 //    _companyTypeAheadController.text=snapshot.data!.name!;
@@ -138,52 +133,49 @@ class YgServicePageState extends State<YgServicePage>
       children: [
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               DropdownButtonFormField(
-                hint:  Text('Select Service Type',style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
+                hint: Text(
+                  'Select Service Type',
+                  style: TextStyle(
+                      fontSize: 13.sp,
+                      fontWeight: FontWeight.w500,
+                      color: hintColorGrey),
+                ),
 
                 items: serviceList
-                    .map((value) =>
-                    DropdownMenuItem(
-                      child: Text(
-                          value.serviceTypeName ??
-                              Utils.checkNullString(
-                                  false),
-                          textAlign:
-                          TextAlign
-                              .center,style:TextStyle(fontSize: 13.sp),),
-                      value: value,
-                    ))
+                    .map((value) => DropdownMenuItem(
+                          child: Text(
+                            value.serviceTypeName ??
+                                Utils.checkNullString(false),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 13.sp),
+                          ),
+                          value: value,
+                        ))
                     .toList(),
                 isExpanded: true,
 //                value: state,
                 onChanged: (ServiceTypes? value) {
-                  FocusScope.of(context)
-                      .requestFocus(
-                      FocusNode());
+                  FocusScope.of(context).requestFocus(FocusNode());
 //                  state=value;
                   _ygServiceRequestModel.serviceTypeId =
                       value?.serviceTypeId.toString();
                 },
 
-                decoration: textFieldProfile(
-                    'Select', "Service Type",true),
-                validator: (value) => value == null ? 'Please select service type' : null,
+                decoration: textFieldDecoration('Select', "Service Type", true),
+                validator: (value) =>
+                    value == null ? 'Please select service type' : null,
               ),
-
-
             ],
           ),
         ),
-
-
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -197,21 +189,15 @@ class YgServicePageState extends State<YgServicePage>
                 spanCount: 2,
                 listOfItems: contactList,
                 callback: (String value) {
-              if(value=="Different")
-                {
-                  setState(() {
-                   _resetData();
-                  });
-                }
-              else
-                {
-                  setState(() {
-
-                    _setData();
-
-                  });
-                }
-
+                  if (value == "Different") {
+                    setState(() {
+                      _resetData();
+                    });
+                  } else {
+                    setState(() {
+                      _setData();
+                    });
+                  }
                 },
               ),
             ],
@@ -219,25 +205,24 @@ class YgServicePageState extends State<YgServicePage>
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TypeAheadFormField(
                   textFieldConfiguration: TextFieldConfiguration(
                     style: TextStyle(fontSize: 13.sp),
                     controller: _companyTypeAheadController,
-                    decoration: textFieldProfile(
-                        'Enter Company Name', "Company Name",true),
+                    decoration: textFieldDecoration(
+                        'Enter Company Name', "Company Name", true),
                   ),
                   suggestionsCallback: (pattern) {
-                    return companiesList.where(
-                            (Companies x) => x.name.toString().toLowerCase().contains(pattern)
-                    ).toList();
+                    return companiesList
+                        .where((Companies x) =>
+                            x.name.toString().toLowerCase().contains(pattern))
+                        .toList();
                   },
-                  itemBuilder: (context,suggestion) {
+                  itemBuilder: (context, suggestion) {
                     return ListTile(
                       title: Text(suggestion.toString()),
                     );
@@ -247,17 +232,16 @@ class YgServicePageState extends State<YgServicePage>
                   },
                   hideSuggestionsOnKeyboardHide: true,
                   onSuggestionSelected: (Companies suggestion) {
-                    _companyTypeAheadController.text = suggestion.name.toString();
-                    _ygServiceRequestModel.companyName=suggestion.name.toString();
+                    _companyTypeAheadController.text =
+                        suggestion.name.toString();
+                    _ygServiceRequestModel.companyName =
+                        suggestion.name.toString();
                   },
-                  errorBuilder:(BuildContext context, Object? error) =>
-                      Text(
-                          '$error',
-                          style: TextStyle(
-                            fontSize: 13.sp,
-                              color: Theme.of(context).errorColor
-                          )
-                      ),
+                  errorBuilder: (BuildContext context, Object? error) => Text(
+                      '$error',
+                      style: TextStyle(
+                          fontSize: 13.sp,
+                          color: Theme.of(context).errorColor)),
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return 'Please enter company name';
@@ -265,86 +249,73 @@ class YgServicePageState extends State<YgServicePage>
                     return null;
                   },
                   onSaved: (value) {
-
                     _ygServiceRequestModel.companyName = value;
-
-                  }
-
-              ),
+                  }),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   controller: _nameController,
                   cursorColor: Colors.black,
 //                  initialValue: _ygServiceRequestModel.name ?? "",
-                  onSaved: (input) =>
-                  _ygServiceRequestModel.name = input!,
+                  onSaved: (input) => _ygServiceRequestModel.name = input!,
                   validator: (input) {
                     if (input == null || input.isEmpty) {
                       return "Please enter name";
                     }
                     return null;
                   },
-                  decoration: textFieldProfile(
-                      'Enter Name', "Name",true)),
+                  decoration: textFieldDecoration('Enter Name', "Name", true)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
-                controller: _numberController,
+                  controller: _numberController,
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
 //                  initialValue: _ygServiceRequestModel.telephoneNumber ?? '',
                   onSaved: (input) =>
-                  _ygServiceRequestModel.telephoneNumber = input!,
+                      _ygServiceRequestModel.telephoneNumber = input!,
                   validator: (input) {
-                    if (input == null || input.isEmpty || !input.isValidNumber()) {
+                    if (input == null ||
+                        input.isEmpty ||
+                        !input.isValidNumber()) {
                       return "Please enter contact number";
                     }
                     return null;
                   },
-                  decoration: textFieldProfile(
-                      'Enter Contact Number', "Contact Number",true)),
+                  decoration: textFieldDecoration(
+                      'Enter Contact Number', "Contact Number", true)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
-                controller: _addressController,
+                  controller: _addressController,
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
-                  onSaved: (input) =>
-                  _ygServiceRequestModel.address = input!,
+                  onSaved: (input) => _ygServiceRequestModel.address = input!,
 //                  initialValue:_ygServiceRequestModel.address ?? '',
                   validator: (input) {
                     if (input == null || input.isEmpty) {
@@ -352,24 +323,21 @@ class YgServicePageState extends State<YgServicePage>
                     }
                     return null;
                   },
-                  decoration: textFieldProfile(
-                      'Enter Address', "Address",true)),
+                  decoration:
+                      textFieldDecoration('Enter Address', "Address", true)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
 //                  readOnly: true,
                   style: TextStyle(fontSize: 13.sp),
-              controller: _emailController,
+                  controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   cursorColor: Colors.black,
 //                  initialValue: _ygServiceRequestModel.email ?? '',
@@ -382,20 +350,16 @@ class YgServicePageState extends State<YgServicePage>
                     }
                     return null;
                   },
-                  decoration: textFieldProfile(
-                      'Enter Email', "Email",true)),
+                  decoration: textFieldDecoration('Enter Email', "Email", true)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
@@ -407,31 +371,25 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
-                      'Enter Landmark', "Landmark",false)),
+                  decoration:
+                      textFieldDecoration('Enter Landmark', "Landmark", false)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   onSaved: (input) => _ygServiceRequestModel.secName = input!,
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter
-                        .allow(RegExp(
-                        r'([a-zA-Z0-9])')),
-                    LengthLimitingTextInputFormatter(
-                        13),
+                    FilteringTextInputFormatter.allow(RegExp(r'([a-zA-Z0-9])')),
+                    LengthLimitingTextInputFormatter(13),
                   ],
                   // validator: (input) {
                   //   if (input == null || input.isEmpty) {
@@ -439,29 +397,24 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
-                      'Enter Secondary Contact Name', "Secondary Contact Name",false)),
+                  decoration: textFieldDecoration('Enter Secondary Contact Name',
+                      "Secondary Contact Name", false)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.number,
                   cursorColor: Colors.black,
                   inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter
-                        .allow(RegExp(
-                        r'([+0-9])')),
-                    LengthLimitingTextInputFormatter(
-                        13),
+                    FilteringTextInputFormatter.allow(RegExp(r'([+0-9])')),
+                    LengthLimitingTextInputFormatter(13),
                   ],
                   onSaved: (input) => _ygServiceRequestModel.secNumber = input!,
                   // validator: (input) {
@@ -470,20 +423,17 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
-                      'Enter Secondary Contact Number', "Secondary Contact Number",false)),
+                  decoration: textFieldDecoration('Enter Secondary Contact Number',
+                      "Secondary Contact Number", false)),
             ],
           ),
         ),
-
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
@@ -496,123 +446,113 @@ class YgServicePageState extends State<YgServicePage>
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
-                      '', "Details",false)),
+                  decoration: textFieldDecoration('', "Details", false)),
             ],
           ),
         ),
         Padding(
           padding:
-          EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-
               TextFormField(
                   style: TextStyle(fontSize: 13.sp),
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black,
                   maxLines: 5,
-                  onSaved: (input) => _ygServiceRequestModel.specialInstructions = input!,
+                  onSaved: (input) =>
+                      _ygServiceRequestModel.specialInstructions = input!,
                   // validator: (input) {
                   //   if (input == null || input.isEmpty) {
                   //     return "Please enter special instructions";
                   //   }
                   //   return null;
                   // },
-                  decoration: textFieldProfile(
-                      '', "Special Instructions",false)),
+                  decoration:
+                      textFieldDecoration('', "Special Instructions", false)),
             ],
           ),
         ),
-
         Padding(
-          padding: EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
+          padding:
+              EdgeInsets.only(top: 8.w, bottom: 8.w, left: 8.w, right: 8.w),
           child: Column(
-            crossAxisAlignment:
-            CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(
                 height: 12.w,
               ),
               GestureDetector(
-                onTap: (){
+                onTap: () {
                   setState(() {
 //                    FocusScope.of(context)
 //                        .requestFocus(
 //                        FocusNode());
                     DatePicker.showDateTimePicker(context,
                         showTitleActions: true,
-
                         minTime: DateTime(2022, 1, 1),
-                        maxTime: DateTime(2030, 6, 7),
-                        onChanged: (date) {
-                          setState(() {
-                            dateTime=date.toString();
-                            _ygServiceRequestModel.dateTime=date.toString();
-                          });
-                        },
-                        onConfirm: (date) {
-
-                          FocusScope.of(context).requestFocus(FocusNode());
-                          dateTime= formatDate(date);
-                          _ygServiceRequestModel.dateTime=dateTime.toString();
+                        maxTime: DateTime(2030, 6, 7), onChanged: (date) {
+                      setState(() {
+                        dateTime = date.toString();
+                        _ygServiceRequestModel.dateTime = date.toString();
+                      });
+                    }, onConfirm: (date) {
+                      FocusScope.of(context).requestFocus(FocusNode());
+                      dateTime = formatDate(date);
+                      _ygServiceRequestModel.dateTime = dateTime.toString();
 //                          dateTime=date.toString();
-
-                        }, currentTime: DateTime.now(), locale: LocaleType.en);
-                  }
-                  );
+                    }, currentTime: DateTime.now(), locale: LocaleType.en);
+                  });
                 },
                 child: SizedBox(
                   height: 50.w,
-                  child:InputDecorator(
+                  child: InputDecorator(
                     decoration: InputDecoration(
                       label: Row(
-                        mainAxisSize:
-                        MainAxisSize.min,
-                        mainAxisAlignment:
-                        MainAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           const Text(
                             'Date/Time',
-                            style: TextStyle(color: Colors.black,fontSize: 13),
+                            style: TextStyle(color: Colors.black, fontSize: 13),
                           ),
-                          Text("*", style: TextStyle(color: Colors.red, fontSize: 16.sp,
+                          Text("*",
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontSize: 16.sp,
                                   /**/
-                                  backgroundColor:
-                                  Colors.white,
-                                  fontWeight:
-                                  FontWeight
-                                      .w500)),
+                                  backgroundColor: Colors.white,
+                                  fontWeight: FontWeight.w500)),
                         ],
                       ),
-
-                      contentPadding:const EdgeInsets.symmetric(vertical: 8.0, horizontal: 8.0),
-                      suffixIcon:const Icon(Icons.arrow_drop_down,color: Colors.black54,),
-                      floatingLabelBehavior:FloatingLabelBehavior.always ,
-                      hintText:'Select Date/Time',
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 8.0),
+                      suffixIcon: const Icon(
+                        Icons.arrow_drop_down,
+                        color: Colors.black54,
+                      ),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                      hintText: 'Select Date/Time',
                       border: OutlineInputBorder(
-                          borderRadius:const BorderRadius.all(
+                          borderRadius: const BorderRadius.all(
                             Radius.circular(5.0),
                           ),
-                          borderSide: BorderSide(color: newColorGrey)
-                      ),
-                      hintStyle: TextStyle(
-                          fontSize: 13.sp,
-                          color: textColorGrey),
+                          borderSide: BorderSide(color: newColorGrey)),
+                      hintStyle:
+                          TextStyle(fontSize: 13.sp, color: textColorGrey),
                     ),
-
                     child: Row(
                       children: [
-
                         Expanded(
-                            flex:8,
-                            child: Text(
-                                dateTime ?? "Select Date/Time",textAlign: TextAlign.start,style:TextStyle(
-                                fontSize: 13.sp,
-                                color:dateTime!=null ? Colors.black : newColorGrey))),
-
+                            flex: 8,
+                            child: Text(dateTime ?? "Select Date/Time",
+                                textAlign: TextAlign.start,
+                                style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: dateTime != null
+                                        ? Colors.black
+                                        : newColorGrey))),
                       ],
                     ),
                   ),
@@ -622,8 +562,7 @@ class YgServicePageState extends State<YgServicePage>
           ),
         ),
         Padding(
-          padding: EdgeInsets.only(
-              top: 5.w, bottom: 6.w),
+          padding: EdgeInsets.only(top: 5.w, bottom: 6.w),
           child: Row(
             children: [
               Checkbox(
@@ -639,7 +578,7 @@ class YgServicePageState extends State<YgServicePage>
                   // Note: Styles for TextSpans must be explicitly defined.
                   // Child text spans will inherit styles from parent
                   style: TextStyle(
-                    // 
+                    //
                     fontSize: 14.0.sp,
                     color: Colors.black,
                   ),
@@ -650,25 +589,20 @@ class YgServicePageState extends State<YgServicePage>
                             // fontFamily:
                             // 'Metropolis',
                             fontSize: 13.sp,
-                            color:
-                            textColorGrey)),
+                            color: textColorGrey)),
                     TextSpan(
-                        text:
-                        'terms & conditions',
+                        text: 'terms & conditions',
                         style: TextStyle(
                             // fontFamily:
                             // 'Metropolis',
                             fontSize: 13.sp,
-                            color:
-                            textColorGrey)),
+                            color: textColorGrey)),
                   ],
                 ),
               )
             ],
           ),
         ),
-
-
         Padding(
           padding: EdgeInsets.all(14.w),
           child: SizedBox(
@@ -677,21 +611,20 @@ class YgServicePageState extends State<YgServicePage>
                 return TextButton(
                     child: Text("Submit",
                         style: TextStyle(
-                            /* */fontSize: 14.sp)),
+                            /* */
+                            fontSize: 14.sp)),
                     style: ButtonStyle(
                         foregroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                            MaterialStateProperty.all<Color>(Colors.white),
                         backgroundColor:
-                        MaterialStateProperty.all<Color>(btnColorLogin),
+                            MaterialStateProperty.all<Color>(btnColorLogin),
                         shape: MaterialStateProperty.all<
-                            RoundedRectangleBorder>(
+                                RoundedRectangleBorder>(
                             const RoundedRectangleBorder(
                                 borderRadius:
-                                BorderRadius.all(Radius.circular(8)),
+                                    BorderRadius.all(Radius.circular(8)),
                                 side: BorderSide(color: Colors.transparent)))),
                     onPressed: () {
-
-
                       if (validateAndSave()) {
                         FocusScope.of(context1).requestFocus(FocusNode());
                         _createYGServicesCall(context1);
@@ -703,21 +636,16 @@ class YgServicePageState extends State<YgServicePage>
     );
   }
 
-
-
-
   bool validateAndSave() {
     final form = globalFormKey.currentState;
     if (form!.validate() && _termsChecked) {
-      if(_ygServiceRequestModel.dateTime!=null) {
+      if (_ygServiceRequestModel.dateTime != null) {
         form.save();
         return true;
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Please select date and time')));
       }
-      else
-        {
-          ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Please select date and time')));
-        }
     } else if (!_termsChecked) {
       ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Please accept Terms & Conditions')));
@@ -725,106 +653,98 @@ class YgServicePageState extends State<YgServicePage>
     return false;
   }
 
-
   void _createYGServicesCall(BuildContext context1) {
+    check().then((value) {
+      if (value) {
+        ProgressDialogUtil.showDialog(context, 'Please wait...');
 
-      check().then((value) {
-        if (value) {
-          ProgressDialogUtil.showDialog(context, 'Please wait...');
-
-          Logger().e(_ygServiceRequestModel.toJson());
-          ApiService().createYGService(_ygServiceRequestModel).then((value) {
-
-            ProgressDialogUtil.hideDialog();
+        Logger().e(_ygServiceRequestModel.toJson());
+        ApiService().createYGService(_ygServiceRequestModel).then((value) {
+          ProgressDialogUtil.hideDialog();
 //            if (value.errors != null) {
 //              value.errors!.forEach((key, error) {
 //                ScaffoldMessenger.of(context)
 //                    .showSnackBar(SnackBar(content: Text(error.toString())));
 //              });
 //            } else
-            if (value.status!) {
+          if (value.status!) {
 //              AppDbInstance().getDbInstance().then((db) async {
 ////                await db.userDao.insertUser(value.data!.user!);
 //                await db.userDao.insertUser(value.data!);
 //              });
 
-
-              Fluttertoast.showToast(
-                  msg: value.message ?? "",
-                  toastLength: Toast.LENGTH_SHORT,
-                  gravity: ToastGravity.BOTTOM,
-                  timeInSecForIosWeb: 1);
-              Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (context) => const MainPage()),
-                      (Route<dynamic> route) => false);
-            } else {
-              ScaffoldMessenger.of(context)
-                  .showSnackBar(SnackBar(content: Text(value.message ?? "")));
-            }
-          }).onError((error, stackTrace) {
-            ProgressDialogUtil.hideDialog();
+            Fluttertoast.showToast(
+                msg: value.message ?? "",
+                toastLength: Toast.LENGTH_SHORT,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1);
+            Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(builder: (context) => const MainPage()),
+                (Route<dynamic> route) => false);
+          } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text(error.toString())));
-          });
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("No internet available.".toString())));
-        }
-      });
-
+                .showSnackBar(SnackBar(content: Text(value.message ?? "")));
+          }
+        }).onError((error, stackTrace) {
+          ProgressDialogUtil.hideDialog();
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(error.toString())));
+        });
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text("No internet available.".toString())));
+      }
+    });
   }
 
   _resetData() {
-    _ygServiceRequestModel.contactDetails="Different";
-    _ygServiceRequestModel.companyName = null ;
+    _ygServiceRequestModel.contactDetails = "Different";
+    _ygServiceRequestModel.companyName = null;
     _companyTypeAheadController.clear();
     _nameController.clear();
     _numberController.clear();
     _addressController.clear();
     _emailController.clear();
 
-    _ygServiceRequestModel.name = null ;
-    _ygServiceRequestModel.address = null ;
-    _ygServiceRequestModel.telephoneNumber = null ;
-    _ygServiceRequestModel.email = null ;
+    _ygServiceRequestModel.name = null;
+    _ygServiceRequestModel.address = null;
+    _ygServiceRequestModel.telephoneNumber = null;
+    _ygServiceRequestModel.email = null;
   }
 
   _setData() {
-
-    _ygServiceRequestModel.contactDetails="Same as Profile";
-    _companyTypeAheadController.text=user?.company?? "";
-    _ygServiceRequestModel.companyName=user?.name;
-    _nameController.text=user?.name.toString() ?? "";
-    _ygServiceRequestModel.name=user?.name;
-    _emailController.text=user?.email.toString() ?? "";
-    _ygServiceRequestModel.email=user?.email;
-    _numberController.text=user?.telephoneNumber.toString() ?? "";
-    _ygServiceRequestModel.telephoneNumber=user?.telephoneNumber;
-    _addressController.text=user?.address.toString() ?? "";
-    _ygServiceRequestModel.address=user?.address;
+    _ygServiceRequestModel.contactDetails = "Same as Profile";
+    _companyTypeAheadController.text = user?.company ?? "";
+    _ygServiceRequestModel.companyName = user?.name;
+    _nameController.text = user?.name.toString() ?? "";
+    _ygServiceRequestModel.name = user?.name;
+    _emailController.text = user?.email.toString() ?? "";
+    _ygServiceRequestModel.email = user?.email;
+    _numberController.text = user?.telephoneNumber.toString() ?? "";
+    _ygServiceRequestModel.telephoneNumber = user?.telephoneNumber;
+    _addressController.text = user?.address.toString() ?? "";
+    _ygServiceRequestModel.address = user?.address;
   }
 
   @override
   bool get wantKeepAlive => true;
 
-   String formatDate(DateTime dateTime)
-
-  {
-    return DateFormat(DATE_TIME_FORMAT ).format(dateTime);
+  String formatDate(DateTime dateTime) {
+    return DateFormat(DATE_TIME_FORMAT).format(dateTime);
   }
-
 }
+
 extension PhoneValidator on String {
   bool isValidNumber() {
     String pattern = r'(^(?:[+0]9)?[0-9]{10,12}$)';
     return RegExp(pattern).hasMatch(this);
   }
 }
+
 extension EmailValidator on String {
   bool isValidEmail() {
     return RegExp(
-        r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
         .hasMatch(this);
   }
 }
-

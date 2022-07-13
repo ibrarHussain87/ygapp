@@ -10,6 +10,9 @@ abstract class StocklotFamilyDao{
   @Query('SELECT * FROM stocklots_family where stocklotFamilyParentId IS NULL')
   Future<List<StockLotFamily>> findParentStocklot();
 
+  @Query('SELECT * FROM stocklots_family where stocklotFamilyParentId == :id')
+  Future<List<StockLotFamily>> findStocklotCategories(int id);
+
   @Query('SELECT * FROM stocklots_family where stocklotFamilyParentId = :id')
   Future<StockLotFamily?> findStocklotCategoriesWithId(int id);
 

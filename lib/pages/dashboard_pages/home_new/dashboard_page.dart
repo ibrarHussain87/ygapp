@@ -34,24 +34,27 @@ class DashboardPage extends StatefulWidget {
 class DashboardPageState extends State<DashboardPage> {
   List<HomeModel> homeList = [
     HomeModel(
-        id: "1", title: 'Fiber', subTitle: 'over 255 ads', image: fiberIcon),
+        id: "1", title: 'Fiber', subTitle: 'over 255 ads', image: fiberIcon,isDisable: false),
     HomeModel(
-        id: "2", title: 'Yarn', subTitle: 'over 410 ads', image: yarnIcon),
+        id: "2", title: 'Yarn', subTitle: 'over 410 ads', image: yarnIcon,isDisable: false),
     HomeModel(
         id: "3",
         title: 'Fabrics',
         subTitle: 'over 115 ads',
-        image: fabricsIcon),
+        image: fabricsIcon,
+        isDisable: false),
     HomeModel(
         id: "4",
         title: 'Stocklots',
         subTitle: 'over 40 ads',
-        image: stockLotsIcon),
+        image: stockLotsIcon
+        ,isDisable: false),
     HomeModel(
         id: "5",
         title: 'YG Services',
         subTitle: 'over 5 services',
-        image: serviceIcon),
+        image: serviceIcon,
+    isDisable: false),
   ];
   List<SingleChildWidget> providers = [
     ChangeNotifierProvider<BannersProvider>(create: (_) => BannersProvider()),
@@ -66,13 +69,13 @@ class DashboardPageState extends State<DashboardPage> {
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final sharedPreferences = await SharedPreferences.getInstance();
       bool isFirstLaunch = sharedPreferences.getBool(IS_FIRST_LAUNCH) ?? true;
 
       if(isFirstLaunch) {
         sharedPreferences.setBool(IS_FIRST_LAUNCH, false);
-        ShowCaseWidget.of(context)?.startShowCase([
+        ShowCaseWidget.of(context).startShowCase([
           keyOne,
           keyTwo
         ]);

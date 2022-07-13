@@ -30,6 +30,14 @@
           }
         },
         {
+          "client_id": "236321379708-hcs0jbbfv2qqlrj3m9i3tgnui4a0eidh.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.yarn.guru",
+            "certificate_hash": "bc8bfde99af4955dd68e87785721e2dbfc772a3e"
+          }
+        },
+        {
           "client_id": "236321379708-i6stflc49esk2i69fjqpt7o1gplmk9j9.apps.googleusercontent.com",
           "client_type": 3
         }

@@ -22,8 +22,8 @@ class PostFiberProvider extends ChangeNotifier {
   List<Widget> samplePages = [];
   int selectedValue = 0;
 
-  final GlobalKey<BlendsWithImageListWidgetState> blendWidgetKey = GlobalKey();
-  final GlobalKey<BlendsWithImageListWidgetState> blendListWidgetKey =
+  final GlobalKey<BlendWithImageListWidgetState> blendWidgetKey = GlobalKey();
+  final GlobalKey<BlendWithImageListWidgetState> blendListWidgetKey =
       GlobalKey();
   final GlobalKey<SingleSelectTileWidgetState> gradeWidgetKey = GlobalKey();
   final GlobalKey<SingleSelectTileWidgetState> appearanceWidgetKey =

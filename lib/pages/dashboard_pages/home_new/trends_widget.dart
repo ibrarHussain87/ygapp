@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/trends_model.dart';
+import 'package:yg_app/providers/home_providers/trends_widget_provider.dart';
 
 class HomeTrendsWidget extends StatefulWidget {
   const HomeTrendsWidget({Key? key}) : super(key: key);
@@ -12,7 +14,7 @@ class HomeTrendsWidget extends StatefulWidget {
 }
 
 class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
-  List<TrendsModel> trendsList = [
+  /*List<TrendsModel> trendsList = [
     TrendsModel(
         id: "1",
         title: 'Dollar',
@@ -43,7 +45,20 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
         subTitle: '200.10',
         percent: "+1.76%",
         isDrop: false),
-  ];
+  ];*/
+
+  final _trendWidgetProvider = locator<TrendsWidgetProvider>();
+
+  @override
+  void initState() {
+    _trendWidgetProvider.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    _trendWidgetProvider.getAlertBars();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,22 +74,25 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.10 * MediaQuery.of(context).size.height,
+              height: 0.1 * MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
               child: ListView.builder(
-                itemCount: trendsList.length,
+                itemCount: _trendWidgetProvider.alertBarsList.length,
                 scrollDirection: Axis.horizontal,
+                shrinkWrap: false,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 2.0,right: 2.0),
+                    padding: const EdgeInsets.only(left: 2.0, right: 2.0),
                     child: Row(
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(6.w),
                           child: Center(
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 2.4,
+                              width: MediaQuery.of(context).size.width / 2.3,
                               // decoration: BoxDecoration(color: const Color(0xFFEDF1F6)),
-                              decoration: BoxDecoration(color:Colors.grey.shade100),
+                              decoration:
+                                  BoxDecoration(color: Colors.grey.shade100),
                               child: Padding(
                                 padding: EdgeInsets.all(6.w),
                                 child: Column(
@@ -86,15 +104,17 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Text(
-                                          trendsList[index].title.toString(),
-                                          overflow: TextOverflow.ellipsis,
-                                          maxLines: 1,
-                                          style: TextStyle(
-                                              color: cardTitleColor,
-                                              fontSize: 12.sp,
-                                              // fontFamily: 'Metropolis',
-                                              fontWeight: FontWeight.w400),
+                                        Expanded(
+                                          child: Text(
+                                            _trendWidgetProvider.alertBarsList[index].alertBarText.toString(),
+                                            overflow: TextOverflow.ellipsis,
+                                            maxLines: 1,
+                                            style: TextStyle(
+                                                color: cardTitleColor,
+                                                fontSize: 12.sp,
+                                                // fontFamily: 'Metropolis',
+                                                fontWeight: FontWeight.w400),
+                                          ),
                                         ),
                                         Icon(
                                           Icons.arrow_circle_right_outlined,
@@ -111,7 +131,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          trendsList[index].subTitle.toString(),
+                                          _trendWidgetProvider.alertBarsList[index].alertBarPercentage.toString(),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
@@ -120,13 +140,15 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                               // fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.w800),
                                         ),
-                                        Text(trendsList[index].percent.toString(),
+                                        Text(
+                                          _trendWidgetProvider.alertBarsList[index].alertBarPercentage.toString(),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
-                                             style: TextStyle(
-                                              color: trendsList[index].isDrop == true
-                                                      ? redDownColor
-                                                      : greenUpColor,
+                                          style: TextStyle(
+                                              color: _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
+                                                  'down'
+                                                  ? redDownColor
+                                                  : greenUpColor,
                                               fontSize: 12.sp,
                                               // fontFamily: 'Metropolis',
                                               fontWeight: FontWeight.w700),
@@ -137,10 +159,12 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       height: 4,
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Image.asset(
-                                          trendsList[index].isDrop == true
+                                          _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
+                                              'down'
                                               ? red
                                               : green,
                                           scale: 1.4,
@@ -148,18 +172,24 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                         const SizedBox(
                                           width: 5,
                                         ),
-
                                         Padding(
-                                          padding: trendsList[index].isDrop == true ? const EdgeInsets.only(top: 2.0) : const EdgeInsets.only(bottom: 1.0),
+                                          padding: _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
+                                              'down'
+                                              ? const EdgeInsets.only(top: 2.0)
+                                              : const EdgeInsets.only(
+                                                  bottom: 1.0),
                                           child: Text(
-                                            trendsList[index].isDrop == true
+                                            _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
+                                                'down'
                                                 ? "Drop Quickly"
                                                 : "Rose Quickly",
                                             textAlign: TextAlign.justify,
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: TextStyle(
-                                                color: trendsList[index].isDrop == true
+                                                color:
+                                                _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
+                                                    'down'
                                                         ? redDownColor
                                                         : greenUpColor,
                                                 fontSize: 10.sp,

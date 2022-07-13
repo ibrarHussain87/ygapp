@@ -70,20 +70,23 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
     super.build(context);
     return SafeArea(
         child: Scaffold(
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Center(
-                child: Builder(builder: (BuildContext context2) {
-                  return (!_brandsProvider.loading)
-                      ? buildBrands(context2)
-                      : Container();
-                }),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Expanded(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Builder(builder: (BuildContext context2) {
+                    return (!_brandsProvider.loading)
+                        ? buildBrands(context2)
+                        : Container();
+                  }),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     ));
   }
@@ -96,7 +99,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
           key: brandsKey,
           child: Padding(
             padding:
-                EdgeInsets.only(top: 30.w, bottom: 0.w, left: 8.w, right: 8.w),
+                EdgeInsets.only(top: 30.w, bottom: 0.w, left: 0.w, right: 0.w),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,7 +111,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                         controller: _typeAheadController,
                         style: TextStyle(fontSize: 13.sp),
                         decoration:
-                            textFieldProfile('Enter Brand', "Brand", true),
+                            textFieldDecoration('Enter Brand', "Brand", true),
                       ),
                       suggestionsCallback: (pattern) {
                         return _brandsProvider.allBrandsList
@@ -203,11 +206,11 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
           ),
         ),
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(top: 12.0,bottom: 8.0),
           child: Text("Your Brands",
               textAlign: TextAlign.left,
               style: TextStyle(
-                  fontSize: 18.0.w,
+                  fontSize: 16.0.w,
                   color: headingColor,
                   fontWeight: FontWeight.w700)),
         ),
@@ -229,6 +232,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                   ? Column(children: [
                       Wrap(
                         alignment: WrapAlignment.start,
+                        spacing: 8,
                         children: _brandsProvider.userBrandsList
                             .map((Brands brands) => tagChip(
                                   tagModel: brands,
@@ -284,12 +288,14 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
             Container(
               padding: const EdgeInsets.symmetric(
                 vertical: 5.0,
-                horizontal: 5.0,
+                horizontal: 0.0,
               ),
               child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 15.0,
-                  vertical: 8.0,
+                padding: const EdgeInsets.only(
+                  left: 14.0,
+                  right: 12.0,
+                  top: 7.0,
+                  bottom: 7.0,
                 ),
                 decoration: BoxDecoration(
                   color: tagsBackground,
@@ -306,6 +312,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
                           fontSize: 13.sp,
                           fontWeight: FontWeight.w500),
                     ),
+                    const SizedBox(width: 8,),
                     Icon(
                       Icons.clear,
                       size: 16.0,
@@ -394,6 +401,7 @@ class ProfileBrandsInfoPageState extends State<ProfileBrandsInfoPage>
           if (value.status!) {
             Logger().e(value.data!.brands!);
             AppDbInstance().getDbInstance().then((db) async {
+              await db.userDao.deleteUserData();
               await db.userDao.insertUser(value.data!);
               if (value.data!.brands != null) {
                 for (Brands element in value.data!.brands!) {

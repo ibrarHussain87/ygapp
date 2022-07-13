@@ -323,6 +323,12 @@ class PersonalInfoComponentState
                     keyboardType: TextInputType.emailAddress,
                     cursorColor: Colors.black,
                     onSaved: (input) => _signupRequestModel!.email = input!,
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(
+                          RegExp(r'([a-zA-Z0-9@._])')),
+                      LengthLimitingTextInputFormatter(
+                          30),
+                    ],
                     validator: (input) {
                       if (input == null ||
                           input.isEmpty ||
@@ -373,6 +379,10 @@ class PersonalInfoComponentState
 //                  onChanged: (phone){
 //                    Utils.validateMobile(phone);
 //                  },
+                    inputFormatters: <TextInputFormatter>[
+                      FilteringTextInputFormatter.allow(RegExp(r'([+0-9])')),
+                      LengthLimitingTextInputFormatter(15),
+                    ],
                   validator: (input) {
                     if (input == null ||
                         input.isEmpty ||
@@ -943,6 +953,7 @@ class PersonalInfoComponentState
           } else if (value.success!) {
             AppDbInstance().getDbInstance().then((db) async {
               await db.userDao.insertUser(value.data!.user!);
+              await db.userCategoriesDao.insertAllCategories(value.data!.user!.categories!);
             });
             SharedPreferenceUtil.addStringToSF(
                 USER_ID_KEY, value.data!.user!.id.toString());

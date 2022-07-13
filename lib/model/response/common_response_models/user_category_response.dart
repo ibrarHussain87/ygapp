@@ -2,18 +2,18 @@ import 'package:floor/floor.dart';
 
 
 @Entity(tableName: 'categories')
-class Categories {
+class UserCategories {
   @PrimaryKey(autoGenerate:false)
   int? catId;
   String? catName;
 
 
-  Categories(
+  UserCategories(
       {this.catId,
         this.catName,
       });
 
-  Categories.fromJson(Map<String, dynamic> json) {
+  UserCategories.fromJson(Map<String, dynamic> json) {
     catId = json['cat_id'];
     catName = json['cat_name'];
 

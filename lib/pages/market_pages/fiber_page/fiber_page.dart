@@ -7,6 +7,7 @@ import 'package:yg_app/elements/bottom_sheets/offering_requirment_bottom_sheet.d
 import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/elements/loading_widgets/loading_listing.dart';
+import 'package:yg_app/elements/no_data_found_widget.dart';
 import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
@@ -19,9 +20,11 @@ import 'package:yg_app/pages/market_pages/fiber_page/fiber_listing_body.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
 import 'package:yg_app/providers/specification_local_filter_provider.dart';
 
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../helper_utils/util.dart';
 import '../../../model/response/common_response_models/countries_response.dart';
+import '../../fliter_pages/fiber/fiber_filter_page.dart';
 
 class FiberPage extends StatefulWidget {
   final String locality;
@@ -43,7 +46,7 @@ class FiberPageState extends State<FiberPage> {
       updateUI();
     });
     _fiberSpecificationProvider.specificationRequestModel.isOffering = "1";
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       _fiberSpecificationProvider.fiberSyncDataForMarketPage();
     });
   }
@@ -65,6 +68,18 @@ class FiberPageState extends State<FiberPage> {
   bodyContent() {
     return SafeArea(
       child: Scaffold(
+        appBar: appBar(context, 'Fiber', isFilterVisible: true, filterCallback: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const FiberFilterView()),
+          ).then((value) {
+            //Getting result from filter
+              if (value != null) {
+                _fiberSpecificationProvider.specificationRequestModel = value;
+                _fiberSpecificationProvider.notifyUI();
+              }
+          });
+        }),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             showBottomSheetOR(context, (value) {
@@ -80,71 +95,74 @@ class FiberPageState extends State<FiberPage> {
           color: bgColor,
           child: Column(
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: OfferingRequirementSegmentComponent(
-                      callback: (value) {
-                        _fiberSpecificationProvider
-                            .specificationRequestModel
-                            .isOffering = value.toString();
-                        _fiberSpecificationProvider.notifyUI();
-                      },
-                    ),
-                  ),
-                  Visibility(
-                    visible: widget.locality == international,
-                    maintainState: false,
-                    maintainSize: false,
-                    child: Expanded(
-                      child: Image.asset(
-                        ic_products,
-                        width: 12,
-                        height: 12,
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16.w),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: OfferingRequirementSegmentComponent(
+                        callback: (value) {
+                          _fiberSpecificationProvider
+                              .specificationRequestModel
+                              .isOffering = value.toString();
+                          _fiberSpecificationProvider.notifyUI();
+                        },
                       ),
                     ),
-                  ),
-                  Expanded(
-                    flex: widget.locality == international ? 3 : 0,
-                    child: Visibility(
-                        maintainSize: false,
-                        maintainState: false,
-                        visible: widget.locality == international,
-                        child: SearchChoices.single(
-                          displayClearIcon: false,
-                          isExpanded: true,
-                          hint: const TitleExtraSmallBoldTextWidget(
-                              title: 'Country'),
-                          items: _fiberSpecificationProvider.countries
-                              .map((value) => DropdownMenuItem(
-                            child: Text(
-                              value.conName ??
-                                  Utils.checkNullString(
-                                      false),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                fontSize: 12.sp,
-                                overflow:
-                                TextOverflow.ellipsis,
+                    Visibility(
+                      visible: widget.locality == international,
+                      maintainState: false,
+                      maintainSize: false,
+                      child: Expanded(
+                        child: Image.asset(
+                          ic_products,
+                          width: 12,
+                          height: 12,
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: widget.locality == international ? 3 : 0,
+                      child: Visibility(
+                          maintainSize: false,
+                          maintainState: false,
+                          visible: widget.locality == international,
+                          child: SearchChoices.single(
+                            displayClearIcon: false,
+                            isExpanded: true,
+                            hint: const TitleExtraSmallBoldTextWidget(
+                                title: 'Country'),
+                            items: _fiberSpecificationProvider.countries
+                                .map((value) => DropdownMenuItem(
+                              child: Text(
+                                value.conName ??
+                                    Utils.checkNullString(
+                                        false),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 12.sp,
+                                  overflow:
+                                  TextOverflow.ellipsis,
+                                ),
                               ),
+                              value: value,
+                            ))
+                                .toList(),
+                            isCaseSensitiveSearch: false,
+                            onChanged: (Countries? value) {
+                              _specificationLocalFilterProvider
+                                  .fiberFilterListSearch(
+                                  value!.conName.toString());
+                            },
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              color: textColorGrey,
+                              overflow: TextOverflow.ellipsis,
                             ),
-                            value: value,
-                          ))
-                              .toList(),
-                          isCaseSensitiveSearch: false,
-                          onChanged: (Countries? value) {
-                            _specificationLocalFilterProvider
-                                .fiberFilterListSearch(
-                                value!.conName.toString());
-                          },
-                          style: TextStyle(
-                            fontSize: 12.sp,
-                            color: textColorGrey,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )),
-                  ),
-                ],
+                          )),
+                    ),
+                  ],
+                ),
               ),
               Material(
                 elevation: 0.2,
@@ -217,7 +235,7 @@ class FiberPageState extends State<FiberPage> {
                                         Padding(
                                           padding: const EdgeInsets.symmetric(
                                               horizontal: 10),
-                                          child: BlendsWithImageListWidget(
+                                          child: BlendWithImageListWidget(
                                             key: _fiberSpecificationProvider
                                                 .blendWidgetKey,
                                             selectedItem: -1,
@@ -264,25 +282,27 @@ class FiberPageState extends State<FiberPage> {
                         future: _fiberSpecificationProvider
                             .getFibers(widget.locality),
                         builder: (BuildContext context, snapshot) {
-                          if (snapshot.connectionState ==
-                                  ConnectionState.done &&
+                          if (snapshot.connectionState == ConnectionState.done &&
                               snapshot.data != null) {
-                            return Container(
+                            return snapshot.data!.data != null
+                            ? Container(
                               child: snapshot
-                                      .data!.data.specification.isNotEmpty
+                                      .data!.data!.specification.isNotEmpty
                                   ? FiberListingBody(
                                       specification: _fiberSpecificationProvider
                                           .fiberSpecificationResponse!
-                                          .data
+                                          .data!
                                           .specification,
                                     )
                                   : const Center(
-                                      child: TitleSmallTextWidget(
-                                        title: 'No Data Found',
-                                      ),
+                                      child: NoDataFoundWidget(),
                                     ),
+                            ): Center(
+                              child: TitleSmallTextWidget(
+                                title: snapshot.data!.message,
+                              ),
                             );
-                          } else if (snapshot.hasError) {
+                          }else if (snapshot.hasError) {
                             return Center(
                                 child: TitleSmallTextWidget(
                                     title: snapshot.error.toString()));

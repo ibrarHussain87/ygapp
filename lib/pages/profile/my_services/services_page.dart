@@ -40,7 +40,7 @@ class _MyServicesPageState extends State<MyServicesPage> {
     _ygServiceProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       // _profileInfoProvider.resetData();
       _ygServiceProvider.getServicesData(context);
       if (kDebugMode) {

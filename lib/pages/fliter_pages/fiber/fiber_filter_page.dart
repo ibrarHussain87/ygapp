@@ -69,7 +69,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
     _fiberSpecificationProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _fiberSpecificationProvider.getFiberSyncDataForFilter();
     });
   }
@@ -157,7 +157,7 @@ class _FiberFilterViewState extends State<FiberFilterView> {
                                           Padding(
                                             padding: const EdgeInsets.symmetric(
                                                 horizontal: 10),
-                                            child: BlendsWithImageListWidget(
+                                            child: BlendWithImageListWidget(
                                              key: _fiberSpecificationProvider.filterBlendWidgetKey,
                                               selectedItem: -1,
                                               listItem:

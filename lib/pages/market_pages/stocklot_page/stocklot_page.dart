@@ -9,15 +9,18 @@ import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
+import 'package:yg_app/locators.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.dart';
-import 'package:yg_app/providers/stocklot_providers/stocklot_provider.dart';
+import 'package:yg_app/providers/stocklot_providers/stocklot_specification_provider.dart';
 
 import '../../../elements/bottom_sheets/offering_requirment_bottom_sheet.dart';
+import '../../../elements/custom_header.dart';
 import '../../../helper_utils/app_constants.dart';
 import '../../../helper_utils/app_images.dart';
 import '../../../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
+import '../../fliter_pages/stocklot/stocklot_filter_page.dart';
 
 class StockLotPage extends StatefulWidget {
   final String? locality;
@@ -29,28 +32,41 @@ class StockLotPage extends StatefulWidget {
 }
 
 class StockLotPageState extends State<StockLotPage> {
-  List<Countries> _countries = [];
-  late StocklotProvider stocklotProvider;
-  StockLotFamily? stocklotCategories;
+  final _stockLotSpecificationProvider =
+      locator<StockLotSpecificationProvider>();
 
   @override
   void initState() {
-    AppDbInstance()
-        .getOriginsData()
-        .then((value) => setState(() => _countries = value));
     super.initState();
-    stocklotProvider = Provider.of<StocklotProvider>(context, listen: false);
-    stocklotProvider.getStockLotSpecRequestModel.stocklotParentFamilyId = '';
-    stocklotProvider.getStocklotData();
+    _stockLotSpecificationProvider
+        .getStockLotSpecRequestModel.localInternational = widget.locality;
+    _stockLotSpecificationProvider.getStockLotSpecRequestModel.categoryId = "5";
+    _stockLotSpecificationProvider.getStockLotData();
+    _stockLotSpecificationProvider.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Builder(builder: (context) {
-        stocklotProvider = Provider.of<StocklotProvider>(context);
-        return stocklotProvider.stocklots!.isNotEmpty
+        return !_stockLotSpecificationProvider.isLoading
             ? Scaffold(
+                appBar: appBar(context, 'Stocklot', isFilterVisible: true,
+                    filterCallback: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => const StockLotFilterPage()),
+                      ).then((value) {
+                        //Getting result from filter
+                          if (value != null) {
+                            _stockLotSpecificationProvider.searchData(value);
+                          }
+                      });
+                }),
                 backgroundColor: Colors.white,
                 floatingActionButton: FloatingActionButton(
                   onPressed: () {
@@ -70,18 +86,21 @@ class StockLotPageState extends State<StockLotPage> {
                       Column(
                         children: [
                           Padding(
-                            padding: const EdgeInsets.only(right: 8),
+                            padding: EdgeInsets.symmetric(horizontal: 16.w),
                             child: Row(
                               children: [
                                 Expanded(
-                                  flex: widget.locality == international
-                                      ? 8
-                                      : 10,
-                                  child:
-                                  OfferingRequirementSegmentComponent(
+                                  flex:
+                                      widget.locality == international ? 8 : 10,
+                                  child: OfferingRequirementSegmentComponent(
                                     callback: (value) {
-                                      stocklotProvider
-                                          .setIsOffering(value.toString());
+                                      _stockLotSpecificationProvider.getStockLotSpecRequestModel.priceTermId = null;
+                                      _stockLotSpecificationProvider
+                                          .getStockLotSpecRequestModel
+                                          .isOffering = value.toString();
+                                      _stockLotSpecificationProvider.searchData(
+                                          _stockLotSpecificationProvider
+                                              .getStockLotSpecRequestModel);
                                     },
                                   ),
                                 ),
@@ -98,38 +117,34 @@ class StockLotPageState extends State<StockLotPage> {
                                   ),
                                 ),
                                 Expanded(
-                                  flex: widget.locality == international
-                                      ? 3
-                                      : 0,
+                                  flex:
+                                      widget.locality == international ? 3 : 0,
                                   child: Visibility(
                                       maintainSize: false,
                                       maintainState: false,
-                                      visible:
-                                      widget.locality == international,
+                                      visible: widget.locality == international,
                                       child: SearchChoices.single(
                                         displayClearIcon: false,
                                         isExpanded: true,
                                         hint:
-                                        const TitleExtraSmallBoldTextWidget(
-                                            title: 'Country'),
-                                        items: _countries
-                                            .map((value) =>
-                                            DropdownMenuItem(
-                                              child: Text(
-                                                value.conName ??
-                                                    Utils
-                                                        .checkNullString(
-                                                        false),
-                                                textAlign:
-                                                TextAlign.center,
-                                                style: TextStyle(
-                                                  fontSize: 12.sp,
-                                                  overflow: TextOverflow
-                                                      .ellipsis,
-                                                ),
-                                              ),
-                                              value: value,
-                                            ))
+                                            const TitleExtraSmallBoldTextWidget(
+                                                title: 'Country'),
+                                        items: _stockLotSpecificationProvider
+                                            .countries
+                                            .map((value) => DropdownMenuItem(
+                                                  child: Text(
+                                                    value.conName ??
+                                                        Utils.checkNullString(
+                                                            false),
+                                                    textAlign: TextAlign.center,
+                                                    style: TextStyle(
+                                                      fontSize: 12.sp,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                    ),
+                                                  ),
+                                                  value: value,
+                                                ))
                                             .toList(),
                                         isCaseSensitiveSearch: false,
                                         onChanged: (Countries? value) {},
@@ -169,7 +184,7 @@ class StockLotPageState extends State<StockLotPage> {
 //                                              fontSize: 11.sp,
 //                                              color: textColorGrey),
 //                                        ),
-                                  ),
+                                      ),
                                 ),
                                 Visibility(
                                   visible: false,
@@ -216,94 +231,71 @@ class StockLotPageState extends State<StockLotPage> {
                                       horizontal: 12.0, vertical: 4),
                                   child: Padding(
                                       padding: const EdgeInsets.only(top: 2.0),
-                                      child: BlendsWithImageListWidget(
-                                          listItem: stocklotProvider.stocklots!,
+                                      child: BlendWithImageListWidget(
+                                          listItem:
+                                              _stockLotSpecificationProvider
+                                                  .stockLots!,
                                           onClickCallback: (value) {
-                                            stocklotProvider.getStockLotSpecRequestModel.stocklotParentFamilyId = stocklotProvider.stocklots![value]
-                                                .stocklotFamilyId
-                                                .toString();
-                                            stocklotProvider.getCategories(
-                                                stocklotProvider.stocklots![value]
+                                            _stockLotSpecificationProvider.getStockLotSpecRequestModel.priceTermId = null;
+                                            _stockLotSpecificationProvider
+                                                    .getStockLotSpecRequestModel
+                                                    .stocklotParentFamilyId =
+                                                _stockLotSpecificationProvider
+                                                    .stockLots![value]
                                                     .stocklotFamilyId
-                                                    .toString());
-                                            stocklotProvider.categoryId = -1;
-                                            stocklotProvider
-                                                .getStockLotSpecRequestModel
-                                                .avalibilityId = null;
-                                            stocklotProvider
-                                                .getStockLotSpecRequestModel
-                                                .priceTermId = null;
+                                                    .toString();
+                                            _stockLotSpecificationProvider
+                                                .getStockLotCategoriesData(
+                                                    _stockLotSpecificationProvider
+                                                        .stockLots![value]
+                                                        .stocklotFamilyId!);
 
-                                            stocklotProvider
+                                            _stockLotSpecificationProvider
                                                 .getStockLotSpecRequestModel
                                                 .stocklotFamilyId = null;
-                                            stocklotProvider.setShowCategory(true);
 
-                                            if (stocklotProvider
-                                                .subFamilyKey.currentState !=
+                                            if (_stockLotSpecificationProvider.subFamilyKey
+                                                    .currentState !=
                                                 null) {
-                                              stocklotProvider.subFamilyKey
-                                                  .currentState!.checkedTile = -1;
+                                              _stockLotSpecificationProvider
+                                                  .subFamilyKey
+                                                  .currentState!
+                                                  .checkedTile = -1;
                                             }
                                           })),
                                 ),
                                 Visibility(
-                                  visible: stocklotProvider.showCategory,
+                                  visible: _stockLotSpecificationProvider
+                                      .stockLotCategories!.isNotEmpty,
                                   child: Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: SizedBox(
-                                      height:
-                                      0.04 * MediaQuery.of(context).size.height,
+                                      height: 0.04 *
+                                          MediaQuery.of(context).size.height,
                                       child: SingleSelectTileRenewedWidget(
-                                        key: stocklotProvider.subFamilyKey,
+                                        key: _stockLotSpecificationProvider
+                                            .subFamilyKey,
                                         spanCount: 2,
-                                        selectedIndex:
-                                        stocklotProvider.selectedIndex,
+                                        selectedIndex: -1,
                                         listOfItems:
-                                        stocklotProvider.stocklotCategories!,
+                                            _stockLotSpecificationProvider
+                                                .stockLotCategories!,
                                         callback: (StockLotFamily value) {
-                                          // stocklotProvider.getSubcategories(
-                                          //     stocklotProvider.stocklotId
-                                          //         .toString());
-                                          stocklotProvider.categoryId =
-                                              value.stocklotFamilyId;
-                                          stocklotProvider.getSubcategories(
-                                              value.stocklotFamilyId.toString());
+                                          _stockLotSpecificationProvider.getStockLotSpecRequestModel.priceTermId = null;
+                                          _stockLotSpecificationProvider
+                                                  .getStockLotSpecRequestModel
+                                                  .stocklotFamilyId =
+                                              value.stocklotFamilyId.toString();
+                                          _stockLotSpecificationProvider.searchData(
+                                              _stockLotSpecificationProvider
+                                                  .getStockLotSpecRequestModel);
                                         },
                                       ),
                                     ),
                                   ),
                                 ),
-                                Visibility(
-                                  visible: false,
-                                  child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
-                                    child: SizedBox(
-                                        height: 0.04 *
-                                            MediaQuery.of(context).size.height,
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(top: 2.0),
-                                          child: SingleSelectTileRenewedWidget(
-                                            spanCount: 2,
-                                            selectedIndex: -1,
-                                            listOfItems: stocklotProvider
-                                                .stocklotSubcategories!,
-                                            callback: (StockLotFamily value) {
-                                              // stocklotCategories = value;
-                                              // stocklotProvider
-                                              //     .getFilteredStocklotWaste(
-                                              //     value.id ?? -1);
-                                              stocklotProvider.subcategoryId =
-                                                  value.stocklotFamilyId;
-                                            },
-                                          ),
-                                        )),
-                                  ),
-                                ),
                               ],
                             ),
-
                           ],
                         ),
                       ),
@@ -329,5 +321,12 @@ class StockLotPageState extends State<StockLotPage> {
               );
       }),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    _stockLotSpecificationProvider.stockLotCategories = [];
   }
 }

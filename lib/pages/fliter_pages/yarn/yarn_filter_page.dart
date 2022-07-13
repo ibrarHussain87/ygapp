@@ -110,8 +110,8 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
   final GlobalKey<SingleSelectTileRenewedWidgetState> _certificationKey =
       GlobalKey<SingleSelectTileRenewedWidgetState>();
 
-  final GlobalKey<BlendsWithImageListWidgetState> _blendKey =
-      GlobalKey<BlendsWithImageListWidgetState>();
+  final GlobalKey<BlendWithImageListWidgetState> _blendKey =
+      GlobalKey<BlendWithImageListWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _yarnTypeKey =
       GlobalKey<SingleSelectTileWidgetState>();
   final GlobalKey<SingleSelectTileWidgetState> _colorTreatmentMethodKey =
@@ -164,7 +164,7 @@ class _YarnFilterBodyState extends State<YarnFilterBody> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            BlendsWithImageListWidget(
+                            BlendWithImageListWidget(
                               key: _familyKey,
                               listItem: _yarnFilterProvider.familyList,
                               onClickCallback: (value) {

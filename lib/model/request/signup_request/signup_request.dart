@@ -14,6 +14,7 @@ class SignUpRequestModel {
   String? comapnyId;
   String? comapnyName;
   String? otherCompany;
+  List<int>? categories;
   Countries? country;
 
   SignUpRequestModel(
@@ -29,11 +30,14 @@ class SignUpRequestModel {
       this.comapnyId,
       this.comapnyName,
       this.otherCompany,
+      this.categories,
       this.country});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'name': name,
+      'name': telephoneNumber == null
+          ? email.toString().trim()
+          : telephoneNumber.toString().trim(),
       'username': telephoneNumber == null
           ? email.toString().trim()
           : telephoneNumber.toString().trim(),
@@ -46,6 +50,7 @@ class SignUpRequestModel {
       'company_id': comapnyId,
       'company_name': comapnyName ?? company,
       'other_company': otherCompany ?? "1",
+      'categories': categories,
       'operator_id': '4'
     };
 

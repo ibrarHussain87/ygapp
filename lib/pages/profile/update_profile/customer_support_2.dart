@@ -199,7 +199,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                     }
                     return null;
                   },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       'Enter Name', "Name",true)),
             ],
           ),
@@ -222,7 +222,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                             }
                     return null;
                   },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       'Enter Phone', "Phone",true)),
             ],
           ),
@@ -246,7 +246,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                             }
                     return null;
                   },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       'Enter Email', "Email",true)),
             ],
           ),
@@ -260,7 +260,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
 
 
               DropdownButtonFormField<CustomerSupportTypes>(
-                decoration: textFieldProfile(
+                decoration: textFieldDecoration(
                     'Choose Query Type', "Help",true) ,
                 isDense: true,
                 hint:Text("Choose Query Type",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w500,color:hintColorGrey),),
@@ -308,7 +308,7 @@ class _CustomerSupportPageState extends State<CustomerSupportPage2> {
                                             }
                     return null;
                   },
-                  decoration: textFieldProfile(
+                  decoration: textFieldDecoration(
                       '', "Message",true)),
             ],
           ),

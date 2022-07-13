@@ -1,6 +1,6 @@
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
-import 'package:yg_app/model/response/common_response_models/category_response.dart';
+import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
@@ -25,33 +25,12 @@ class AppDbInstance {
     return databaseInstance!;
   }
 
-  Future<List<FiberBlends>> getFiberMaterialData() {
-    return getDbInstance()
-        .then((value) => value.fiberBlendsDao.findAllFiberBlends());
-  }
 
   Future<List<FabricBlends>> getFabricBlendsData() {
     return getDbInstance()
         .then((value) => value.fabricBlendsDao.findAllFabricBlends());
   }
 
-  Future<List<FiberFamily>> getFiberNatureData() {
-    return getDbInstance()
-        .then((value) => value.fiberFamilyDao.findAllFiberNatures());
-  }
-
-  Future<List<Grades>> getFiberGradesData() {
-    return getDbInstance().then((value) => value.gradesDao.findAllGrades());
-  }
-
-  Future<List<FiberAppearance>> getFiberAppearanceData() {
-    return getDbInstance()
-        .then((value) => value.fiberAppearanceDoa.findAllFiberAppearance());
-  }
-
-  Future<List<Brands>> getFiberBrandsData() {
-    return getDbInstance().then((value) => value.brandsDao.findAllBrands());
-  }
 
   Future<List<Countries>> getOriginsData() {
     return getDbInstance()
@@ -148,9 +127,9 @@ class AppDbInstance {
         .then((value) => value.companiesDao.findAllCompanies());
   }
 
-  Future<List<Categories>> getCategoriesDao() {
+  Future<List<UserCategories>> getCategoriesDao() {
     return getDbInstance()
-        .then((value) => value.categoriesDao.findAllCategories());
+        .then((value) => value.userCategoriesDao.findAllCategories());
   }
 
   Future<List<DeliveryPeriod>> getDeliveryPeriod() {

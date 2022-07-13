@@ -38,7 +38,7 @@ class _BannerBodyState extends State<BannerBody> {
             children: [
               GFCarousel(
                 height: MediaQuery.of(context).size.height / 5.5,
-                pagination: false,
+                hasPagination: false,
                 viewportFraction: 1.0,
                 autoPlay: true,
                 enlargeMainPage: false,

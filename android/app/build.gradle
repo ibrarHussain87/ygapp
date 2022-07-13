@@ -56,8 +56,8 @@ android {
     signingConfigs {
         release {
 //          storeFile file('C:\\Flutter\\projects\\yarn_guru\\yarnguruandroid\\yurn_guru.jks')
-          storeFile file('D:\\WorkSpace\\Flutter\\yarn\\yurn_guru.jks')
-//            storeFile file('E:\\yarnguruandroid\\yurn_guru.jks')
+//          storeFile file('D:\\WorkSpace\\Flutter\\yarn\\yurn_guru.jks')
+            storeFile file('E:\\yarnguruandroid\\yurn_guru.jks')
             storePassword 'thanks@123'
             keyAlias 'key0'
             keyPassword 'thanks@123'
@@ -80,5 +80,8 @@ flutter {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-crashlytics'
+    implementation 'com.google.firebase:firebase-analytics'
     implementation 'androidx.multidex:multidex:2.0.1'
 }

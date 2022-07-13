@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:yg_app/elements/list_items/bids_list/fabric_bids_item.dart';
 import 'package:yg_app/elements/list_items/bids_list/fiber_bids_item.dart';
 import 'package:yg_app/elements/list_items/bids_list/stocklot_bids_item.dart';
+import 'package:yg_app/elements/list_items/bids_list/stocklot_bids_item_renewed.dart';
 import 'package:yg_app/elements/list_items/bids_list/yarn_bids_item.dart';
+import 'package:yg_app/elements/list_items/bids_list/yarn_bids_item_renewed.dart';
 import 'package:yg_app/model/response/list_bid_response.dart';
+
+import 'fabric_bids_item_renewed.dart';
+import 'fiber_bids_item_renewed.dart';
 
 
 class BidsListItem extends StatefulWidget {
@@ -22,13 +27,13 @@ class _BidsListItemState extends State<BidsListItem> {
   @override
   Widget build(BuildContext context) {
     if (widget.bidData.categoryId == "1") {
-      return FiberBidItem(bidData: widget.bidData);
+      return FiberBidItemRenewed(bidData: widget.bidData);
     } else if (widget.bidData.categoryId == "2"){
-      return YarnBidsItem(bidData: widget.bidData);
+      return YarnBidsItemRenewed(bidData: widget.bidData);
     }else if (widget.bidData.categoryId == "3"){
-      return FabricBidsItem(bidData: widget.bidData);
+      return FabricBidsItemRenewed(bidData: widget.bidData);
     }else{
-      return StockLotBidsItem(bidData: widget.bidData);
+      return StockLotBidsItemRenewed(bidData: widget.bidData);
     }
   }
 }

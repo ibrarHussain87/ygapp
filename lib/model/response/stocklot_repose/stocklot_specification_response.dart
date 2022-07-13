@@ -29,14 +29,17 @@ class StockLotSpecificationResponse {
   StockLotSpecificationResponse.fromJson(dynamic json) {
     _status = json['status'];
     _responseCode = json['response_code'];
-    if (json['data'] != null) {
-      if(json['data'] is List<dynamic>){
-       _data = null;
-      }else {
+    var dataList = json['data'];
+    if(dataList != null){
+      if (dataList is List<dynamic>) {
+        if (dataList.isEmpty) {
+          _data = StockLotData(specification: []);
+        }
+      } else {
         _data = StockLotData.fromJson(json['data']);
       }
-    } else {
-      _data = null;
+    }else{
+      _data = dataList;
     }
 
     _message = json['message'];

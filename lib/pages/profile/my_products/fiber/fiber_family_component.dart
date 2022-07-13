@@ -26,7 +26,7 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
   void initState() {
     super.initState();
     _fiberSpecificationProvider.addListener(() {updateUI();});
-    WidgetsBinding.instance?.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_){
       _fiberSpecificationProvider.fiberSyncDataForMarketPage();
     });
   }
@@ -82,7 +82,7 @@ class FiberFamilyComponentState extends State<FiberFamilyComponent> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: BlendsWithImageListWidget(
+                      child: BlendWithImageListWidget(
                         selectedItem: -1,
                         listItem: _fiberSpecificationProvider.fiberBlends,
                         onClickCallback: (index) {

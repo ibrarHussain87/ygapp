@@ -9,20 +9,20 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
-class BlendsWithImageListWidget extends StatefulWidget {
+class BlendWithImageListWidget extends StatefulWidget {
   final Function? onClickCallback;
   final List<dynamic>? listItem;
   final int? selectedItem;
 
-  const BlendsWithImageListWidget(
+  const BlendWithImageListWidget(
       {Key? key, required this.listItem, required this.onClickCallback,this.selectedItem})
       : super(key: key);
 
   @override
-  BlendsWithImageListWidgetState createState() => BlendsWithImageListWidgetState();
+  BlendWithImageListWidgetState createState() => BlendWithImageListWidgetState();
 }
 
-class BlendsWithImageListWidgetState extends State<BlendsWithImageListWidget> {
+class BlendWithImageListWidgetState extends State<BlendWithImageListWidget> {
   late int checkedIndex;
   int _selectedSegmentIndex = 1;
   bool disableClick = false;

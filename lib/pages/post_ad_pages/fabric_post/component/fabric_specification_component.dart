@@ -203,9 +203,7 @@ class FabricSpecificationComponentState
     _denimTypesList =
     await dbInstance.fabricDenimTypesDao.findAllFabricDenimTypes();
     Logger().e("message");
-    AppDbInstance()
-        .getFiberBrandsData()
-        .then((value) => setState(() => _brands = value));
+    _brands = await dbInstance.brandsDao.findAllBrands();
     AppDbInstance()
         .getOriginsData()
         .then((value) => setState(() => _countries = value));
@@ -2153,6 +2151,7 @@ class FabricSpecificationComponentState
 
   void handleNextClick() {
     _createRequestModel!.spc_category_idfk = "3";
+    _createRequestModel!.is_offering = widget.businessArea;
     /*_createRequestModel!.fs_blend_idfk =
     _selectedMaterial != null ? _selectedMaterial.toString() : '';*/
     if (validationAllPage()) {

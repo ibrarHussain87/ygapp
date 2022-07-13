@@ -70,7 +70,7 @@ class FiberSpecificationComponentState
     _postFiberProvider.addListener(() {
       updateUI();
     });
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       _postFiberProvider.resetData();
       _postFiberProvider.getFiberAllSyncedData();
       _postFiberProvider.fiberSettingSelectedBlend();
@@ -454,122 +454,168 @@ class FiberSpecificationComponentState
                                   ),
                                 ),
                                 //BRANDS
-                                Row(
+                                Visibility(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 18.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(
+                                          height: 40.w,
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: Colors
+                                                      .grey.shade300,
+                                                  width:
+                                                  1, //                   <--- border width here
+                                                ),
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                    Radius.circular(
+                                                        5.w))),
+                                            child:
+                                            DropdownButtonFormField(
+                                              hint: Text(brand),
+                                              items: _postFiberProvider
+                                                  .brandsList
+                                                  .map((value) =>
+                                                  DropdownMenuItem(
+                                                    child: Text(
+                                                        value.brdName ??
+                                                            Utils.checkNullString(
+                                                                false),
+                                                        textAlign:
+                                                        TextAlign
+                                                            .center),
+                                                    value: value,
+                                                  ))
+                                                  .toList(),
+                                              onChanged: (Brands? value) {
+                                                _postFiberProvider
+                                                    .createRequestModel!
+                                                    .spc_brand_idfk =
+                                                    value!.brdId
+                                                        .toString();
+                                              },
+                                              decoration: InputDecoration(
+                                                label: Row(
+                                                  mainAxisSize:
+                                                  MainAxisSize.min,
+                                                  mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    Text(
+                                                      'Select $brand',
+                                                      style: TextStyle(
+                                                          color: Colors
+                                                              .black87,
+                                                          fontSize: 14.sp,
+                                                          backgroundColor:
+                                                          Colors
+                                                              .white,
+                                                          fontWeight:
+                                                          FontWeight
+                                                              .w500),
+                                                    ),
+                                                    Text("*",
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .red,
+                                                            fontSize:
+                                                            16.sp,
+                                                            backgroundColor:
+                                                            Colors
+                                                                .white,
+                                                            fontWeight:
+                                                            FontWeight
+                                                                .w500)),
+                                                  ],
+                                                ),
+                                                floatingLabelBehavior:
+                                                FloatingLabelBehavior
+                                                    .always,
+                                                contentPadding:
+                                                EdgeInsets.only(
+                                                    left: 16.w,
+                                                    right: 6.w,
+                                                    top: 0,
+                                                    bottom: 0),
+                                                border:
+                                                const OutlineInputBorder(
+                                                    borderSide:
+                                                    BorderSide
+                                                        .none),
+                                              ),
+                                              style: TextStyle(
+                                                  fontSize: 11.sp,
+                                                  color: textColorGrey),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  visible: int.parse(_postFiberProvider
+                                      .fiberSettings.showBrand??"0") ==
+                                      1
+                                      ? true
+                                      : false,
+                                ),
+                                // Production Year
+                                Visibility(
+                                  visible: Ui.showHide(_postFiberProvider
+                                      .fiberSettings.showProductionYear??"0"),
+                                  child: Padding(
+                                    padding: EdgeInsets.only(top: 18.w),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      children: [
+                                        TextFormField(
+                                          keyboardType:
+                                          TextInputType.none,
+                                          controller: _postFiberProvider
+                                              .textEditingController,
+                                          cursorColor: lightBlueTabs,
+                                          autofocus: false,
+                                          style:
+                                          TextStyle(fontSize: 11.sp),
+                                          textAlign: TextAlign.center,
+                                          showCursor: false,
+                                          readOnly: true,
+                                          onSaved: (input) =>
+                                          _postFiberProvider
+                                              .createRequestModel!
+                                              .spc_production_year =
+                                              input!.toString(),
+                                          validator: (input) {
+                                            if (input == null ||
+                                                input.isEmpty) {
+                                              return "Production year";
+                                            }
+                                            return null;
+                                          },
+                                          decoration:
+                                          ygTextFieldDecoration(
+                                              'Year',
+                                              'Production Year',true),
+                                          onTap: () {
+                                            handleReadOnlyInputClick(
+                                                context);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+
+                                /*Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Visibility(
-                                      child: Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(top: 14.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: 40.w,
-                                                child: Container(
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                        color: Colors
-                                                            .grey.shade300,
-                                                        width:
-                                                            1, //                   <--- border width here
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  5.w))),
-                                                  child:
-                                                      DropdownButtonFormField(
-                                                    hint: Text(brand),
-                                                    items: _postFiberProvider
-                                                        .brandsList
-                                                        .map((value) =>
-                                                            DropdownMenuItem(
-                                                              child: Text(
-                                                                  value.brdName ??
-                                                                      Utils.checkNullString(
-                                                                          false),
-                                                                  textAlign:
-                                                                      TextAlign
-                                                                          .center),
-                                                              value: value,
-                                                            ))
-                                                        .toList(),
-                                                    onChanged: (Brands? value) {
-                                                      _postFiberProvider
-                                                              .createRequestModel!
-                                                              .spc_brand_idfk =
-                                                          value!.brdId
-                                                              .toString();
-                                                    },
-                                                    decoration: InputDecoration(
-                                                      label: Row(
-                                                        mainAxisSize:
-                                                            MainAxisSize.min,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            'Select $brand',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .black87,
-                                                                fontSize: 14.sp,
-                                                                backgroundColor:
-                                                                    Colors
-                                                                        .white,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w500),
-                                                          ),
-                                                          Text("*",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .red,
-                                                                  fontSize:
-                                                                      16.sp,
-                                                                  backgroundColor:
-                                                                      Colors
-                                                                          .white,
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .w500)),
-                                                        ],
-                                                      ),
-                                                      floatingLabelBehavior:
-                                                          FloatingLabelBehavior
-                                                              .always,
-                                                      contentPadding:
-                                                          EdgeInsets.only(
-                                                              left: 16.w,
-                                                              right: 6.w,
-                                                              top: 0,
-                                                              bottom: 0),
-                                                      border:
-                                                          const OutlineInputBorder(
-                                                              borderSide:
-                                                                  BorderSide
-                                                                      .none),
-                                                    ),
-                                                    style: TextStyle(
-                                                        fontSize: 11.sp,
-                                                        color: textColorGrey),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      visible: int.parse(_postFiberProvider
-                                                  .fiberSettings.showBrand??"0") ==
-                                              1
-                                          ? true
-                                          : false,
-                                    ),
                                     SizedBox(
                                       width: (_postFiberProvider.fiberSettings
                                                       .showBrand ==
@@ -577,59 +623,11 @@ class FiberSpecificationComponentState
                                               _postFiberProvider.fiberSettings
                                                       .showProductionYear ==
                                                   "1")
-                                          ? 16.w
+                                          ? 10.w
                                           : 0,
                                     ),
-                                    Visibility(
-                                      visible: Ui.showHide(_postFiberProvider
-                                          .fiberSettings.showProductionYear??"0"),
-                                      child: Expanded(
-                                        child: Padding(
-                                          padding: EdgeInsets.only(top: 14.w),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              TextFormField(
-                                                keyboardType:
-                                                    TextInputType.none,
-                                                controller: _postFiberProvider
-                                                    .textEditingController,
-                                                cursorColor: lightBlueTabs,
-                                                autofocus: false,
-                                                style:
-                                                    TextStyle(fontSize: 11.sp),
-                                                textAlign: TextAlign.center,
-                                                showCursor: false,
-                                                readOnly: true,
-                                                onSaved: (input) =>
-                                                    _postFiberProvider
-                                                            .createRequestModel!
-                                                            .spc_production_year =
-                                                        input!.toString(),
-                                                validator: (input) {
-                                                  if (input == null ||
-                                                      input.isEmpty) {
-                                                    return "Production year";
-                                                  }
-                                                  return null;
-                                                },
-                                                decoration:
-                                                    ygTextFieldDecoration(
-                                                        'Year',
-                                                        'Production Year',true),
-                                                onTap: () {
-                                                  handleReadOnlyInputClick(
-                                                      context);
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ),
                                   ],
-                                ),
+                                ),*/
                                 //ORIGIN
 //                                Visibility(
 //                                  visible: Ui.showHide(_postFiberProvider

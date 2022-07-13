@@ -23,12 +23,16 @@ class GetYarnSpecificationResponse {
     // data = json['data'] != null ? YarnSpecificationData.fromJson(json['data']) : null;
 
     var dataList = json['data'];
-    if (dataList is List<dynamic>) {
-      if (dataList.isEmpty) {
-        data = YarnSpecificationData(specification: []);
+    if(dataList != null){
+      if (dataList is List<dynamic>) {
+        if (dataList.isEmpty) {
+          data = YarnSpecificationData(specification: []);
+        }
+      } else {
+        data = YarnSpecificationData.fromJson(json['data']);
       }
-    } else {
-      data = YarnSpecificationData.fromJson(json['data']);
+    }else{
+      data = dataList;
     }
 
     // }

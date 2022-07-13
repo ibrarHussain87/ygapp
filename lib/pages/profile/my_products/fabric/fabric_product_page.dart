@@ -123,6 +123,7 @@ class FabricProductPageState extends State<FabricProductPage> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 8.0),
                     child: FabricBlendFamily(
+                      showBlends: false,
                       fabricFamilyCallback: (FabricFamily fabricFamily) {
                         setState(() {
                           _familyFilteredSpecification = _specification!
@@ -141,7 +142,7 @@ class FabricProductPageState extends State<FabricProductPage> {
                 ),
                 Container(
                   color: Colors.white,
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.only(left:8,right:8,bottom: 8.0,),
                   child: Center(
                     child: OfferingRequirementSegmentComponent(
                       callback: (value) {

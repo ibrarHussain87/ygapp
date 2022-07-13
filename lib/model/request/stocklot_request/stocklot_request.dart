@@ -4,6 +4,7 @@ class StocklotRequestModel {
   String? user_id;
   String? spc_category_idfk;
   String? subcategoryId;
+  String? stocklot_fabric_leftover_idfk;
   String? priceTermsId;
   String? countryId;
   String? currency;
@@ -14,18 +15,27 @@ class StocklotRequestModel {
   String? fbp_port_idfk;
   List<StocklotWasteModel>? stocklotWasteModelList;
 
-  StocklotRequestModel({this.user_id,this.spc_category_idfk,this.description,
-    this.subcategoryId, this.priceTermsId,this.countryId, this.currency,this.availability,
-    this.isOffering,this.locality,
-    this.stocklotWasteModelList,
-    this.fbp_port_idfk
-  });
+  StocklotRequestModel(
+      {this.user_id,
+      this.spc_category_idfk,
+      this.description,
+      this.subcategoryId,
+      this.priceTermsId,
+      this.countryId,
+      this.currency,
+      this.availability,
+      this.isOffering,
+      this.locality,
+      this.stocklotWasteModelList,
+      this.stocklot_fabric_leftover_idfk,
+      this.fbp_port_idfk});
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
       'user_id': user_id!.trim(),
       'spc_category_idfk': spc_category_idfk,
       'stocklot_family_idfk': subcategoryId,
+      'stocklot_fabric_leftover_idfk': stocklot_fabric_leftover_idfk,
       'description': description,
       'price_term_id': priceTermsId,
       'country_id': countryId,
@@ -34,10 +44,10 @@ class StocklotRequestModel {
       'local_international': locality,
       'is_offering': isOffering,
       'currency_id': currency,
-      'stocklot_specification_details': stocklotWasteModelList!.map((e) => e.toJson()).toList(),
+      'stocklot_specification_details':
+          stocklotWasteModelList!.map((e) => e.toJson()).toList(),
     };
 
     return map;
   }
-
 }

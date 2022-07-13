@@ -25,6 +25,7 @@ class BlendFamily extends StatefulWidget {
 }
 
 class _BlendFamilyState extends State<BlendFamily> {
+
   YarnSetting? _yarnSetting;
   int? selectedFamilyId;
   List<Family>? _yarnFamily;
@@ -87,7 +88,7 @@ class _BlendFamilyState extends State<BlendFamily> {
                           queryFamilySettings(value.famId!);
                           widget.yarnFamilyCallback(value);
                         },
-                      ),*/BlendsWithImageListWidget(
+                      ),*/BlendWithImageListWidget(
                   selectedItem: -1,
                   listItem: _yarnFamily,
                   onClickCallback: (value) {

@@ -1,4 +1,4 @@
-
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:logger/logger.dart';
@@ -13,14 +13,13 @@ class SingleSelectTileWidget extends StatefulWidget {
   final int? spanCount;
   final int? selectedIndex;
 
-  const SingleSelectTileWidget(
-      {Key? key,
-        required this.spanCount,
-        required this.callback,
-        required this.listOfItems,
-        this.selectedIndex,
-      })
-      : super(key: key);
+  const SingleSelectTileWidget({
+    Key? key,
+    this.spanCount,
+    required this.callback,
+    required this.listOfItems,
+    this.selectedIndex,
+  }) : super(key: key);
 
   @override
   SingleSelectTileWidgetState createState() => SingleSelectTileWidgetState();
@@ -32,7 +31,8 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
   var looger = Logger();
   final ValueNotifier<String> dropdownValue = ValueNotifier('');
 
-  int selectedIndex=-1;
+  int selectedIndex = -1;
+
   @override
   void initState() {
     checkedTile = widget.selectedIndex ?? 0;
@@ -49,24 +49,30 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-
-    return widget.listOfItems.length<5 ? GridView.builder(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisSpacing: widget.spanCount! == 2 ? 16 : 6,
-          mainAxisSpacing: 8,
-          crossAxisCount: widget.spanCount!,
-          childAspectRatio: aspectRatio),
-      itemCount: widget.listOfItems.length,
-      itemBuilder: (context, index) {
-        return  buildGrid(index);
-      },
-    ) : buildDropDownContainer(widget.listOfItems);
+    return widget.listOfItems.length < 5
+        ? GridView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisSpacing: 6,
+                mainAxisSpacing: 8,
+                crossAxisCount: widget.listOfItems.length < 3
+                    ? 2
+                    : widget.spanCount != null
+                        ? widget.spanCount!
+                        : 3,
+                childAspectRatio: widget.listOfItems.length < 3
+                    ? 4.4
+                    : widget.spanCount != null
+                        ? aspectRatio
+                        : 2.9),
+            itemCount: widget.listOfItems.length,
+            itemBuilder: (context, index) {
+              return buildGrid(index);
+            },
+          )
+        : buildDropDownContainer(widget.listOfItems);
   }
-
-
 
   Widget buildGrid(int index) {
     bool checked = index == checkedTile;
@@ -79,9 +85,9 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
         widget.callback!(widget.listOfItems[index]);
         looger.e(widget.listOfItems[index].toString());
       },
-      child:  widget.listOfItems.length < 3
+      child: widget.listOfItems.length < 3
           ? buildRoundedContainer(checked, index)
-          :  buildSquareContainer(checked, index),
+          : buildSquareContainer(checked, index),
     );
   }
 
@@ -90,14 +96,13 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
       behavior: HitTestBehavior.translucent,
       onTap: () {
         FocusScope.of(context).unfocus();
-        specsSheet(context,(int checkedIndex){
-          selectedIndex=checkedIndex;
-        } , (value){
-
-          dropdownValue.value=value.toString();
+        specsSheet(context, (int checkedIndex) {
+          selectedIndex = checkedIndex;
+        }, (value) {
+          dropdownValue.value = value.toString();
           Navigator.of(context).pop();
           widget.callback!(value);
-        }, listOfItems,selectedIndex);
+        }, listOfItems, selectedIndex);
       },
       child: SizedBox(
         width: double.maxFinite,
@@ -105,47 +110,46 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.only(left: 0.w, right: 0.w,top: 2.w),
+                margin: EdgeInsets.only(left: 0.w, right: 0.w, top: 2.w),
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.black12),
-                    borderRadius: const BorderRadius.all(
-                        Radius.circular(6))),
+                    borderRadius: const BorderRadius.all(Radius.circular(6))),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   mainAxisSize: MainAxisSize.max,
                   children: [
-
                     Padding(
-                      padding: EdgeInsets.only(
-                          top: 5.w,
-                          left: 8.w,
-                          bottom: 5.w),
+                      padding:
+                          EdgeInsets.only(top: 5.w, left: 8.w, bottom: 5.w),
                       child: ValueListenableBuilder(
                           valueListenable: dropdownValue,
-                          builder: (context,String showDoublingMethod,child){
+                          builder: (context, String showDoublingMethod, child) {
                             return Padding(
-                              padding: EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
+                              padding:
+                                  EdgeInsets.only(left: 6.w, top: 6, bottom: 6),
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   TitleMediumTextWidget(
-                                    title:dropdownValue.value!=''?dropdownValue.value.toString():'Select',
+                                    title: dropdownValue.value != ''
+                                        ? dropdownValue.value.toString()
+                                        : 'Select',
                                     color: Colors.black54,
                                     weight: FontWeight.normal,
                                   )
                                 ],
                               ),
                             );
-                          }
-                      ),
+                          }),
                     ),
                     Container(
-                      margin: const EdgeInsets.only(
-                          top: 5, right: 6, bottom: 4),
+                      margin:
+                          const EdgeInsets.only(top: 5, right: 6, bottom: 4),
                       decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.keyboard_arrow_down_outlined,
+                      child: const Icon(
+                        Icons.keyboard_arrow_down_outlined,
                         size: 24,
                         color: Colors.grey,
                       ),
@@ -154,7 +158,6 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
                 ),
               ),
             ),
-
           ],
         ),
       ),
@@ -168,9 +171,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
           border: Border.all(
             color: Colors.transparent,
           ),
-          color: checked
-              ? darkBlueChip
-              : lightBlueChip,
+          color: checked ? darkBlueChip : lightBlueChip,
           borderRadius: BorderRadius.all(Radius.circular(5.w))),
       child: Row(
         children: [
@@ -194,24 +195,26 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
 
   Container buildRoundedContainer(bool checked, int index) {
     return Container(
-      width: double.maxFinite,
       decoration: BoxDecoration(
           border: Border.all(
             color: Colors.transparent,
           ),
-          color: checked
-              ? darkBlueChip
-              : lightBlueChip,
+          color: checked ? darkBlueChip : lightBlueChip,
           borderRadius: BorderRadius.all(Radius.circular(25.w))),
       child: Row(
         children: [
           Visibility(
             visible: checked,
             child: Padding(
-              padding: const EdgeInsets.only(top: 6,bottom: 6,left: 5,right: 5),
+              padding:
+                  const EdgeInsets.only(top: 4, bottom: 4, right: 4, left: 0),
               child: CircleAvatar(
                 backgroundColor: Colors.white,
-                child: Icon(Icons.check,color: darkBlueChip,size: 18,),
+                child: Icon(
+                  Icons.check,
+                  color: darkBlueChip,
+                  size: 18,
+                ),
               ),
             ),
           ),
@@ -225,7 +228,7 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
               softWrap: false,
-              textAlign: checked ? TextAlign.start:TextAlign.center,
+              textAlign: checked ? TextAlign.start : TextAlign.center,
               style: TextStyle(
                   fontSize: 11.sp,
                   fontWeight: FontWeight.w600,
@@ -237,10 +240,9 @@ class SingleSelectTileWidgetState extends State<SingleSelectTileWidget> {
     );
   }
 
-  resetWidget(){
+  resetWidget() {
     setState(() {
       checkedTile = -1;
-
     });
   }
 }

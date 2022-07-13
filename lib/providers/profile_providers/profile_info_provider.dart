@@ -3,6 +3,7 @@ import 'package:yg_app/app_database/app_database_instance.dart';
 import 'package:yg_app/model/pre_login_response.dart';
 import 'package:yg_app/model/request/update_profile/update_profile_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 
 import '../../model/request/update_profile/update_business_request.dart';
 import '../../model/response/common_response_models/companies_reponse.dart';
@@ -21,6 +22,7 @@ class ProfileInfoProvider extends ChangeNotifier {
   List<Designations> designationsList = [];
   List<GenericCategories> categoriesList = [];
   List<Companies> companiesList = [];
+  List<UserCategories> userCategory = [];
 
 
   Countries? selectedCountry;
@@ -33,10 +35,8 @@ class ProfileInfoProvider extends ChangeNotifier {
   Companies? selectedCompany;
 
 
-
   getSyncedData() async {
-    isLoading=true;
-    notifyUI();
+    isLoading = true;
     var dbInstance = await AppDbInstance().getDbInstance();
     user = await dbInstance.userDao
         .getUser();
@@ -50,12 +50,14 @@ class ProfileInfoProvider extends ChangeNotifier {
     citiesList = await dbInstance.citiesDao.findAllCities();
     designationsList = await dbInstance.designationsDao
         .findAllDesignations();
-    categoriesList = await dbInstance.genericCategoriesDao.findAllGenericCategories();
+    categoriesList =
+    await dbInstance.genericCategoriesDao.findAllGenericCategories();
+    userCategory = await dbInstance.userCategoriesDao.findAllCategories();
     companiesList = await dbInstance.companiesDao
         .findAllCompanies();
     getPersonalInfoData();
     getBusinessInfoData();
-    isLoading=false;
+    isLoading = false;
     notifyUI();
   }
 
@@ -63,7 +65,7 @@ class ProfileInfoProvider extends ChangeNotifier {
     if (user != null) {
       if (user!.countryId != null && countriesList.isNotEmpty &&
           countriesList != null) {
-        updateProfileRequestModel.countryId=
+        updateProfileRequestModel.countryId =
             user!.countryId.toString();
         selectedCountry =
             countriesList.firstWhere((element) =>
@@ -73,7 +75,7 @@ class ProfileInfoProvider extends ChangeNotifier {
 
       if (user!.cityStateId != null && statesList.isNotEmpty &&
           statesList != null) {
-        updateProfileRequestModel.cityStateId=
+        updateProfileRequestModel.cityStateId =
             user!.cityStateId.toString();
         selectedState =
             statesList.firstWhere((element) =>
@@ -83,7 +85,7 @@ class ProfileInfoProvider extends ChangeNotifier {
 
       if (user!.city != null && citiesList.isNotEmpty &&
           citiesList != null) {
-        updateProfileRequestModel.city=
+        updateProfileRequestModel.city =
             user!.city.toString();
         selectedCity =
             citiesList.firstWhere((element) =>
@@ -93,26 +95,22 @@ class ProfileInfoProvider extends ChangeNotifier {
       notifyUI();
     }
   }
-  getBusinessInfoData()
-  async {
 
-    if(businessInfo!=null)
-    {
-
+  getBusinessInfoData() async {
+    if (businessInfo != null) {
       var dbInstance = await AppDbInstance().getDbInstance();
       if (businessInfo!.countryId != null) {
-        updateBusinessRequestModel.countryId=
+        updateBusinessRequestModel.countryId =
             businessInfo!.countryId.toString();
-        selectedCompanyCountry =await dbInstance.countriesDao
-            .findYarnCountryWithId(int.parse(businessInfo!.countryId.toString()));
-
-
+        selectedCompanyCountry = await dbInstance.countriesDao
+            .findYarnCountryWithId(
+            int.parse(businessInfo!.countryId.toString()));
       }
 
 
       if (businessInfo!.city != null && citiesList.isNotEmpty &&
           citiesList != null) {
-        updateBusinessRequestModel.city=
+        updateBusinessRequestModel.city =
             businessInfo!.city.toString();
         selectedCompanyCity =
             citiesList.firstWhere((element) =>
@@ -122,7 +120,7 @@ class ProfileInfoProvider extends ChangeNotifier {
 
       if (businessInfo!.cityStateId != null && statesList.isNotEmpty &&
           statesList != null) {
-        updateBusinessRequestModel.cityStateId=
+        updateBusinessRequestModel.cityStateId =
             businessInfo!.cityStateId.toString();
         selectedCompanyState =
             statesList.firstWhere((element) =>
@@ -130,9 +128,10 @@ class ProfileInfoProvider extends ChangeNotifier {
                 businessInfo!.cityStateId.toString());
       }
 
-      if (businessInfo!.designation_idfk != null && designationsList.isNotEmpty &&
+      if (businessInfo!.designation_idfk != null &&
+          designationsList.isNotEmpty &&
           designationsList != null) {
-        updateBusinessRequestModel.designation_idfk=
+        updateBusinessRequestModel.designation_idfk =
             businessInfo!.designation_idfk.toString();
         selectedDesignation =
             designationsList.firstWhere((element) =>
@@ -141,18 +140,20 @@ class ProfileInfoProvider extends ChangeNotifier {
       }
 
       if (businessInfo!.name != null) {
-        updateBusinessRequestModel.name=
-          businessInfo!.name.toString();
-        updateBusinessRequestModel.company=
-           businessInfo!.name.toString();
+        updateBusinessRequestModel.name =
+            businessInfo!.name.toString();
+        updateBusinessRequestModel.company =
+            businessInfo!.name.toString();
         var companies = await dbInstance.companiesDao.findAllCompanies();
-        selectedCompany = companies.where((element) => element.name == businessInfo!.name).toList().first;
+        selectedCompany = companies
+            .where((element) => element.name == businessInfo!.name)
+            .toList()
+            .first;
       }
 
       notifyUI();
     }
   }
-
 
 
   setSelectedState(States state) {
@@ -161,16 +162,15 @@ class ProfileInfoProvider extends ChangeNotifier {
   }
 
 
-  setSelectedCountry(Countries country)  {
-    selectedCountry=country;
+  setSelectedCountry(Countries country) {
+    selectedCountry = country;
     notifyUI();
   }
 
-  setSelectedCompanyCountry(Countries country)  {
-    selectedCompanyCountry=country;
+  setSelectedCompanyCountry(Countries country) {
+    selectedCompanyCountry = country;
     notifyUI();
   }
-
 
 
   notifyUI() {
@@ -184,18 +184,25 @@ class ProfileInfoProvider extends ChangeNotifier {
     statesList = [];
     categoriesList = [];
     isLoading = false;
-    user=null;
-    selectedCountry=null;
-    selectedCity=null;
-    selectedState=null;
-    selectedCompanyCountry=null;
-    selectedCompanyCity=null;
-    selectedCompanyState=null;
-    selectedDesignation=null;
-    selectedCompany=null;
+    user = null;
+    selectedCountry = null;
+    selectedCity = null;
+    selectedState = null;
+    selectedCompanyCountry = null;
+    selectedCompanyCity = null;
+    selectedCompanyState = null;
+    selectedDesignation = null;
+    selectedCompany = null;
     updateBusinessRequestModel = UpdateBusinessRequestModel();
     updateProfileRequestModel = UpdateProfileRequestModel();
     notifyUI();
+  }
+
+
+  updateProfileData(AuthResponse value) async {
+    var dbInstance = await AppDbInstance().getDbInstance();
+    await dbInstance.userDao.updateUser(value.data!.user!);
+    notifyListeners();
   }
 
 }

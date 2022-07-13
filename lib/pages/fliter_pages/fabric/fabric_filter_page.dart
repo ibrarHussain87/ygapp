@@ -79,7 +79,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
 
   final List<int> _colorTreatmentIdList = [3, 5, 8, 11, 13];
   //String? _selectedNature;
-  final GlobalKey<BlendsWithImageListWidgetState> _catWithImageListState = GlobalKey<BlendsWithImageListWidgetState>();
+  final GlobalKey<BlendWithImageListWidgetState> _catWithImageListState = GlobalKey<BlendWithImageListWidgetState>();
 
   final GlobalKey<SingleSelectTileWidgetState> _plyKey =
       GlobalKey<SingleSelectTileWidgetState>();
@@ -143,8 +143,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
     _salvedgeList = await dbInstance.fabricSalvedgeDao.findAllFabricSalvedge();
     _layyerList = await dbInstance.fabricLayyerDao.findAllFabricLayyer();
    // _selectedNature = /*"1"*/_fabricFamilyList.first.fabricFamilyId.toString();
-    AppDbInstance().getFiberBrandsData()
-        .then((value) => setState(() => _brands = value));
+    _brands = await dbInstance.brandsDao.findAllBrands();
     AppDbInstance().getOriginsData()
         .then((value) => setState(() => _countries = value));
     AppDbInstance().getCityState()
@@ -278,7 +277,7 @@ class FabricFilterPageState extends State<FabricFilterPage>
                                   child: const TitleTextWidget(
                                     title: 'Fabric Blends',
                                   )),
-                              BlendsWithImageListWidget(
+                              BlendWithImageListWidget(
                                 key: _catWithImageListState,
                                 selectedItem: _fabricBlendsList.indexWhere((element) => element.blnId == _selectedMaterial),
                                 listItem: _fabricBlendsList

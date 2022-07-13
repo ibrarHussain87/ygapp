@@ -19,11 +19,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<HomeModel> homeList=
   [
-    HomeModel(id: "1", title: 'Fiber',subTitle: 'over 255 ads',image:fiberImage),
-    HomeModel(id: "2", title: 'Yarn',subTitle: 'over 410 ads',image:yarnImage),
-    HomeModel(id: "3", title: 'Fabrics',subTitle: 'over 115 ads',image: fabricsImage),
-    HomeModel(id: "4", title: 'Stocklots',subTitle: 'over 40 ads',image: stockLotsImage),
-    HomeModel(id: "5", title: 'YG Services',subTitle: 'over 5 services',image: servicesImage),
+    HomeModel(id: "1", title: 'Fiber',subTitle: 'over 255 ads',image:fiberImage,isDisable: true),
+    HomeModel(id: "2", title: 'Yarn',subTitle: 'over 410 ads',image:yarnImage,isDisable: false),
+    HomeModel(id: "3", title: 'Fabrics',subTitle: 'over 115 ads',image: fabricsImage,isDisable: false),
+    HomeModel(id: "4", title: 'StockLots',subTitle: 'over 40 ads',image: stockLotsImage,isDisable: false),
+    HomeModel(id: "5", title: 'YG Services',subTitle: 'over 5 services',image: servicesImage,isDisable: false),
   ];
 
 
@@ -124,7 +124,6 @@ class _HomeScreenState extends State<HomeScreen> {
                       topRight: Radius.circular(24.0),
                     )),
                 child:  ListView.builder(
-
                   physics: BouncingScrollPhysics(),
                   itemCount: homeList.length,
                   shrinkWrap: true,

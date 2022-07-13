@@ -41,7 +41,7 @@ class _YarnPostAdPageState extends State<YarnPostAdPage> {
     _postYarnProvider.addListener(() {
       setState(() {});
     });
-    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       showBlendsSheets(context);
     });
   }
