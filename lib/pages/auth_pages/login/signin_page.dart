@@ -148,7 +148,7 @@ class _SignInPageState extends State<SignInPage> {
                             },
                             child: Container(
                                 height: 40.w,
-                                width: 100.w,
+                                width: MediaQuery.of(context).size.width/3.0,
                                 decoration: BoxDecoration(
                                     color:
                                         isEmail ? Colors.green : Colors.white,
@@ -184,7 +184,7 @@ class _SignInPageState extends State<SignInPage> {
                                       Radius.circular(2.0),
                                     )),
                                 height: 40.w,
-                                width: 100.w,
+                                width: MediaQuery.of(context).size.width/3.0,
                                 child: Center(
                                   child: Text("Phone Number",
                                       style: TextStyle(
@@ -265,7 +265,10 @@ class _SignInPageState extends State<SignInPage> {
                                                     Radius.circular(5.0),
                                                   ),
                                                   borderSide: BorderSide(
-                                                      color: newColorGrey)))),
+                                                      color: newColorGrey)
+                                              )
+                                          )
+                                      ),
                                     ],
                                   ),
                                 ),

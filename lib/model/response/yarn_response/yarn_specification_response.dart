@@ -10,8 +10,8 @@ class GetYarnSpecificationResponse {
     required this.message,
   });
 
-  late final bool status;
-  late final int responseCode;
+  late final bool? status;
+  late final int? responseCode;
   YarnSpecificationData? data;
   String? message;
 

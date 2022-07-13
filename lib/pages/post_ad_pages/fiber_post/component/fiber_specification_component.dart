@@ -1091,6 +1091,7 @@ class FiberSpecificationComponentState
 
       // _postFiberProvider.createRequestModel!.spc_nature_idfk =
       //     _postFiberProvider.selectedFamilyId.toString();
+
       if (widget.selectedTab == offeringType) {
         widget.callback!(1);
       } else {
@@ -1116,6 +1117,7 @@ class FiberSpecificationComponentState
       _postFiberProvider.createRequestModel!.spc_local_international =
           widget.locality!.toUpperCase();
     }
+
     _postFiberProvider.createRequestModel!.is_offering = widget.selectedTab;
 
     ProgressDialogUtil.showDialog(context, 'Please wait...');

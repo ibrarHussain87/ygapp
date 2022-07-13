@@ -8,10 +8,10 @@ class FiberSpecificationResponse {
     required this.message,
   });
 
-  late final bool status;
-  late final int responseCode;
+  late final bool? status;
+  late final int? responseCode;
   late final FiberSpecificationData? data;
-  late final String message;
+  late final String? message;
 
   FiberSpecificationResponse.fromJson(Map<String, dynamic> json) {
     status = json['status'];

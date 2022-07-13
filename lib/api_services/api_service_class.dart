@@ -1385,16 +1385,18 @@ class ApiService {
       var userToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_TOKEN_KEY);
       headerMap['Authorization'] = 'Bearer $userToken';
+
       var userDeviceToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
       var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
-        "user_id": userID.toString(),
+        // "user_id": userID.toString(),
         "specification_id": specId,
         "category_id": catId
       };
-      String url = baseUrlApi + "/copy_spec";
+      String url = baseUrlApi + "/post-as-requirement";
+      // String url = baseUrlApi + "/copy_spec";
 
       final response =
           await http.post(Uri.parse(url), headers: headerMap, body: data);
