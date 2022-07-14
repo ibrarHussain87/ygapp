@@ -84,8 +84,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       height: 8.h,
                                     ),
                                     SingleSelectTileWidget(
-                                      key: _stockLotSpecificationProvider
-                                          .stocklotKey,
+                                      key: _stockLotSpecificationProvider.stocklotKey,
                                       spanCount: 3,
                                       listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ _stockLotSpecificationProvider
                                           .stockLots!,
@@ -269,6 +268,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                   textSize: 12.sp,
                                   color: Colors.green,
                                   callback: () {
+
                                     _stockLotSpecificationProvider.resetValue();
                                     Navigator.pop(
                                         context,

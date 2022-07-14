@@ -68,20 +68,31 @@ String gmail = "images/gmail.png";
 String telegram = "images/telegram.png";
 String facebook = "images/facebook.png";
 String newLogoImage = "images/new_logo.png";
+
+//////////// Dashboard Images
+String group_1 = "images/group_1.png";
+String group_2 = "images/group_2.png";
+String group_3 = "images/group_3.png";
+String group_4 = "images/group_4.png";
+String group_5 = "images/group_5.png";
+
 String fiberImage = "images/fiber.png";
 String fabricsImage = "images/fabrics.png";
 String yarnImage = "images/yarn.png";
 String stockLotsImage = "images/stocklots.png";
 String servicesImage = "images/services.png";
+
 // String bellImage = "images/bell.png";
 // String navImage = "images/nav.png";
 String bellImage = "assets/bell.svg";
 String navImage = "assets/nav.svg";
+
 String fiberIcon = "images/fiber_icon.png";
 String fabricsIcon = "images/fabric_icon.png";
 String stockLotsIcon = "images/stocklots_icon.png";
 String yarnIcon = "images/yarn_icon.png";
 String serviceIcon = "images/service_icon.png";
+
 String green = "images/green_up.png";
 String red = "images/red_down.png";
 

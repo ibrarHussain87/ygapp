@@ -74,7 +74,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.1 * MediaQuery.of(context).size.height,
+              height: 0.10 * MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
                 itemCount: _trendWidgetProvider.alertBarsList.length,
@@ -82,7 +82,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                 shrinkWrap: false,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 2.0, right: 2.0),
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                     child: Row(
                       children: [
                         ClipRRect(
@@ -92,7 +92,8 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                               width: MediaQuery.of(context).size.width / 2.3,
                               // decoration: BoxDecoration(color: const Color(0xFFEDF1F6)),
                               decoration:
-                                  BoxDecoration(color: Colors.grey.shade100),
+                                  BoxDecoration(color:HexColor.fromHex("#EEF3FB")),
+                                  // BoxDecoration(color: Colors.grey.shade100),
                               child: Padding(
                                 padding: EdgeInsets.all(6.w),
                                 child: Column(
@@ -123,9 +124,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                         )
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
+                                   
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
