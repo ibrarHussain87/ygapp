@@ -12,6 +12,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
+import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
@@ -20,6 +21,7 @@ import 'package:yg_app/locators.dart';
 import 'package:yg_app/pages/auth_pages/login/signin_page.dart';
 import 'package:yg_app/pages/main_page.dart';
 import 'package:yg_app/pages/onboarding_pages/onboarding_page.dart';
+import 'package:yg_app/pages/onboarding_pages/starting_page.dart';
 import 'package:yg_app/providers/detail_provider/detail_page_provider.dart';
 import 'package:yg_app/providers/fabric_providers/post_fabric_provider.dart';
 import 'package:yg_app/providers/fiber_providers/fiber_specification_provider.dart';
@@ -222,7 +224,7 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
             Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                    builder: (context) => const OnBoardingPage()));
+                    builder: (context) => const StartingScreen()));
           } else {
             if (userLogin) {
               Navigator.pushReplacement(context,
@@ -343,7 +345,8 @@ class _YgAppPageState extends State<YgAppPage> with TickerProviderStateMixin {
             width: double.infinity,
             height: double.infinity,
             fit: BoxFit.fill,
-          )
+          ),
+           Positioned(bottom:15.h,left: 20.w,right: 20.w,child:  Text("The Next Generation Textile Marketplace for Texpreneurs",textAlign:TextAlign.center,style:TextStyle(color: Colors.white,fontSize: 14.sp)))
         ],
       ),
     );

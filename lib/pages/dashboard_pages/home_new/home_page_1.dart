@@ -8,15 +8,15 @@ import 'package:yg_app/pages/dashboard_pages/market_page.dart';
 
 import '../../../model/home_model.dart';
 
-class HomeScreen extends StatefulWidget {
+class DashboardPage extends StatefulWidget {
   final Function callback;
-   const HomeScreen({Key? key,required this.callback}) : super(key: key);
+   const DashboardPage({Key? key,required this.callback}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _DashboardPageState createState() => _DashboardPageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _DashboardPageState extends State<DashboardPage> {
   List<HomeModel> homeList=
   [
     HomeModel(id: "1", title: 'Fiber',subTitle: 'over 255 ads',image:fiberImage,isDisable: false),

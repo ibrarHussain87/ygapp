@@ -56,7 +56,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
         setState(() {});
       }
     });
-    _trendWidgetProvider.getAlertBars();
+    _trendWidgetProvider.getCommodityRates();
     super.initState();
   }
 
@@ -74,15 +74,15 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
           //   margin: EdgeInsets.only(bottom: 4.w),
           // ),
           SizedBox(
-              height: 0.1 * MediaQuery.of(context).size.height,
+              height: 0.10 * MediaQuery.of(context).size.height,
               width: MediaQuery.of(context).size.width,
               child: ListView.builder(
-                itemCount: _trendWidgetProvider.alertBarsList.length,
+                itemCount: _trendWidgetProvider.commodityRatesList.length,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: false,
                 itemBuilder: (context, index) {
                   return Padding(
-                    padding: const EdgeInsets.only(left: 2.0, right: 2.0),
+                    padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                     child: Row(
                       children: [
                         ClipRRect(
@@ -92,7 +92,8 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                               width: MediaQuery.of(context).size.width / 2.3,
                               // decoration: BoxDecoration(color: const Color(0xFFEDF1F6)),
                               decoration:
-                                  BoxDecoration(color: Colors.grey.shade100),
+                                  BoxDecoration(color:HexColor.fromHex("#EEF3FB")),
+                                  // BoxDecoration(color: Colors.grey.shade100),
                               child: Padding(
                                 padding: EdgeInsets.all(6.w),
                                 child: Column(
@@ -106,7 +107,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                       children: [
                                         Expanded(
                                           child: Text(
-                                            _trendWidgetProvider.alertBarsList[index].alertBarText.toString(),
+                                            _trendWidgetProvider.commodityRatesList[index].cmdrateName.toString(),
                                             overflow: TextOverflow.ellipsis,
                                             maxLines: 1,
                                             style: TextStyle(
@@ -123,15 +124,13 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                         )
                                       ],
                                     ),
-                                    const SizedBox(
-                                      height: 4,
-                                    ),
+                                   
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceBetween,
                                       children: [
                                         Text(
-                                          _trendWidgetProvider.alertBarsList[index].alertBarPercentage.toString(),
+                                          _trendWidgetProvider.commodityRatesList[index].cmdrateRate.toString(),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
@@ -141,12 +140,12 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                               fontWeight: FontWeight.w800),
                                         ),
                                         Text(
-                                          _trendWidgetProvider.alertBarsList[index].alertBarPercentage.toString(),
+                                          _trendWidgetProvider.commodityRatesList[index].cmdrateRate.toString(),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 1,
                                           style: TextStyle(
-                                              color: _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
-                                                  'down'
+                                              color:  _trendWidgetProvider.commodityRatesList[index].cmdrateRate !=
+                                                  null
                                                   ? redDownColor
                                                   : greenUpColor,
                                               fontSize: 12.sp,
@@ -163,8 +162,7 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                           MainAxisAlignment.start,
                                       children: [
                                         Image.asset(
-                                          _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
-                                              'down'
+                                          _trendWidgetProvider.commodityRatesList[index].cmdrateRate!=null
                                               ? red
                                               : green,
                                           scale: 1.4,
@@ -173,14 +171,14 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                           width: 5,
                                         ),
                                         Padding(
-                                          padding: _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
-                                              'down'
+                                          padding: _trendWidgetProvider.commodityRatesList[index].cmdrateRate !=
+                                              null
                                               ? const EdgeInsets.only(top: 2.0)
                                               : const EdgeInsets.only(
                                                   bottom: 1.0),
                                           child: Text(
-                                            _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
-                                                'down'
+                                            _trendWidgetProvider.commodityRatesList[index].cmdrateRate !=
+                                                null
                                                 ? "Drop Quickly"
                                                 : "Rose Quickly",
                                             textAlign: TextAlign.justify,
@@ -188,8 +186,8 @@ class _HomeTrendsWidgetState extends State<HomeTrendsWidget> {
                                             maxLines: 1,
                                             style: TextStyle(
                                                 color:
-                                                _trendWidgetProvider.alertBarsList[index].alertBarDirection ==
-                                                    'down'
+                                                _trendWidgetProvider.commodityRatesList[index].cmdrateRate !=
+                                                    null
                                                         ? redDownColor
                                                         : greenUpColor,
                                                 fontSize: 10.sp,

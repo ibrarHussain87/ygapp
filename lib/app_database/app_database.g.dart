@@ -181,6 +181,10 @@ class _$AppDatabase extends AppDatabase {
 
   AlertBarDao? _alertBarDaoInstance;
 
+  CommodityRatesDao? _commodityRatesDaoInstance;
+
+  CurrencyRatesDao? _currencyRatesDaoInstance;
+
   Future<sqflite.Database> open(String path, List<Migration> migrations,
       [Callback? callback]) async {
     final databaseOptions = sqflite.OpenDatabaseOptions(
@@ -325,6 +329,10 @@ class _$AppDatabase extends AppDatabase {
             'CREATE TABLE IF NOT EXISTS `alert_bars` (`alertBarId` INTEGER, `alertBarText` TEXT, `alertBarDirection` TEXT, `alertBarPercentage` TEXT, `alertBarStatus` TEXT, PRIMARY KEY (`alertBarId`))');
         await database.execute(
             'CREATE TABLE IF NOT EXISTS `notification_global` (`notificationGlobalId` INTEGER, `notificationGlobalTitle` TEXT, `notificationGlobalDescription` TEXT, `notificationGlobalStatus` TEXT, PRIMARY KEY (`notificationGlobalId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `commodity_rates` (`cmdrateId` INTEGER NOT NULL, `cmdrateName` TEXT, `cmdrateRate` TEXT, `cmdrateDate` TEXT, PRIMARY KEY (`cmdrateId`))');
+        await database.execute(
+            'CREATE TABLE IF NOT EXISTS `currency_rates` (`exrateId` INTEGER NOT NULL, `exrateAmount` TEXT, `exrateFrom` TEXT, `exrateTo` TEXT, `exrateRate` TEXT, `exrateDate` TEXT, PRIMARY KEY (`exrateId`))');
 
         await callback?.onCreate?.call(database, version);
       },
@@ -667,6 +675,18 @@ class _$AppDatabase extends AppDatabase {
   @override
   AlertBarDao get alertBarDao {
     return _alertBarDaoInstance ??= _$AlertBarDao(database, changeListener);
+  }
+
+  @override
+  CommodityRatesDao get commodityRatesDao {
+    return _commodityRatesDaoInstance ??=
+        _$CommodityRatesDao(database, changeListener);
+  }
+
+  @override
+  CurrencyRatesDao get currencyRatesDao {
+    return _currencyRatesDaoInstance ??=
+        _$CurrencyRatesDao(database, changeListener);
   }
 }
 
@@ -5824,5 +5844,147 @@ class _$AlertBarDao extends AlertBarDao {
   Future<List<int>> insertAllAlertBars(List<AlertBars> alertBars) {
     return _alertBarsInsertionAdapter.insertListAndReturnIds(
         alertBars, OnConflictStrategy.replace);
+  }
+}
+
+class _$CommodityRatesDao extends CommodityRatesDao {
+  _$CommodityRatesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _commodityRatesInsertionAdapter = InsertionAdapter(
+            database,
+            'commodity_rates',
+            (CommodityRates item) => <String, Object?>{
+                  'cmdrateId': item.cmdrateId,
+                  'cmdrateName': item.cmdrateName,
+                  'cmdrateRate': item.cmdrateRate,
+                  'cmdrateDate': item.cmdrateDate
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CommodityRates> _commodityRatesInsertionAdapter;
+
+  @override
+  Future<List<CommodityRates>> findAllCommodityRates() async {
+    return _queryAdapter.queryList('SELECT * FROM commodity_rates',
+        mapper: (Map<String, Object?> row) => CommodityRates(
+            cmdrateId: row['cmdrateId'] as int,
+            cmdrateName: row['cmdrateName'] as String?,
+            cmdrateRate: row['cmdrateRate'] as String?,
+            cmdrateDate: row['cmdrateDate'] as String?));
+  }
+
+  @override
+  Future<CommodityRates?> findCommodityRateWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM commodity_rates where cmdrateId = ?1',
+        mapper: (Map<String, Object?> row) => CommodityRates(
+            cmdrateId: row['cmdrateId'] as int,
+            cmdrateName: row['cmdrateName'] as String?,
+            cmdrateRate: row['cmdrateRate'] as String?,
+            cmdrateDate: row['cmdrateDate'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteBrand(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from commodity_rates where cmdrateId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from commodity_rates');
+  }
+
+  @override
+  Future<void> insertCommodityRate(CommodityRates brands) async {
+    await _commodityRatesInsertionAdapter.insert(
+        brands, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllCommodityRates(List<CommodityRates> brands) {
+    return _commodityRatesInsertionAdapter.insertListAndReturnIds(
+        brands, OnConflictStrategy.replace);
+  }
+}
+
+class _$CurrencyRatesDao extends CurrencyRatesDao {
+  _$CurrencyRatesDao(this.database, this.changeListener)
+      : _queryAdapter = QueryAdapter(database),
+        _currencyRatesInsertionAdapter = InsertionAdapter(
+            database,
+            'currency_rates',
+            (CurrencyRates item) => <String, Object?>{
+                  'exrateId': item.exrateId,
+                  'exrateAmount': item.exrateAmount,
+                  'exrateFrom': item.exrateFrom,
+                  'exrateTo': item.exrateTo,
+                  'exrateRate': item.exrateRate,
+                  'exrateDate': item.exrateDate
+                });
+
+  final sqflite.DatabaseExecutor database;
+
+  final StreamController<String> changeListener;
+
+  final QueryAdapter _queryAdapter;
+
+  final InsertionAdapter<CurrencyRates> _currencyRatesInsertionAdapter;
+
+  @override
+  Future<List<CurrencyRates>> findAllCurrencyRates() async {
+    return _queryAdapter.queryList('SELECT * FROM currency_rates',
+        mapper: (Map<String, Object?> row) => CurrencyRates(
+            exrateId: row['exrateId'] as int,
+            exrateAmount: row['exrateAmount'] as String?,
+            exrateFrom: row['exrateFrom'] as String?,
+            exrateTo: row['exrateTo'] as String?,
+            exrateRate: row['exrateRate'] as String?,
+            exrateDate: row['exrateDate'] as String?));
+  }
+
+  @override
+  Future<CurrencyRates?> findCurrencyRateWithId(int id) async {
+    return _queryAdapter.query(
+        'SELECT * FROM currency_rates where exrateId = ?1',
+        mapper: (Map<String, Object?> row) => CurrencyRates(
+            exrateId: row['exrateId'] as int,
+            exrateAmount: row['exrateAmount'] as String?,
+            exrateFrom: row['exrateFrom'] as String?,
+            exrateTo: row['exrateTo'] as String?,
+            exrateRate: row['exrateRate'] as String?,
+            exrateDate: row['exrateDate'] as String?),
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteCurrencyRate(int id) async {
+    await _queryAdapter.queryNoReturn(
+        'delete from currency_rates where exrateId = ?1',
+        arguments: [id]);
+  }
+
+  @override
+  Future<void> deleteAll() async {
+    await _queryAdapter.queryNoReturn('delete from currency_rates');
+  }
+
+  @override
+  Future<void> insertCurrencyRate(CurrencyRates brands) async {
+    await _currencyRatesInsertionAdapter.insert(
+        brands, OnConflictStrategy.replace);
+  }
+
+  @override
+  Future<List<int>> insertAllCurrencyRates(List<CurrencyRates> currencyRates) {
+    return _currencyRatesInsertionAdapter.insertListAndReturnIds(
+        currencyRates, OnConflictStrategy.replace);
   }
 }

@@ -183,7 +183,7 @@ class _SpecUserViewState extends State<SpecUserView> {
         ProgressDialogUtil.hideDialog();
         // Ui.showSnackBar(context, value.message.toString());
 
-        showGenericDialog(
+         showGenericDialog(
             "Success",
             widget.categoryId == "1"
                 ? (value as FiberSpecificationResponse).message.toString()
@@ -192,6 +192,8 @@ class _SpecUserViewState extends State<SpecUserView> {
             StylishDialogType.SUCCESS,
             "Close",
             () {});
+
+
       }, onError: (error, stackTrac) {
         ProgressDialogUtil.hideDialog();
         Ui.showSnackBar(context, error.toString());

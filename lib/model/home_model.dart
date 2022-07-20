@@ -5,6 +5,7 @@ class HomeModel {
   String? title;
   String? subTitle;
   String? image;
+  Color? cardColor;
   bool? isDisable;
 
   HomeModel({
@@ -12,6 +13,7 @@ class HomeModel {
     @required this.title,
     @required this.subTitle,
     @required this.image,
+    @required this.cardColor,
     @required this.isDisable
   });
 }

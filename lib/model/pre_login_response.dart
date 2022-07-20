@@ -1,7 +1,9 @@
 import 'package:floor/floor.dart';
 import 'package:yg_app/model/response/common_response_models/brands_response.dart';
+import 'package:yg_app/model/response/common_response_models/commodity_rates_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
+import 'package:yg_app/model/response/common_response_models/currency_rates_response.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/common_response_models/ports_response.dart';
 
@@ -51,6 +53,9 @@ class Data {
   List<CustomerSupportTypes>? customerSupportTypes;
   List<AlertBars>? alertBars;
   List<NotificationsGlobal>? notificationsGlobal;
+  List<CommodityRates>? commodityRates;
+  List<CurrencyRates>? currencyRates;
+
 
   Data(
       {this.categories,
@@ -75,6 +80,21 @@ class Data {
         categories!.add(GenericCategories.fromJson(v));
       });
     }
+
+    if (json['currency_rates'] != null) {
+      currencyRates = <CurrencyRates>[];
+      json['currency_rates'].forEach((v) {
+        currencyRates!.add(CurrencyRates.fromJson(v));
+      });
+    }
+
+    if (json['commodity_rates'] != null) {
+      commodityRates = <CommodityRates>[];
+      json['commodity_rates'].forEach((v) {
+        commodityRates!.add(CommodityRates.fromJson(v));
+      });
+    }
+
     if (json['brands'] != null) {
       brands = <Brands>[];
       json['brands'].forEach((v) {

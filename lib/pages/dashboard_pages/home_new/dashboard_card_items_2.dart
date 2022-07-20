@@ -3,23 +3,23 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/model/home_model.dart';
 
-class HomeCardWidget extends StatefulWidget {
+class HomeCardWidget2 extends StatefulWidget {
   final Function? callback;
   final List<HomeModel> listOfItems;
   final int? spanCount;
 
-  const HomeCardWidget(
+  const HomeCardWidget2(
       {Key? key,
-      required this.spanCount,
-      required this.listOfItems,
-      required this.callback})
+        required this.spanCount,
+        required this.listOfItems,
+        required this.callback})
       : super(key: key);
 
   @override
   HomeCardWidgetState createState() => HomeCardWidgetState();
 }
 
-class HomeCardWidgetState extends State<HomeCardWidget> {
+class HomeCardWidgetState extends State<HomeCardWidget2> {
   late double aspectRatio;
 
   @override
@@ -90,12 +90,13 @@ class HomeCardWidgetState extends State<HomeCardWidget> {
       //     borderRadius: BorderRadius.all(Radius.circular(15.w))),
 
       child: Card(
+        color: widget.listOfItems[index].cardColor,
         elevation: 2,
         shape: RoundedRectangleBorder(
-            side: BorderSide(
-                color: Colors.grey.shade300,
-                width: 0.5,
-                style: BorderStyle.solid),
+            // side: BorderSide(
+            //     color: Colors.grey.shade300,
+            //     width: 0.5,
+            //     style: BorderStyle.solid),
             borderRadius: BorderRadius.circular(12)),
         child: Center(
           child: Column(

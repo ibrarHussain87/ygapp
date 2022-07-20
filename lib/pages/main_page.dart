@@ -4,11 +4,13 @@ import 'package:showcaseview/showcaseview.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
 import 'package:yg_app/helper_utils/app_images.dart';
-import 'package:yg_app/pages/dashboard_pages/home_new/dashboard_page.dart';
+import 'package:yg_app/pages/dashboard_pages/home_new/home_page_2.dart';
+import 'package:yg_app/pages/dashboard_pages/home_new/home_page_3.dart';
 import 'package:yg_app/pages/profile/profile_page.dart';
 import 'package:yg_app/providers/home_providers/sync_provider.dart';
 
 import '../locators.dart';
+import 'dashboard_pages/home_new/home_page_4.dart';
 import 'dashboard_pages/home_page.dart';
 import 'dashboard_pages/market_page.dart';
 import 'dashboard_pages/yg_services.dart';
@@ -46,7 +48,7 @@ class _MainPageState extends State<MainPage> {
      //   },
      // ),
       ShowCaseWidget(
-        builder: Builder(builder: (_) =>   DashboardPage(
+        builder: Builder(builder: (_) =>   DashboardPage3(
           key: homePageState,
           callback: (value) {
             setState(() {

@@ -14,6 +14,8 @@ import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.da
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../model/response/common_response_models/commodity_rates_response.dart';
+import '../model/response/common_response_models/currency_rates_response.dart';
 import 'app_database.dart';
 
 class AppDbInstance {
@@ -25,6 +27,15 @@ class AppDbInstance {
     return databaseInstance!;
   }
 
+  Future<List<CommodityRates>> getCommodityRatesData() {
+    return getDbInstance()
+        .then((value) => value.commodityRatesDao.findAllCommodityRates());
+  }
+
+  Future<List<CurrencyRates>> getCurrencyData() {
+    return getDbInstance()
+        .then((value) => value.currencyRatesDao.findAllCurrencyRates());
+  }
 
   Future<List<FabricBlends>> getFabricBlendsData() {
     return getDbInstance()

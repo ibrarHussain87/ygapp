@@ -22,16 +22,16 @@ import 'package:yg_app/providers/home_providers/banners_provider.dart';
 
 import '../../../helper_utils/navigation_utils.dart';
 
-class DashboardPage extends StatefulWidget {
+class DashboardPage2 extends StatefulWidget {
   final Function callback;
 
-  const DashboardPage({Key? key, required this.callback}) : super(key: key);
+  const DashboardPage2({Key? key, required this.callback}) : super(key: key);
 
   @override
   DashboardPageState createState() => DashboardPageState();
 }
 
-class DashboardPageState extends State<DashboardPage> {
+class DashboardPageState extends State<DashboardPage2> {
   List<HomeModel> homeList = [
     HomeModel(
         id: "1", title: 'Fiber', subTitle: 'over 255 ads', image: fiberIcon,isDisable: false),

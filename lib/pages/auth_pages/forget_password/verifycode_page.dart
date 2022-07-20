@@ -411,7 +411,7 @@ class VerifyCodePageState
 
 //    ProgressDialogUtil.showDialog(context, 'Please wait...');
     auth.verifyPhoneNumber(
-      phoneNumber:widget.signUpRequestModel.telephoneNumber!,
+      phoneNumber:widget.signUpRequestModel.telephoneNumber.toString(),
       verificationCompleted: (PhoneAuthCredential credential) async {
         await auth.signInWithCredential(credential).then((value) {
 

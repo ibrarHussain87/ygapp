@@ -9,6 +9,7 @@ import 'package:yg_app/app_database/dao/category_dao.dart';
 import 'package:yg_app/app_database/dao/certifications_dao.dart';
 import 'package:yg_app/app_database/dao/cities_dao.dart';
 import 'package:yg_app/app_database/dao/city_state_dao.dart';
+import 'package:yg_app/app_database/dao/commodity_rates_dao.dart';
 import 'package:yg_app/app_database/dao/companies_dao.dart';
 import 'package:yg_app/app_database/dao/countries_dao.dart';
 import 'package:yg_app/app_database/dao/deliver_period_dao.dart';
@@ -63,9 +64,12 @@ import 'package:yg_app/model/response/login/login_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 
+import '../model/response/common_response_models/commodity_rates_response.dart';
+import '../model/response/common_response_models/currency_rates_response.dart';
 import '../model/response/common_response_models/user_category_response.dart';
 import '../model/response/fabric_response/sync/fabric_sync_response.dart';
 import '../model/response/stocklot_repose/stocklot_sync/stocklot_sync_response.dart';
+import 'dao/currency_rates_dao.dart';
 import 'dao/customer_support_types_dao.dart';
 import 'dao/fabric_dao/fabric_appearance_dao.dart';
 import 'dao/fabric_dao/fabric_blends_dao.dart';
@@ -101,7 +105,7 @@ part 'app_database.g.dart'; // the generated code will be there
   FabricColorTreatmentMethod,FabricDyingTechniques,FabricQuality,FabricGrades,FabricLoom,FabricSalvedge,FabricWeave,FabricLayyer,
 ColorTreatmentMethod,ConeType,DoublingMethod,DyingMethod,YarnGrades,FiberAppearance,YarnAppearance,OrientationTable,
   GenericCategories,States,Cities,Designations,SubscriptionPlans,ServiceTypes,CustomerSupportTypes,
-  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily,BusinessInfo/*UserBrands*/,AlertBars,NotificationsGlobal])
+  PatternCharectristic,PatternModel,Ply,Quality,SpunTechnique,Usage,YarnTypes,StockLotFamily,BusinessInfo/*UserBrands*/,AlertBars,NotificationsGlobal,CommodityRates,CurrencyRates])
 abstract class AppDatabase extends FloorDatabase {
   UserDao get userDao;
 
@@ -218,4 +222,6 @@ abstract class AppDatabase extends FloorDatabase {
 
   NotificationGlobalDao get notificationGlobalDao;
   AlertBarDao get alertBarDao;
+  CommodityRatesDao get commodityRatesDao;
+  CurrencyRatesDao get currencyRatesDao;
 }

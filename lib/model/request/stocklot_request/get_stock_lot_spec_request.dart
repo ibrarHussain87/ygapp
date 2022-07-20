@@ -25,7 +25,8 @@ class GetStockLotSpecRequestModel {
       'is_offering': isOffering??'',
       'locality': localInternational??'',
       'stocklot_family_idfk[]': stocklotFamilyId??'',
-      'stocklot_family_parent_idfk[]': stocklotParentFamilyId??'',
+      'stocklot_family_parent_id[]': stocklotParentFamilyId??'',
+      // 'stocklot_family_parent_idfk': stocklotParentFamilyId??'',
       'price_term_id': priceTermId??'',
       'avability_id': avalibilityId??'',
     };

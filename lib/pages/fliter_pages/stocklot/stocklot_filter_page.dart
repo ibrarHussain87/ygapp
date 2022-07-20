@@ -31,18 +31,22 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
     // TODO: implement initState
     super.initState();
     _stockLotSpecificationProvider.stockLotCategories = [];
-    _stockLotSpecificationProvider.getStockLotData();
-    _stockLotSpecificationProvider.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
+    // _stockLotSpecificationProvider.getStockLotData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _stockLotSpecificationProvider.getStockLotData();
     });
+    _stockLotSpecificationProvider.addListener(() {
+      updateUI();
+    });
+  }
+  updateUI() {
+    if (mounted) setState(() {});
   }
 
   @override
   void dispose() {
     // TODO: implement dispose
-    _stockLotSpecificationProvider.resetValue();
+    // _stockLotSpecificationProvider.resetValue();
     super.dispose();
   }
 
@@ -54,7 +58,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                 appBar: appBar(context, "StockLot Filter"),
                 body: WillPopScope(
                   onWillPop: (){
-                    _stockLotSpecificationProvider.resetValue();
+                    // _stockLotSpecificationProvider.resetValue();
                     return Future.value(true);
                   },
                   child: SizedBox(
@@ -84,8 +88,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       height: 8.h,
                                     ),
                                     SingleSelectTileWidget(
-                                      key: _stockLotSpecificationProvider
-                                          .stocklotKey,
+                                      key: _stockLotSpecificationProvider.stocklotKey,
                                       spanCount: 3,
                                       listOfItems: /* ['Waste', 'Left Over', 'Rejection']*/ _stockLotSpecificationProvider
                                           .stockLots!,
@@ -269,6 +272,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                   textSize: 12.sp,
                                   color: Colors.green,
                                   callback: () {
+
                                     _stockLotSpecificationProvider.resetValue();
                                     Navigator.pop(
                                         context,
