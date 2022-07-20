@@ -45,7 +45,6 @@ import '../model/request/update_profile/customer_support_request.dart';
 import '../model/request/update_profile/update_business_request.dart';
 import '../model/request/yg_service/yg_service_request_model.dart';
 import '../model/response/common_response_models/companies_reponse.dart';
-import '../model/response/common_response_models/countries_response.dart';
 import '../model/response/common_response_models/pre_config_model.dart';
 import '../model/response/create_stocklot_response.dart';
 import '../model/response/fabric_response/fabric_update_response.dart';
@@ -1389,7 +1388,6 @@ class ApiService {
       var userDeviceToken =
           await SharedPreferenceUtil.getStringValuesSF(USER_DEVICE_TOKEN_KEY);
       headerMap['device_token'] = '$userDeviceToken';
-      var userID = await SharedPreferenceUtil.getStringValuesSF(USER_ID_KEY);
       Map<String, dynamic> data = {
         // "user_id": userID.toString(),
         "specification_id": specId,

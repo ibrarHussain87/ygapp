@@ -3,8 +3,8 @@ class GetStockLotSpecRequestModel {
   String? categoryId;
   String? isOffering;
   String? localInternational;
-  String? stocklotFamilyId;
-  String? stocklotParentFamilyId;
+  List<String>? stocklotFamilyId;
+  List<String>? stocklotParentFamilyId;
   String? priceTermId;
   String? avalibilityId;
 
@@ -20,12 +20,12 @@ class GetStockLotSpecRequestModel {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> map = {
-      'user_id': spcUserIdfk??'',
-      'category_id': categoryId??'',
-      'is_offering': isOffering??'',
+      'user_id': spcUserIdfk,
+      'category_id': categoryId,
+      'is_offering': isOffering,
       'locality': localInternational??'',
-      'stocklot_family_idfk[]': stocklotFamilyId??'',
-      'stocklot_family_parent_id[]': stocklotParentFamilyId??'',
+      'stocklot_family_idfk': stocklotFamilyId,
+      'stocklot_family_parent_id': stocklotParentFamilyId,
       // 'stocklot_family_parent_idfk': stocklotParentFamilyId??'',
       'price_term_id': priceTermId??'',
       'avability_id': avalibilityId??'',

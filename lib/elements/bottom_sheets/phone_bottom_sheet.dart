@@ -3,7 +3,6 @@ import 'package:logger/logger.dart';
 import 'package:yg_app/helper_utils/top_round_corners.dart';
 import 'package:yg_app/model/enum_phone.dart';
 
-import 'offering_requirment_bottom_sheet.dart';
 
 class MyActions {
   String title;

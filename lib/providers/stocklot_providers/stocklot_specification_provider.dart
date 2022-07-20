@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:stylish_dialog/stylish_dialog.dart';
 import 'package:yg_app/api_services/api_service_class.dart';
+import 'package:yg_app/elements/list_widgets/blend_with_image_listview_widget.dart';
 import 'package:yg_app/elements/list_widgets/single_select_tile_renewed_widget.dart';
 import 'package:yg_app/helper_utils/dialog_builder.dart';
 import 'package:yg_app/helper_utils/progress_dialog_util.dart';
@@ -26,8 +27,8 @@ class StockLotSpecificationProvider extends ChangeNotifier {
   final GlobalKey<SingleSelectTileWidgetState> categoryKey =
       GlobalKey<SingleSelectTileWidgetState>();
 
-  final GlobalKey<SingleSelectTileRenewedWidgetState> categoryListLocalKey =
-      GlobalKey<SingleSelectTileRenewedWidgetState>();
+  final GlobalKey<BlendWithImageListWidgetState> familyKey =
+      GlobalKey<BlendWithImageListWidgetState>();
   GlobalKey<SingleSelectTileRenewedWidgetState> subFamilyKey =
       GlobalKey<SingleSelectTileRenewedWidgetState>();
 

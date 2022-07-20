@@ -44,7 +44,7 @@ class FabricPopularBlendRatioWidgetState
     super.initState();
     checkedTile = widget.selectedIndex;
     _fabricPostProvider.addListener(updateUI);
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       // Add Your Code here.
       /*_yarnPostProvider.addSelectedBlend =
       _yarnPostProvider.blendList[widget.selectedIndex];*/

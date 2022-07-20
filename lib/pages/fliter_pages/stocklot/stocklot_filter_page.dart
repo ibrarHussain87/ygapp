@@ -96,8 +96,8 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                       callback: (StockLotFamily value) {
                                         _stockLotSpecificationProvider
                                                 .getStockLotSpecRequestModel
-                                                .stocklotParentFamilyId =
-                                            value.stocklotFamilyId.toString();
+                                                .stocklotFamilyId =
+                                            [value.stocklotFamilyId.toString()];
                                         _stockLotSpecificationProvider
                                             .getStockLotCategoriesData(
                                                 value.stocklotFamilyId!);
@@ -107,7 +107,7 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                         //     .setShowSubCategory(true);
                                         _stockLotSpecificationProvider
                                             .getStockLotSpecRequestModel
-                                            .stocklotFamilyId = null;
+                                            .stocklotParentFamilyId = null;
                                       },
                                     )
                                   ],
@@ -143,8 +143,8 @@ class _StockLotFilterPageState extends State<StockLotFilterPage> {
                                         callback: (StockLotFamily value) {
                                           _stockLotSpecificationProvider
                                                   .getStockLotSpecRequestModel
-                                                  .stocklotFamilyId =
-                                              value.stocklotFamilyId.toString();
+                                                  .stocklotParentFamilyId =
+                                              [value.stocklotFamilyId.toString()];
                                         },
                                       )
                                     ],

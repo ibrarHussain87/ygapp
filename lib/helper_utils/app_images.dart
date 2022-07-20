@@ -46,6 +46,7 @@ String ic_tag = "images/tag.png";
 String ic_suppliers = "images/ic_suppliers.png";
 String ic_universe = "images/ic_universe.png";
 String ic_products = "images/ic_products.png";
+// ignore: non_constant_identifier_names
 String ic_update_header = "images/update_header.png";
 String IC_BAG_RENEWED = "images/ic_bag_renewed.png";
 String IC_CONE_RENEWED = "images/ic_cone_renewed.png";
@@ -119,6 +120,3 @@ String second = "images/second.png";
 String third_bg = "images/third_bg.png";
 String third_circle = "images/third_circle.png";
 String third = "images/third.png";
-
-
-

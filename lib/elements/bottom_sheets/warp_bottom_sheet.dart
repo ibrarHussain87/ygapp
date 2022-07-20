@@ -5,7 +5,6 @@ import 'package:yg_app/elements/text_widgets.dart';
 import 'package:yg_app/elements/yg_text_form_field.dart';
 import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
 
 import '../../helper_utils/top_round_corners.dart';

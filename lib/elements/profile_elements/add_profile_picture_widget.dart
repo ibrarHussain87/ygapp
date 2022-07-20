@@ -139,7 +139,7 @@ class _AddProfilePictureWidgetState extends State<AddProfilePictureWidget> {
                                       ? CachedNetworkImage(
                                           imageUrl: _profileInfoProvider
                                               .user!.profilePicture!,
-                                          placeholder: (context, url) => Container(
+                                          placeholder: (context, url) => SizedBox(
                                             child: const Center(
                                               child: CircularProgressIndicator(
                                               ),

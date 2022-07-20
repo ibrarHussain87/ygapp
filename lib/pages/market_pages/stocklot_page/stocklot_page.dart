@@ -8,6 +8,7 @@ import 'package:yg_app/helper_utils/app_colors.dart';
 import 'package:yg_app/helper_utils/navigation_utils.dart';
 import 'package:yg_app/helper_utils/util.dart';
 import 'package:yg_app/locators.dart';
+import 'package:yg_app/model/request/stocklot_request/get_stock_lot_spec_request.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/pages/market_pages/common_components/offering_requirment__segment_component.dart';
 import 'package:yg_app/pages/market_pages/stocklot_page/stocklot_listing_future.dart';
@@ -36,15 +37,9 @@ class StockLotPageState extends State<StockLotPage> {
   @override
   void initState() {
     super.initState();
-    _stockLotSpecificationProvider
-        .getStockLotSpecRequestModel.localInternational = widget.locality;
-    _stockLotSpecificationProvider.getStockLotSpecRequestModel.categoryId = "5";
+    _initPage();
     _stockLotSpecificationProvider.getStockLotData();
-    _stockLotSpecificationProvider.addListener(() {
-      if (mounted) {
-        setState(() {});
-      }
-    });
+
   }
 
   @override
@@ -92,7 +87,11 @@ class StockLotPageState extends State<StockLotPage> {
                                       widget.locality == international ? 8 : 10,
                                   child: OfferingRequirementSegmentComponent(
                                     callback: (value) {
-                                      _stockLotSpecificationProvider.getStockLotSpecRequestModel.priceTermId = null;
+                                      _stockLotSpecificationProvider.getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
+                                      _stockLotSpecificationProvider.getStockLotSpecRequestModel.categoryId = "5";
+                                      _stockLotSpecificationProvider.stockLotCategories = [];
+                                      _stockLotSpecificationProvider.familyKey.currentState!.resetWidget();
+
                                       _stockLotSpecificationProvider
                                           .getStockLotSpecRequestModel
                                           .isOffering = value.toString();
@@ -230,27 +229,32 @@ class StockLotPageState extends State<StockLotPage> {
                                   child: Padding(
                                       padding: const EdgeInsets.only(top: 2.0),
                                       child: BlendWithImageListWidget(
+                                        key: _stockLotSpecificationProvider.familyKey,
                                           listItem:
                                               _stockLotSpecificationProvider
                                                   .stockLots!,
                                           onClickCallback: (value) {
+
                                             _stockLotSpecificationProvider.getStockLotSpecRequestModel.priceTermId = null;
+                                            _stockLotSpecificationProvider
+                                                .getStockLotSpecRequestModel
+                                                .stocklotFamilyId = null;
+
+
                                             _stockLotSpecificationProvider
                                                     .getStockLotSpecRequestModel
                                                     .stocklotParentFamilyId =
-                                                _stockLotSpecificationProvider
+                                                [_stockLotSpecificationProvider
                                                     .stockLots![value]
                                                     .stocklotFamilyId
-                                                    .toString();
+                                                    .toString()];
                                             _stockLotSpecificationProvider
                                                 .getStockLotCategoriesData(
                                                     _stockLotSpecificationProvider
                                                         .stockLots![value]
                                                         .stocklotFamilyId!);
 
-                                            _stockLotSpecificationProvider
-                                                .getStockLotSpecRequestModel
-                                                .stocklotFamilyId = null;
+
 
                                             if (_stockLotSpecificationProvider.subFamilyKey
                                                     .currentState !=
@@ -283,7 +287,7 @@ class StockLotPageState extends State<StockLotPage> {
                                           _stockLotSpecificationProvider
                                                   .getStockLotSpecRequestModel
                                                   .stocklotFamilyId =
-                                              value.stocklotFamilyId.toString();
+                                              [value.stocklotFamilyId.toString()];
                                           _stockLotSpecificationProvider.searchData(
                                               _stockLotSpecificationProvider
                                                   .getStockLotSpecRequestModel);
@@ -326,5 +330,19 @@ class StockLotPageState extends State<StockLotPage> {
     // TODO: implement dispose
     super.dispose();
     _stockLotSpecificationProvider.stockLotCategories = [];
+  }
+
+  void _initPage() {
+    _stockLotSpecificationProvider.getStockLotSpecRequestModel = GetStockLotSpecRequestModel();
+    _stockLotSpecificationProvider
+        .getStockLotSpecRequestModel.localInternational = widget.locality;
+    _stockLotSpecificationProvider.getStockLotSpecRequestModel.categoryId = "5";
+    _stockLotSpecificationProvider.getStockLotSpecRequestModel.isOffering = "1";
+
+    _stockLotSpecificationProvider.addListener(() {
+      if (mounted) {
+        setState(() {});
+      }
+    });
   }
 }

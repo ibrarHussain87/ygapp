@@ -1,16 +1,12 @@
 import 'package:yg_app/helper_utils/app_constants.dart';
-import 'package:yg_app/model/response/common_response_models/brands_response.dart';
 import 'package:yg_app/model/response/common_response_models/user_category_response.dart';
 import 'package:yg_app/model/response/common_response_models/certification_response.dart';
 import 'package:yg_app/model/response/common_response_models/city_state_response.dart';
 import 'package:yg_app/model/response/common_response_models/companies_reponse.dart';
 import 'package:yg_app/model/response/common_response_models/countries_response.dart';
 import 'package:yg_app/model/response/common_response_models/delievery_period.dart';
-import 'package:yg_app/model/response/common_response_models/grade.dart';
 import 'package:yg_app/model/response/common_response_models/payment_type_response.dart';
 import 'package:yg_app/model/response/fabric_response/sync/fabric_sync_response.dart';
-import 'package:yg_app/model/response/fiber_response/sync/fiber_apperance.dart';
-import 'package:yg_app/model/response/fiber_response/sync/sync_fiber_response.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_grades.dart';
 import 'package:yg_app/model/response/yarn_response/sync/yarn_sync_response.dart';
 

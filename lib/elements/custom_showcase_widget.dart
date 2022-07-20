@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:showcaseview/showcaseview.dart';
-import 'package:yg_app/helper_utils/app_colors.dart';
 class CustomShowcaseWidget extends StatelessWidget {
   final Widget? child;
   final String? title;

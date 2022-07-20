@@ -167,4 +167,9 @@ class BlendWithImageListWidgetState extends State<BlendWithImageListWidget> {
       }
     }
   }
+
+  resetWidget(){
+    checkedIndex = -1;
+    setState((){});
+  }
 }
