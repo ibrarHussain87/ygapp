@@ -32,6 +32,7 @@ class PreLoginSyncProvider extends ChangeNotifier {
             syncResponse) {
           if(syncResponse.success != null){
             if (syncResponse.success!) {
+              Logger().e("SYNC DATA"+syncResponse.data!.toString());
               AppDbInstance().getDbInstance().then((value) async {
                 await Future.wait([
                   value.genericCategoriesDao.insertAllGenericCategories(syncResponse.data!.categories!),
@@ -48,6 +49,8 @@ class PreLoginSyncProvider extends ChangeNotifier {
                   value.customerSupportTypesDao.insertAllCustomerSupportTypes(syncResponse.data!.customerSupportTypes!),
                   value.alertBarDao.insertAllAlertBars(syncResponse.data!.alertBars!),
                   value.notificationGlobalDao.insertAllNotificationGlobal(syncResponse.data!.notificationsGlobal!),
+                  value.commodityRatesDao.insertAllCommodityRates(syncResponse.data!.commodityRates!),
+                  value.currencyRatesDao.insertAllCurrencyRates(syncResponse.data!.currencyRates!),
                 ]
                 );
               });

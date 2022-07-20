@@ -109,5 +109,16 @@ String notificationImage_5 = "images/notification_5.png";
 // String notificationImage_4 = "assets/notification_4.svg";
 // String notificationImage_5 = "assets/notification_5.svg";
 
+//OnBoarding Screens Images
+String first_bg = "images/first_bg.png";
+String first_circle = "images/first_circle.png";
+String first = "images/first.png";
+String second_bg = "images/second_bg.png";
+String second_circle = "images/second_circle.png";
+String second = "images/second.png";
+String third_bg = "images/third_bg.png";
+String third_circle = "images/third_circle.png";
+String third = "images/third.png";
+
 
 
